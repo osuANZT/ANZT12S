@@ -1,5 +1,4 @@
-/* Background Video */
-.background-video {
+.screen-position {
     position: absolute;
     top: 0;
     left: 0;
@@ -7,11 +6,16 @@
     height: 1080px;
 }
 
+/* Main PAge */
 .main {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 1920px;
-    height: 1080px;
     background-image: url("static/background.png")
+}
+
+/* Logo */
+.logo {
+    position: absolute;
+    top: 26px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 155px;
 }

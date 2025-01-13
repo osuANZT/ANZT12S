@@ -1,3 +1,14 @@
+@font-face {
+    font-family: "Torus";
+    font-weight: 400;
+    src: url("../fonts/Fontspring-DEMO-toruspro-regular.otf");
+}
+@font-face {
+    font-family: "Torus";
+    font-weight: 700;
+    src: url("../fonts/Fontspring-DEMO-toruspro-bold.otf");
+}
+
 .screen-position {
     position: absolute;
     top: 0;
@@ -19,3 +30,17 @@
     transform: translateX(-50%);
     width: 155px;
 }
+
+/* Gameplay Overlay */
+.overlay {
+    position: absolute;
+    left: 256px;
+    font-family: "Torus";
+    font-weight: 400;
+    color: white;
+    font-size: 1.0625em;
+    letter-spacing: 0.3px;
+}
+.overlay-bold { font-weight: 700; }
+#mapper-overlay { top: 107px; }
+#player-overlay { top: 128px; }

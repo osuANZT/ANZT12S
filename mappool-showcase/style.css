@@ -118,3 +118,17 @@
     font-size: 1.125rem;
     color: #F6EEEE;
 }
+
+/* Map Stats Right */
+.map-stats-container {
+    position: absolute;
+    top: 38px;
+    right: 34px;
+    font-size: 1.0625rem;
+    font-weight: 400;
+    display: flex;
+    color: white;
+}
+.map-stat { margin: 0 25px; }
+.map-stats-number, .map-stats-divider { font-weight: 700; }
+.map-stats-number { margin-left: 4px; }

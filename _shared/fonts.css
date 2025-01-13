@@ -1,0 +1,15 @@
+@font-face {
+    font-family: "Torus";
+    font-weight: 300;
+    src: url("../fonts/Torus\ Light.otf");
+}
+@font-face {
+    font-family: "Torus";
+    font-weight: 400;
+    src: url("../fonts/Torus\ Regular.otf");
+}
+@font-face {
+    font-family: "Torus";
+    font-weight: 700;
+    src: url("../fonts/Torus\ Bold.otf");
+}

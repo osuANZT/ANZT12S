@@ -1,14 +1,3 @@
-@font-face {
-    font-family: "Torus";
-    font-weight: 400;
-    src: url("../fonts/Fontspring-DEMO-toruspro-regular.otf");
-}
-@font-face {
-    font-family: "Torus";
-    font-weight: 700;
-    src: url("../fonts/Fontspring-DEMO-toruspro-bold.otf");
-}
-
 /* Gameplay Overlay */
 .overlay {
     position: absolute;

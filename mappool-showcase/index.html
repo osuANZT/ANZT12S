@@ -17,17 +17,17 @@
 
         <!-- Map Details -->
         <section class="map-details">
-            <!-- <img class="mod-background" src="static/mod-backgrounds/HR.png"> -->
+            <img class="mod-background" src="static/mod-backgrounds/HR.png">
             
             <!-- Map Details Left -->
-            <div class="map-background"></div>
-            <div class="song-name">Youkai no Yama ~ Mysterious Mountain</div>
-            <div class="artist">Demetori</div>
-            <div class="difficulty">[Extra Stage]</div>
-            <div class="song-length-container"></div>
-            <div class="song-length-passed"></div>
-            <div class="song-current-time">0:36</div>
-            <div class="song-total-time">5:02</div>
+            <div id="map-background"></div>
+            <div id="song-name">Youkai no Yama ~ Mysterious Mountain</div>
+            <div id="artist">Demetori</div>
+            <div id="difficulty">[Extra Stage]</div>
+            <div id="song-length-container"></div>
+            <div id="song-length-passed"></div>
+            <div id="song-current-time">0:36</div>
+            <div id="song-total-time">5:02</div>
 
             <!-- Map Stats Right -->
             <section class="map-stats-container">
@@ -48,6 +48,9 @@
         </section>
     </div>
     
+    <script src="../_shared/deps/countUp.js"></script>
+    <script src="../_shared/deps/reconnecting-websocket.min.js"></script>
+    <script src="../_shared/utils.js"></script>
     <script src="index.js"></script>
 </body>
 </html>

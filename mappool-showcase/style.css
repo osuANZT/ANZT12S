@@ -10,6 +10,7 @@
 .main { 
     background-image: url("static/background.png");
     font-family: "Torus";
+    overflow: hidden;
 }
 
 /* Logo */
@@ -38,7 +39,7 @@
 }
 
 /* Map Background */
-.map-background {
+#map-background {
     position: absolute;
     top: 40px;
     left: 60px;
@@ -47,10 +48,12 @@
     border-radius: 5px;
     filter: drop-shadow(3.394px 6.122px 3px rgba(0,0,0,0.45));
     background-color: #191919;
+    background-size: cover;
+    background-position: center;
 }
 
 /* Song Name */
-.song-name {
+#song-name {
     position: absolute;
     top: 37px;
     left: 177px;
@@ -61,7 +64,7 @@
 }
 
 /* Artist */
-.artist {
+#artist {
     position: absolute;
     top: 58px;
     left: 177px;
@@ -72,7 +75,7 @@
 }
 
 /* Difficulty */
-.difficulty {
+#difficulty {
     position: absolute;
     top: 84px;
     left: 177px;
@@ -83,7 +86,7 @@
 }
 
 /* Song Length Container */
-.song-length-container {
+#song-length-container {
     position: absolute;
     top: 115px;
     left: 177px;
@@ -93,7 +96,7 @@
     background-color: #643E3E;
 }
 /* Song Length Passed */
-.song-length-passed {
+#song-length-passed {
     position: absolute;
     top: 115px;
     left: 177px;
@@ -101,9 +104,10 @@
     height: 4px;
     border-radius: 2px;
     background-color: #F8FF44;
+    transition: 100ms ease;
 }
 /* Song Current Time */
-.song-current-time {
+#song-current-time {
     position: absolute;
     top: 123px;
     left: 177px;
@@ -111,7 +115,7 @@
     color: #F6EEEE;
 }
 /* Song Total Time */
-.song-total-time {
+#song-total-time {
     position: absolute;
     top: 123px;
     right: 928px;

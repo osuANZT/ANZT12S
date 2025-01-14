@@ -1,6 +1,42 @@
 // Load mappool data
-let allBeatmaps = []
-fetch("../_data/beatmaps.json")
+let allBeatmaps
+const modIconsNm = document.getElementById("mod-icons-nm")
+const modIconsHd = document.getElementById("mod-icons-hd")
+const modIconsHr = document.getElementById("mod-icons-hr")
+const modIconsDt = document.getElementById("mod-icons-dt")
+const modIconsTb = document.getElementById("mod-icons-tb")
+async function getBeatmaps() {
+    const response = await fetch("../_data/beatmaps.json")
+    const responseJson = await response.json()
+    allBeatmaps = responseJson.beatmaps
+
+    for (let i = 0; i < allBeatmaps.length; i++) {
+        const modIconContainer = document.createElement("div")
+        modIconContainer.classList.add("modIconContainer")
+        const modIcon = document.createElement("img")
+        modIcon.classList.add("mod-icon-inactive")
+        modIcon.setAttribute("src", `static/mod-icons/${allBeatmaps[i].mod.toLowerCase()}${allBeatmaps[i].order}.png`)
+        modIconContainer.append(modIcon)
+
+        switch (allBeatmaps[i].mod) {
+            case "NM":
+                modIconsNm.append(modIconContainer)
+                break
+            case "HD":
+                modIconsHd.append(modIconContainer)
+                break
+            case "HR":
+                modIconsHr.append(modIconContainer)
+                break
+            case "DT":
+                modIconsDt.append(modIconContainer)
+                break
+            default:
+                modIconsTb.append(modIconContainer)
+        }
+    }
+}
+getBeatmaps()
 
 const socket = createGosuWsSocket();
 

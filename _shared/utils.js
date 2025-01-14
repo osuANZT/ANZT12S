@@ -9,3 +9,5 @@ function createGosuWsSocket(path = "/ws") {
     registerSocketEventLoggers(socket);
     return socket;
 }
+
+const delay = async time => new Promise(resolve => setTimeout(resolve, time));

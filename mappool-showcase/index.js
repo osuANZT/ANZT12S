@@ -6,13 +6,12 @@ const modIconsHr = document.getElementById("mod-icons-hr")
 const modIconsDt = document.getElementById("mod-icons-dt")
 const modIconsTb = document.getElementById("mod-icons-tb")
 async function getBeatmaps() {
-    const response = await fetch("../_data/beatmaps.json")
-    const responseJson = await response.json()
-    allBeatmaps = responseJson.beatmaps
-
-    for (let i = 0; i < allBeatmaps.length; i++) {
+    const response = await fetch("../_data/showcase-beatmaps.json")
+    allBeatmaps = await response.json()
+    
+     for (let i = 0; i < allBeatmaps.length; i++) {
         const modIconContainer = document.createElement("div")
-        modIconContainer.classList.add("modIconContainer")
+        modIconContainer.classList.add("mod-icon-container")
         const modIcon = document.createElement("img")
         modIcon.classList.add("mod-icon-inactive")
         modIcon.setAttribute("src", `static/mod-icons/${allBeatmaps[i].mod.toLowerCase()}${allBeatmaps[i].order}.png`)
@@ -37,6 +36,7 @@ async function getBeatmaps() {
     }
 }
 getBeatmaps()
+const findMapInMappool = beatmapId => allBeatmaps.find(beatmap => beatmap.beatmapId === beatmapId)
 
 const socket = createGosuWsSocket();
 
@@ -66,11 +66,62 @@ const mapStatsAnimation = {
     mapStatsOd: new CountUp(mapStatsOd, 0, 0, 1, 0.5, { useEasing: true, useGrouping: true, separator: ",", decimal: "." }),
 }
 
+// Mod Icons Manager
+const modPositions = {
+    visible: "50px",
+    hidden: "600px",
+    offscreen: "-550px"
+}   
+const mods = ["NM", "HD", "HR", "DT", "TB"]
+class ModIconsManager {
+    constructor() {
+        // Cache DOM elements
+        this.modIcons = {}
+        mods.forEach(mod => {
+            this.modIcons[mod] = document.getElementById(`mod-icons-${mod.toLowerCase()}`)
+        })
+    }
+
+    updateModState(activeMod, order) {
+        mods.forEach(mod => {
+            if (!this.modIcons[mod]) return
+
+            const isActive = mod === activeMod
+            
+            // Update position and opacity
+            this.modIcons[mod].style.right = isActive ? 
+                modPositions.visible : 
+                (mods.indexOf(mod) < mods.indexOf(activeMod) ? 
+                    modPositions.hidden : 
+                    modPositions.offscreen)
+            this.modIcons[mod].style.opacity = isActive ? 1 : 0
+
+            // Update icon classes
+            console.log(isActive)
+            if (isActive) {
+                const iconContainers = this.modIcons[mod].querySelectorAll('img')
+                console.log(iconContainers)
+                iconContainers.forEach((img, index) => {
+                    console.log(img, index)
+                    if (index + 1 === order) {
+                        img.classList.remove('mod-icon-inactive')
+                        img.classList.add('mod-icon-active')
+                    } else {
+                        img.classList.remove('mod-icon-active')
+                        img.classList.add('mod-icon-inactive')
+                    }
+                });
+            }
+        });
+    }
+}
+const modManager = new ModIconsManager()
+
 socket.onmessage = evnet => {
     const data = JSON.parse(evnet.data)
 
     // Set metadata
-    if (mapId !== data.menu.bm.id || mapMd5 !== data.menu.bm.md5) {
+    if ((mapId !== data.menu.bm.id || mapMd5 !== data.menu.bm.md5) && allBeatmaps) {
         mapId = data.menu.bm.id
         mapMd5 = data.menu.bm.md5
 
@@ -79,8 +130,13 @@ socket.onmessage = evnet => {
         songName.innerText = songMetadata.title
         artist.innerText = songMetadata.artist
         difficulty.innerText = `[${songMetadata.difficulty}]`
+
+        const foundBeatmap = findMapInMappool(mapId)
+        if (foundBeatmap) {
+            modManager.updateModState(foundBeatmap.mod, foundBeatmap.order)
+        }
     }
-    console.log(data)
+    // console.log(data)
 
     // Set current timing
     data.menu.bm.time.current = data.menu.bm.time.current > 0 ? data.menu.bm.time.current : 0

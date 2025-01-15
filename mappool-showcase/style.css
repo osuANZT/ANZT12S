@@ -138,15 +138,16 @@
 .map-stats-number { margin-left: 4px; }
 
 /* Mod Icons */
+/* Go from 50 to -550? */
 .mod-icons {
     position: absolute;
     top: 68px;
-    right: 50px;
+    right: -550px;
     display: flex;
     justify-content: center;
     width: 588px;
     transition: 500ms ease;
-    opacity: 1;
+    opacity: 0;
 }
 .mod-icon-container {
     position: relative;

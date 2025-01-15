@@ -38,7 +38,7 @@ async function getBeatmaps() {
 getBeatmaps()
 const findMapInMappool = beatmapId => allBeatmaps.find(beatmap => beatmap.beatmapId === beatmapId)
 
-const socket = createGosuWsSocket();
+const socket = createGosuWsSocket()
 
 // Map metadata details
 let mapId, mapMd5
@@ -117,8 +117,8 @@ class ModIconsManager {
 }
 const modManager = new ModIconsManager()
 
-socket.onmessage = evnet => {
-    const data = JSON.parse(evnet.data)
+socket.onmessage = event => {
+    const data = JSON.parse(event.data)
 
     // Set metadata
     if ((mapId !== data.menu.bm.id || mapMd5 !== data.menu.bm.md5) && allBeatmaps) {

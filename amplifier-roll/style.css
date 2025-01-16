@@ -1,7 +1,76 @@
-.bg-video {
+/* Main Page */
+.main {
+    background-image: url("static/background.png")
+}
+
+/* Logo */
+.logo {
+    position: absolute;
+    top: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 152px;
+}
+
+/* Team Roll */
+.teamroll {
+    position: absolute;
+    top: 68px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 1587px;
+    height: 145px;
+}
+/* Team Roll Team Container */
+.teamroll-team-container {
     position: absolute;
     top: 0;
     left: 0;
-    width: 1920px;
-    height: 1080px;
+    width: inherit;
+    height: inherit;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+/* Team Info */
+.team-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.team-info-small { width: 160px; }
+.team-info-large { width: 200px; }
+.team-info > * {
+    width: inherit;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+/* Team Info Text */
+.team-info-text {
+    color: rgba(254, 254, 254, 0.729);
+    font-family: "Torus";
+    font-weight: 700;
+    text-align: center;
+}
+.team-info-small .team-info-text { font-size: 1.125rem; }
+.team-info-large .team-info-text { font-size: 1.5rem; }
+/* Player Name */
+.player-name {
+    font-weight: 400;
+}
+/* Amplfiier Icons */
+.amplifier-icons {
+    margin-top: 5px;
+    display: flex;
+    justify-content: center;
+}
+.amplifier-icons > * {
+    width: 28px;
+    height: 28px;
+    margin: 0 2px;
 }

@@ -1,21 +1,32 @@
 /* Main Page */
 .main {
-    background-image: url("static/background.png")
+    background-image: url("static/background.png");
+    font-family: "Torus";
 }
 
 /* Logo */
 .logo {
     position: absolute;
-    top: 25px;
+    top: 40px;
     left: 50%;
     transform: translateX(-50%);
-    width: 152px;
+    width: 300px;
+}
+
+/* Title */
+.title {
+    position: absolute;
+    top: 150px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 3.125rem;
+    font-weight: 700;
 }
 
 /* Team Roll */
 .teamroll {
     position: absolute;
-    top: 68px;
+    top: 740px;
     left: 50%;
     transform: translateX(-50%);
     width: 1587px;
@@ -53,7 +64,6 @@
 /* Team Info Text */
 .team-info-text {
     color: rgba(254, 254, 254, 0.729);
-    font-family: "Torus";
     font-weight: 700;
     text-align: center;
 }

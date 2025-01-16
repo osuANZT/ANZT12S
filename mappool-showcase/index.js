@@ -1,5 +1,6 @@
 // Load mappool data
 let allBeatmaps
+const roundName = document.getElementById("round-name")
 const modIconsNm = document.getElementById("mod-icons-nm")
 const modIconsHd = document.getElementById("mod-icons-hd")
 const modIconsHr = document.getElementById("mod-icons-hr")
@@ -7,7 +8,9 @@ const modIconsDt = document.getElementById("mod-icons-dt")
 const modIconsTb = document.getElementById("mod-icons-tb")
 async function getBeatmaps() {
     const response = await fetch("../_data/showcase-beatmaps.json")
-    allBeatmaps = await response.json()
+    const responseJson = await response.json()
+    allBeatmaps = responseJson.beatmaps
+    roundName.innerText = responseJson.roundName
     
      for (let i = 0; i < allBeatmaps.length; i++) {
         const modIconContainer = document.createElement("div")
@@ -97,12 +100,9 @@ class ModIconsManager {
             this.modIcons[mod].style.opacity = isActive ? 1 : 0
 
             // Update icon classes
-            console.log(isActive)
             if (isActive) {
                 const iconContainers = this.modIcons[mod].querySelectorAll('img')
-                console.log(iconContainers)
                 iconContainers.forEach((img, index) => {
-                    console.log(img, index)
                     if (index + 1 === order) {
                         img.classList.remove('mod-icon-inactive')
                         img.classList.add('mod-icon-active')

@@ -1,21 +1,24 @@
-[
-    { "beatmapId": 3229006, "mod": "NM", "order": 1 },
-    { "beatmapId": 2719283, "mod": "NM", "order": 2 },
-    { "beatmapId": 2058026, "mod": "NM", "order": 3 },
-    { "beatmapId": 4754031, "mod": "NM", "order": 4 },
-    { "beatmapId": 3802251, "mod": "NM", "order": 5 },
-    { "beatmapId": 2836542, "mod": "NM", "order": 6 },
-    { "beatmapId": 4786323, "mod": "HD", "order": 1 },
-    { "beatmapId": 2900413, "mod": "HD", "order": 2 },
-    { "beatmapId": 4683678, "mod": "HD", "order": 3 },
-    { "beatmapId": 4484078, "mod": "HD", "order": 4 },
-    { "beatmapId": 4318047, "mod": "HR", "order": 1 },
-    { "beatmapId": 4787412, "mod": "HR", "order": 2 },
-    { "beatmapId": 4724671, "mod": "HR", "order": 3 },
-    { "beatmapId": 3581290, "mod": "HR", "order": 4 },
-    { "beatmapId": 3594619, "mod": "DT", "order": 1 },
-    { "beatmapId": 4787558, "mod": "DT", "order": 2 },
-    { "beatmapId": 176960, "mod": "DT", "order": 3 },
-    { "beatmapId": 4645970, "mod": "DT", "order": 4 },
-    { "beatmapId": 1583147, "mod": "TB", "order": 1 }
-  ]
+{
+    "roundName": "qualifiers", 
+    "beatmaps": [
+      { "beatmapId": 3229006, "mod": "NM", "order": 1 },
+      { "beatmapId": 2719283, "mod": "NM", "order": 2 },
+      { "beatmapId": 2058026, "mod": "NM", "order": 3 },
+      { "beatmapId": 4754031, "mod": "NM", "order": 4 },
+      { "beatmapId": 3802251, "mod": "NM", "order": 5 },
+      { "beatmapId": 2836542, "mod": "NM", "order": 6 },
+      { "beatmapId": 4786323, "mod": "HD", "order": 1 },
+      { "beatmapId": 2900413, "mod": "HD", "order": 2 },
+      { "beatmapId": 4683678, "mod": "HD", "order": 3 },
+      { "beatmapId": 4484078, "mod": "HD", "order": 4 },
+      { "beatmapId": 4318047, "mod": "HR", "order": 1 },
+      { "beatmapId": 4787412, "mod": "HR", "order": 2 },
+      { "beatmapId": 4724671, "mod": "HR", "order": 3 },
+      { "beatmapId": 3581290, "mod": "HR", "order": 4 },
+      { "beatmapId": 3594619, "mod": "DT", "order": 1 },
+      { "beatmapId": 4787558, "mod": "DT", "order": 2 },
+      { "beatmapId": 176960, "mod": "DT", "order": 3 },
+      { "beatmapId": 4645970, "mod": "DT", "order": 4 },
+      { "beatmapId": 1583147, "mod": "TB", "order": 1 }
+    ]
+}

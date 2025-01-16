@@ -6,9 +6,8 @@
     height: 1080px;
 }
 
-/* Main PAge */
+/* Main Page */
 .main { 
-    background-image: url("static/background.png");
     font-family: "Torus";
     overflow: hidden;
 }
@@ -16,10 +15,20 @@
 /* Logo */
 .logo {
     position: absolute;
-    top: 26px;
+    top: 20px;
     left: 50%;
     transform: translateX(-50%);
-    width: 155px;
+    width: 135px;
+}
+
+/* Round Name */
+.round-name {
+    position: absolute;
+    top: 70px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-weight: 700;
+    font-size: 1.25rem;
 }
 
 /* Map Details */

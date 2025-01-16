@@ -23,6 +23,18 @@
     font-weight: 700;
 }
 
+/* Reveal Tiles */
+.reveal-tile-container {
+    width: inherit;
+    position: absolute;
+    top: 240px;
+    display: flex;
+    justify-content: center;
+}
+.reveal-tile {
+    margin: 0 70px;
+}
+
 /* Team Roll */
 .teamroll {
     position: absolute;

@@ -1,0 +1,17 @@
+.status-screen-song-text {
+    position: absolute;
+    left: 960px;
+    transform: translateX(-50%);
+    font-family: "Torus";
+    font-size: 2rem;
+    color: white;
+}
+
+#song-name {
+    top: 520px;
+    font-weight: 700;
+}
+
+#artist {
+    top: 555px;
+}

@@ -13,6 +13,12 @@
     font-weight: 700;
     src: url("../fonts/Torus\ Bold.otf");
 }
+@font-face {
+    font-family: "Torus";
+    font-weight: 900;
+    src: url("../fonts/Torus\ Heavy.otf");
+}
+
 
 .screen-position {
     position: absolute;

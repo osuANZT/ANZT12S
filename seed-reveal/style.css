@@ -1,3 +1,50 @@
+/* Whole Page */
 .main {
-    background-image: url("static/background.png")
+    background-image: url("static/background.png");
+    font-family: "Torus";
+}
+
+/* Logo */
+.logo {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 150px;
+}
+
+/* Title */
+.title {
+    position: absolute;
+    top: 73px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 1.3125rem;
+    font-weight: 700;
+    text-align: center;
+}
+
+/* Seed Reveal Background */
+.seed-reveal-bg {
+    background-image: url("static/seed-reveal-bg.png");
+}
+
+/* Team Details */
+.team-details-container {
+    position: absolute;
+    top: 246px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 1.4375rem;
+    font-weight: 700;
+    text-align: center;
+}
+#player-names {
+    font-weight: 400;
+}
+.team-details {
+    color: white;
+}
+.seed {
+    color: #F6FF00;
 }

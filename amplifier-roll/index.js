@@ -54,6 +54,13 @@ const silverAmplifiers = [1, 4, 7, 11, 14, 19, 22, 23, 24, 25, 28, 33, 38]
 const goldAmplifiers = [8, 2, 5, 10, 12, 15, 20, 26, 27, 29, 31, 34, 36, 37, 39]
 const prismaticAmplifiers = [9, 3, 6, 13, 16, 17, 18, 21, 30, 32, 35]
 
+// Get Google Sheets URL
+let googleSheetsUrl = ""
+async function getGoogleSheetsUrl() {
+    const response = await fetch("static/script.json")
+    const responseJson = await response.json()
+    googleSheetsUrl = responseJson.url
+}
 
 // Load Teams
 let allTeams = []
@@ -82,7 +89,6 @@ function displayTeams() {
             currentContainer.children[0].innerText = allTeams[currentTeamIndex + i].teamName
             currentContainer.children[1].innerText = allTeams[currentTeamIndex + i].player1Name
             currentContainer.children[2].innerText = allTeams[currentTeamIndex + i].player2Name
-            console.log(allTeams[currentTeamIndex + i].silverAmplifier)
             if (i !== 0 && allTeams[currentTeamIndex + i].silverAmplifier && allTeams[currentTeamIndex + i].goldAmplifier && allTeams[currentTeamIndex + i].prismaticAmplifier) {
                 currentContainer.children[3].style.display = "flex"
                 currentContainer.children[3].children[0].setAttribute("src", `static/amplifier-icons/${allTeams[currentTeamIndex + i].silverAmplifier}.png`)
@@ -139,6 +145,26 @@ function rollAmplifiers() {
     allTeams[currentTeamIndex].silverAmplifier = silverAmplifier
     allTeams[currentTeamIndex].goldAmplifier = goldAmplifier
     allTeams[currentTeamIndex].prismaticAmplifier = prismaticAmplifier
+
+    fetch(googleSheetsUrl, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+            teamName: allTeams[currentTeamIndex].teamName,
+            silverAmp: allTeams[currentTeamIndex].silverAmplifier,
+            goldAmp: allTeams[currentTeamIndex].goldAmplifier,
+            prismaticAmp: allTeams[currentTeamIndex].prismaticAmplifier
+        }),
+    })
+    .then(response => response.json())
+    .then(data => console.log('Success:', data))
+    .catch(error => console.error('Error:', error));
+
+    console.log("go check the sheet now")
 
     displayTeams()
 }

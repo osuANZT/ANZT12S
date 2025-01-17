@@ -1,6 +1,6 @@
 /* Whole Page */
 .main {
-    background-image: url("static/background.png");
+    background-image: url("static/seed-reveal-bg.png");
     font-family: "Torus";
 }
 
@@ -23,9 +23,6 @@
     font-weight: 700;
     text-align: center;
 }
-
-/* Seed Reveal Background */
-.seed-reveal-bg { background-image: url("static/seed-reveal-bg.png"); }
 
 /* Team Details */
 .team-details-container {
@@ -76,3 +73,24 @@
 .dt-mod { color: #CDDCFF; }
 /* Actual Score */
 .score { font-weight: 400; }
+
+/* Mod Results Container */
+.mod-results-container {
+    position: absolute;
+    top: 745px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 150px;
+}
+.mod-results {
+    display: flex;
+    height: 89px;
+    align-items: center;
+}
+.mod-rank {
+    color: white;
+    font-size: 1.875rem;
+    font-weight: 700;
+    margin-left: 1rem;
+}

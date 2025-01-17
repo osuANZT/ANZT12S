@@ -15,9 +15,9 @@
 
     <div class="screen-position main">
         <img class="logo" src="../_shared/assets/logo.png">
-        <div class="title">amplifier rolls of RO32</div>
+        <div id="title"></div>
 
-        <div class="reveal-tile-container">
+        <div id="reveal-tile-container">
             <img class="reveal-tile" src="static/mystery-tiles/silver-mystery-tile.png">
             <img class="reveal-tile" src="static/mystery-tiles/gold-mystery-tile.png">
             <img class="reveal-tile" src="static/mystery-tiles/prismatic-mystery-tile.png">
@@ -26,7 +26,7 @@
         <!-- Team Rolls -->
         <div class="teamroll">
             <img class="teamroll-bg" src="static/teamroll-bg.png">
-            <div class="teamroll-team-container">
+            <div id="teamroll-team-container">
                 <div class="team-info team-info-small">
                     <div class="team-info-text team-name">[team nameaaaaaaaaaaaaa]</div>
                     <div class="team-info-text player-name">Example A</div>
@@ -76,24 +76,52 @@
                     <div class="team-info-text team-name">[team name]</div>
                     <div class="team-info-text player-name">Example A</div>
                     <div class="team-info-text player-name">Example B</div>
+                    <div class="amplifier-icons">
+                        <img src="static/amplifier-icons/acc-dance.png">
+                        <img src="static/amplifier-icons/acc-dance.png">
+                        <img src="static/amplifier-icons/acc-dance.png">
+                    </div>
                 </div>
                 <div class="team-info team-info-small">
                     <div class="team-info-text team-name">[team name]</div>
                     <div class="team-info-text player-name">Example A</div>
                     <div class="team-info-text player-name">Example B</div>
+                    <div class="amplifier-icons">
+                        <img src="static/amplifier-icons/acc-dance.png">
+                        <img src="static/amplifier-icons/acc-dance.png">
+                        <img src="static/amplifier-icons/acc-dance.png">
+                    </div>
                 </div>
                 <div class="team-info team-info-small">
                     <div class="team-info-text team-name">[team name]</div>
                     <div class="team-info-text player-name">Example A</div>
                     <div class="team-info-text player-name">Example B</div>
+                    <div class="amplifier-icons">
+                        <img src="static/amplifier-icons/acc-dance.png">
+                        <img src="static/amplifier-icons/acc-dance.png">
+                        <img src="static/amplifier-icons/acc-dance.png">
+                    </div>
                 </div>
                 <div class="team-info team-info-small">
                     <div class="team-info-text team-name">[team name]</div>
                     <div class="team-info-text player-name">Example A</div>
                     <div class="team-info-text player-name">Example B</div>
+                    <div class="amplifier-icons">
+                        <img src="static/amplifier-icons/acc-dance.png">
+                        <img src="static/amplifier-icons/acc-dance.png">
+                        <img src="static/amplifier-icons/acc-dance.png">
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <div class="sidebar">
+        <button class="sidebar-button" onclick="rollAmplifiers()">Roll Amplifiers</button>
+        <button class="sidebar-button" onclick="showNextTeam()">Next Team</button>
+        <button class="sidebar-button" onclick="showPreviousTeam()">Previous Team</button>
+    </div>
+
+    <script src="index.js"></script>
 </body>
 </html>

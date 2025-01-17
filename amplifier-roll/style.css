@@ -14,7 +14,7 @@
 }
 
 /* Title */
-.title {
+#title {
     position: absolute;
     top: 150px;
     left: 50%;
@@ -24,7 +24,7 @@
 }
 
 /* Reveal Tiles */
-.reveal-tile-container {
+#reveal-tile-container {
     width: inherit;
     position: absolute;
     top: 240px;
@@ -45,7 +45,7 @@
     height: 145px;
 }
 /* Team Roll Team Container */
-.teamroll-team-container {
+#teamroll-team-container {
     position: absolute;
     top: 0;
     left: 0;
@@ -64,9 +64,14 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    margin: 0 20px;
 }
-.team-info-small { width: 160px; }
-.team-info-large { width: 200px; }
+.team-info-small { 
+    width: 120px; 
+}
+.team-info-large { 
+    width: 160px; 
+}
 .team-info > * {
     width: inherit;
     overflow: hidden;
@@ -95,4 +100,29 @@
     width: 28px;
     height: 28px;
     margin: 0 2px;
+}
+
+/* Side Bar */
+.sidebar {
+    position: absolute;
+    left: 1920px;
+    top: 0;
+    width: 250px;
+    height: 1080px;
+    background-color: #F77141;
+}
+/* Button */
+.sidebar-button {
+    margin: 20px 20px 0 20px;
+    width: 200px;
+    height: 50px;
+    border: 5px solid white;
+    background-color: transparent;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+.sidebar-button:active {
+    background-color: white;
+    color: black;
 }

@@ -25,9 +25,7 @@
 }
 
 /* Seed Reveal Background */
-.seed-reveal-bg {
-    background-image: url("static/seed-reveal-bg.png");
-}
+.seed-reveal-bg { background-image: url("static/seed-reveal-bg.png"); }
 
 /* Team Details */
 .team-details-container {
@@ -39,12 +37,42 @@
     font-weight: 700;
     text-align: center;
 }
-#player-names {
-    font-weight: 400;
+#player-names { font-weight: 400; }
+.team-details { color: white; }
+.seed { color: #F6FF00; }
+
+/* Qualifier Details */
+.qualifier-details {
+    position: absolute;
+    top: 402px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: space-between;
+    width: 1100px;
+    gap: 64px;
 }
-.team-details {
+
+/* Mod Score Container */
+.mod-scores-container {
+    font-size: 1.375rem;
     color: white;
+    font-weight: 700;
+    width: 227px;
 }
-.seed {
-    color: #F6FF00;
+#nm-mod-score-container { text-shadow: 0.908px 1.782px 0px #2E2E2E; }
+#hd-mod-score-container { text-shadow: 0.908px 1.782px 0px #FF7F46; }
+#hr-mod-score-container { text-shadow: 0.903px 1.782px 0px #FF4646; }
+#dt-mod-score-container { text-shadow: 0.903px 1.782px 0px #4676FF; }
+/* Mod Score */
+.mod-score { 
+    margin-bottom: 47px;
+    white-space: pre-wrap;
 }
+/* Mod Colours */
+.nm-mod { color: #E1E1E1; }
+.hd-mod { color: #FFDDCD; }
+.hr-mod { color: #FFCDCD; }
+.dt-mod { color: #CDDCFF; }
+/* Actual Score */
+.score { font-weight: 400; }

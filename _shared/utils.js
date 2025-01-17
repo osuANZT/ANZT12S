@@ -4,7 +4,7 @@ function registerSocketEventLoggers(socket) {
     socket.onerror = error => { console.log('Socket Error: ', error); };
 }
 
-function createGosuWsSocket(path = "/ws") {
+function createTosuWsSocket(path = "/ws") {
     let socket = new ReconnectingWebSocket('ws://' + location.host + path);
     registerSocketEventLoggers(socket);
     return socket;

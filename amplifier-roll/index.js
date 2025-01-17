@@ -61,6 +61,7 @@ async function getGoogleSheetsUrl() {
     const responseJson = await response.json()
     googleSheetsUrl = responseJson.url
 }
+getGoogleSheetsUrl()
 
 // Load Teams
 let allTeams = []

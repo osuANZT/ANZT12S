@@ -41,7 +41,7 @@ async function getBeatmaps() {
 getBeatmaps()
 const findMapInMappool = beatmapId => allBeatmaps.find(beatmap => beatmap.beatmapId === beatmapId)
 
-const socket = createGosuWsSocket()
+const socket = createTosuWsSocket()
 
 // Map metadata details
 let mapId, mapMd5

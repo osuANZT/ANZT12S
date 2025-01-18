@@ -31,6 +31,8 @@
     transform: translateX(-50%);
     width: 1471px;
     height: 176px;
+    overflow: hidden;
+    border-radius: 100px;
 }
 
 /* Mod Background */

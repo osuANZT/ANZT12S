@@ -1,4 +1,4 @@
-const socket = createGosuWsSocket()
+const socket = createTosuWsSocket()
 
 // Overlay elements
 const mapperOverlay = document.getElementById("mapper-overlay")

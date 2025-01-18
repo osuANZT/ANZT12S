@@ -36,7 +36,7 @@
 }
 #player-names { font-weight: 400; }
 .team-details { color: white; }
-.seed { color: #F6FF00; }
+#seed { color: #F6FF00; }
 
 /* Qualifier Details */
 .qualifier-details {
@@ -75,7 +75,7 @@
 .score { font-weight: 400; }
 
 /* Mod Results Container */
-.mod-results-container {
+#mod-results-container {
     position: absolute;
     top: 745px;
     left: 50%;

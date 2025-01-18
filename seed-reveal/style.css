@@ -81,16 +81,43 @@
     left: 50%;
     transform: translateX(-50%);
     display: flex;
-    gap: 150px;
+    justify-content: space-between;
+    width: 1090px;
 }
 .mod-results {
     display: flex;
     height: 89px;
     align-items: center;
+    width: 160px;
 }
 .mod-rank {
     color: white;
     font-size: 1.875rem;
     font-weight: 700;
     margin-left: 1rem;
+}
+
+/* Side Bar */
+.sidebar {
+    position: absolute;
+    left: 1920px;
+    top: 0;
+    width: 250px;
+    height: 1080px;
+    background-color: #F77141;
+}
+/* Button */
+.sidebar-button {
+    margin: 20px 20px 0 20px;
+    width: 200px;
+    height: 50px;
+    border: 5px solid white;
+    background-color: transparent;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+.sidebar-button:active {
+    background-color: white;
+    color: black;
 }

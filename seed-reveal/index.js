@@ -51,11 +51,21 @@ function displayTeam() {
     displayModResults(modResultsContainer.children[3], currentTeam.dtTotalRank)
 }
 
+/* Display Scores */
 function displayScore(element, rank, score) {
     element.children[1].innerText = `#${rank}`
     element.children[2].innerText = score.toLocaleString()
 }
 
+/* Display Mod Results */
 function displayModResults(element, rank) {
     element.children[1].innerText = `#${rank}`
+}
+
+/* Show Team */
+function showTeam(direction) {
+    teamCounter += direction
+    if (teamCounter > allTeams.length - 1) teamCounter = allTeams.length - 1
+    else if (teamCounter < 0) teamCounter = 0
+    displayTeam()
 }

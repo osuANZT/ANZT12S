@@ -82,61 +82,46 @@ async function initialize() {
     await sleep(100)
     runAPITest(12, amplifierID, "qc kp", Math.round((player1Score + player2Score) * 1.75), player3Score + player4Score)
     await sleep(100)
-    // // Dude That Fingerlock
-    // amplifierID = 1
-    // runAPITest(1, amplifierID, "chili con carne", 906518+787047, 1616496); await sleep(100)
-    // runAPITest(2, amplifierID, "qc kp", 1661666, 973212 + 678665); await sleep(100)
 
-    // // Limit Break
-    // amplifierID = 2
-    // runAPITest(3, amplifierID, "chili con carne", 1611, 1544); await sleep(100)
-    // runAPITest(4, amplifierID, "qc kp", 1611, 1544); await sleep(100)
+    // Limit Break
+    amplifierID = 7
+    runAPITest(13, amplifierID, "chili con carne", player1Combo + player2Combo, player3Combo + player4Combo); await sleep(100)
+    runAPITest(14, amplifierID, "qc kp", player1Combo + player2Combo, player3Combo + player4Combo); await sleep(100)
+
+    // The King I
+    amplifierID = 8
+    runAPITest(15, amplifierID, "chili con carne", Math.round((player1Score + player2Score) * 1.75), player3Score + player4Score); await sleep(100)
+    runAPITest(16, amplifierID, "qc kp", player1Score + player2Score, (player3Score + player4Score) * 1.75); await sleep(100)
+
+    // The King II
+    amplifierID = 9
+    runAPITest(17, amplifierID, "chili con carne", (player1Score + player2Score) * 2, player3Score + player4Score); await sleep(100)
+    runAPITest(18, amplifierID, "qc kp", player1Score + player2Score, (player3Score + player4Score) * 2); await sleep(100)
+
+    // // Dude That Fingerlock
+    amplifierID = 10
+    runAPITest(19, amplifierID, "chili con carne", 906518+787047, 1616496); await sleep(100)
+    runAPITest(20, amplifierID, "qc kp", 1661666, 973212 + 678665); await sleep(100)
 
     // // Cold Clear Eyes I
-    // amplifierID = 3
-    // runAPITest(5, amplifierID, "chili con carne", 1744749, 1616496); await sleep(100)
-    // runAPITest(6, amplifierID, "qc kp", 1661666, 1697321); await sleep(100)
+    amplifierID = 11
+    runAPITest(21, amplifierID, "chili con carne", Math.round((player1Score + player2Score) * 1.05), player3Score + player4Score); await sleep(100)
+    runAPITest(22, amplifierID, "qc kp", player1Score + player2Score, Math.round((player3Score + player4Score) * 1.05)); await sleep(100)
 
     // // Cold Clear Eyes II
-    // amplifierID = 4
-    // runAPITest(7, amplifierID, "chili con carne", 1910915, 1616496); await sleep(100)
-    // runAPITest(8, amplifierID, "qc kp", 1661666, 1858971); await sleep(100)
+    amplifierID = 12
+    runAPITest(23, amplifierID, "chili con carne", Math.round((player1Score + player2Score) * 1.15), player3Score + player4Score); await sleep(100)
+    runAPITest(24, amplifierID, "qc kp", player1Score + player2Score, Math.round((player3Score + player4Score) * 1.15)); await sleep(100)
 
     // // Cold Clear Eyes III
-    // amplifierID = 5
-    // runAPITest(9, amplifierID, "chili con carne", 1910915, 1616496); await sleep(100)
-    // runAPITest(10, amplifierID, "qc kp", 1661666, 1858971); await sleep(100)
+    amplifierID = 13
+    runAPITest(amplifierID * 2 - 1, amplifierID, "chili con carne", Math.round((player1Score + player2Score) * 1.2), player3Score + player4Score); await sleep(100)
+    runAPITest(amplifierID * 2, amplifierID, "qc kp", player1Score + player2Score, Math.round((player3Score + player4Score) * 1.2)); await sleep(100)
 
     // // Gambler
     // amplifierID = 14
     // runAPITest(11, amplifierID, "chili con carne", 2077083, 1616496); await sleep(100)
     // runAPITest(12, amplifierID, "qc kp", 1661666, 2020620); await sleep(100)
-
-    // // The King I
-    // amplifierID = 15
-    // player2Score = 0
-    // runAPITest(13, amplifierID, "chili con carne", 1705332, 1616496); await sleep(100)
-    // player2Score = 764123
-    // player4Score = 0
-    // runAPITest(14, amplifierID, "qc kp", 1661666, 1849103); await sleep(100)
-
-    // // The King II
-    // amplifierID = 16
-    // player2Score = 0
-    // player4Score = 643284
-    // runAPITest(15, amplifierID, "chili con carne", 1795086, 1616496); await sleep(100)
-    // player2Score = 764123
-    // player4Score = 0
-    // runAPITest(16, amplifierID, "qc kp", 1661666, 1946424); await sleep(100)
-
-    // // The King III
-    // amplifierID = 17
-    // player2Score = 0
-    // player4Score = 643284
-    // runAPITest(17, amplifierID, "chili con carne", 1795086, 1616496); await sleep(100)
-    // player2Score = 764123
-    // player4Score = 0
-    // runAPITest(18, amplifierID, "qc kp", 1661666, 1946424); await sleep(100)
 
     // // Make It Rock
     // amplifierID = 18

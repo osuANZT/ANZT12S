@@ -41,163 +41,198 @@ initialize()
 async function initialize() {
     await getAddress()
 
-    // Dude That Fingerlock
+    // The Carry I
     amplifierID = 1
-    runAPITest(1, amplifierID, "chili con carne", 906518+787047, 1616496)
-    sleep(100)
-    runAPITest(2, amplifierID, "qc kp", 1661666, 973212 + 678665)
-    sleep(100)
+    runAPITest(1, amplifierID, "chili con carne", Math.round(player1Score * 1.2 + player2Score), player3Score + player4Score)
+    await sleep(100)
+    runAPITest(2, amplifierID, "qc kp", player1Score + player2Score, Math.round(player3Score * 1.2 + player4Score))
+    await sleep(100)
 
-    // Limit Break
+    // The Carry II
     amplifierID = 2
-    runAPITest(3, amplifierID, "chili con carne", 1611, 1544)
-    sleep(100)
-    runAPITest(4, amplifierID, "qc kp", 1611, 1544)
-    sleep(100)
+    runAPITest(3, amplifierID, "chili con carne", Math.round(player1Score * 1.3 + player2Score), player3Score + player4Score)
+    await sleep(100)
+    runAPITest(4, amplifierID, "qc kp", player1Score + player2Score, Math.round(player3Score * 1.3 + player4Score))
+    await sleep(100)
 
-    // Cold Clear Eyes I
+    // The Carry III
     amplifierID = 3
-    runAPITest(5, amplifierID, "chili con carne", 1744749, 1616496)
-    runAPITest(6, amplifierID, "qc kp", 1661666, 1697321)
+    runAPITest(5, amplifierID, "chili con carne", Math.round(player1Score * 1.5 + player2Score), player3Score + player4Score)
+    await sleep(100)
+    runAPITest(6, amplifierID, "qc kp", player1Score + player2Score, Math.round(player3Score * 1.5 + player4Score))
+    await sleep(100)
 
-    // Cold Clear Eyes II
+    // Poison I
     amplifierID = 4
-    runAPITest(7, amplifierID, "chili con carne", 1910915, 1616496)
-    runAPITest(8, amplifierID, "qc kp", 1661666, 1858971)
+    runAPITest(7, amplifierID, "chili con carne", player1Score + player2Score, (player3Score + player4Score) * 2)
+    await sleep(100)
+    runAPITest(8, amplifierID, "qc kp", (player1Score + player2Score) * 2, player3Score + player4Score)
+    await sleep(100)
 
-    // Cold Clear Eyes III
+    // Poison II
     amplifierID = 5
-    runAPITest(9, amplifierID, "chili con carne", 1910915, 1616496)
-    runAPITest(10, amplifierID, "qc kp", 1661666, 1858971)
+    runAPITest(9, amplifierID, "chili con carne", player1Score + player2Score, (player3Score + player4Score) * 1.75)
+    await sleep(100)
+    runAPITest(10, amplifierID, "qc kp", Math.round((player1Score + player2Score) * 1.75), player3Score + player4Score)
+    await sleep(100)
 
-    // Gambler
-    amplifierID = 14
-    runAPITest(11, amplifierID, "chili con carne", 2077083, 1616496)
-    runAPITest(12, amplifierID, "qc kp", 1661666, 2020620)
+    // Poison III
+    amplifierID = 6
+    runAPITest(11, amplifierID, "chili con carne", player1Score + player2Score, (player3Score + player4Score) * 1.75)
+    await sleep(100)
+    runAPITest(12, amplifierID, "qc kp", Math.round((player1Score + player2Score) * 1.75), player3Score + player4Score)
+    await sleep(100)
+    // // Dude That Fingerlock
+    // amplifierID = 1
+    // runAPITest(1, amplifierID, "chili con carne", 906518+787047, 1616496); await sleep(100)
+    // runAPITest(2, amplifierID, "qc kp", 1661666, 973212 + 678665); await sleep(100)
 
-    // The King I
-    amplifierID = 15
-    player2Score = 0
-    runAPITest(13, amplifierID, "chili con carne", 1705332, 1616496)
-    player2Score = 764123
-    player4Score = 0
-    runAPITest(14, amplifierID, "qc kp", 1661666, 1849103)
+    // // Limit Break
+    // amplifierID = 2
+    // runAPITest(3, amplifierID, "chili con carne", 1611, 1544); await sleep(100)
+    // runAPITest(4, amplifierID, "qc kp", 1611, 1544); await sleep(100)
 
-    // The King II
-    amplifierID = 16
-    player2Score = 0
-    player4Score = 643284
-    runAPITest(15, amplifierID, "chili con carne", 1795086, 1616496)
-    player2Score = 764123
-    player4Score = 0
-    runAPITest(16, amplifierID, "qc kp", 1661666, 1946424)
+    // // Cold Clear Eyes I
+    // amplifierID = 3
+    // runAPITest(5, amplifierID, "chili con carne", 1744749, 1616496); await sleep(100)
+    // runAPITest(6, amplifierID, "qc kp", 1661666, 1697321); await sleep(100)
 
-    // The King III
-    amplifierID = 17
-    player2Score = 0
-    player4Score = 643284
-    runAPITest(17, amplifierID, "chili con carne", 1795086, 1616496)
-    player2Score = 764123
-    player4Score = 0
-    runAPITest(18, amplifierID, "qc kp", 1661666, 1946424)
+    // // Cold Clear Eyes II
+    // amplifierID = 4
+    // runAPITest(7, amplifierID, "chili con carne", 1910915, 1616496); await sleep(100)
+    // runAPITest(8, amplifierID, "qc kp", 1661666, 1858971); await sleep(100)
 
-    // Make It Rock
-    amplifierID = 18
-    player4Score = 643284
-    runAPITest(19, amplifierID, "chili con carne", 1661666, 2020620)
-    runAPITest(20, amplifierID, "qc kp", 2077083, 1616496)
+    // // Cold Clear Eyes III
+    // amplifierID = 5
+    // runAPITest(9, amplifierID, "chili con carne", 1910915, 1616496); await sleep(100)
+    // runAPITest(10, amplifierID, "qc kp", 1661666, 1858971); await sleep(100)
 
-    // Yin And Yang I
-    amplifierID = 20
-    runAPITest(21, amplifierID, "chili con carne", 936294, 960074)
-    runAPITest(22, amplifierID, "qc kp", 891709, 1008077)
+    // // Gambler
+    // amplifierID = 14
+    // runAPITest(11, amplifierID, "chili con carne", 2077083, 1616496); await sleep(100)
+    // runAPITest(12, amplifierID, "qc kp", 1661666, 2020620); await sleep(100)
 
-    // Yin And Yang II
-    amplifierID = 21
-    runAPITest(23, amplifierID, "chili con carne", 980880, 960074)
-    runAPITest(24, amplifierID, "qc kp", 891709, 1056081)
+    // // The King I
+    // amplifierID = 15
+    // player2Score = 0
+    // runAPITest(13, amplifierID, "chili con carne", 1705332, 1616496); await sleep(100)
+    // player2Score = 764123
+    // player4Score = 0
+    // runAPITest(14, amplifierID, "qc kp", 1661666, 1849103); await sleep(100)
 
-    // Yin And Yang III
-    amplifierID = 22
-    runAPITest(25, amplifierID, "chili con carne", 980880, 960074)
-    runAPITest(26, amplifierID, "qc kp", 891709, 1056081)
+    // // The King II
+    // amplifierID = 16
+    // player2Score = 0
+    // player4Score = 643284
+    // runAPITest(15, amplifierID, "chili con carne", 1795086, 1616496); await sleep(100)
+    // player2Score = 764123
+    // player4Score = 0
+    // runAPITest(16, amplifierID, "qc kp", 1661666, 1946424); await sleep(100)
 
-    // Classic Farmer I
-    amplifierID = 25
-    runAPITest(27, amplifierID, "chili con carne", 1744749, 1616496)
-    runAPITest(28, amplifierID, "qc kp", 1661666, 1697321)
+    // // The King III
+    // amplifierID = 17
+    // player2Score = 0
+    // player4Score = 643284
+    // runAPITest(17, amplifierID, "chili con carne", 1795086, 1616496); await sleep(100)
+    // player2Score = 764123
+    // player4Score = 0
+    // runAPITest(18, amplifierID, "qc kp", 1661666, 1946424); await sleep(100)
 
-    // Classic Farmer II
-    amplifierID = 26
-    runAPITest(29, amplifierID, "chili con carne", 1744749, 1616496)
-    runAPITest(30, amplifierID, "qc kp", 1661666, 1697321)
+    // // Make It Rock
+    // amplifierID = 18
+    // player4Score = 643284
+    // runAPITest(19, amplifierID, "chili con carne", 1661666, 2020620); await sleep(100)
+    // runAPITest(20, amplifierID, "qc kp", 2077083, 1616496); await sleep(100)
 
-    // Synchronised I
-    amplifierID = 28
-    runAPITest(31, amplifierID, "chili con carne", 1763028, 1616496)
-    runAPITest(32, amplifierID, "qc kp", 1661666, 1695704)
+    // // Yin And Yang I
+    // amplifierID = 20
+    // runAPITest(21, amplifierID, "chili con carne", 936294, 960074); await sleep(100)
+    // runAPITest(22, amplifierID, "qc kp", 891709, 1008077); await sleep(100)
 
-    // Synchronised II
-    amplifierID = 29
-    runAPITest(33, amplifierID, "chili con carne", 1929194, 1616496)
-    runAPITest(34, amplifierID, "qc kp", 1661666, 1857354)
+    // // Yin And Yang II
+    // amplifierID = 21
+    // runAPITest(23, amplifierID, "chili con carne", 980880, 960074); await sleep(100)
+    // runAPITest(24, amplifierID, "qc kp", 891709, 1056081); await sleep(100)
 
-    // Go with the flow
-    amplifierID = 30
-    runAPITest(35, amplifierID, "chili con carne", 1910915, 1616496)
-    runAPITest(36, amplifierID, "qc kp", 1661666, 1858971)
+    // // Yin And Yang III
+    // amplifierID = 22
+    // runAPITest(25, amplifierID, "chili con carne", 980880, 960074); await sleep(100)
+    // runAPITest(26, amplifierID, "qc kp", 891709, 1056081); await sleep(100)
+    // // Classic Farmer I
+    // amplifierID = 25
+    // runAPITest(27, amplifierID, "chili con carne", 1744749, 1616496); await sleep(100)
+    // runAPITest(28, amplifierID, "qc kp", 1661666, 1697321); await sleep(100)
 
-    // Loadbearer I
-    amplifierID = 31
-    runAPITest(37, amplifierID, "chili con carne", 1695021, 1616496)
-    runAPITest(38, amplifierID, "qc kp", 1661666, 1698978)
+    // // Classic Farmer II
+    // amplifierID = 26
+    // runAPITest(29, amplifierID, "chili con carne", 1744749, 1616496); await sleep(100)
+    // runAPITest(30, amplifierID, "qc kp", 1661666, 1697321); await sleep(100)
 
-    // Loadbearer II
-    amplifierID = 32
-    runAPITest(39, amplifierID, "chili con carne", 1728376, 1616496)
-    runAPITest(40, amplifierID, "qc kp", 1661666, 1781460)
+    // // Synchronised I
+    // amplifierID = 28
+    // runAPITest(31, amplifierID, "chili con carne", 1763028, 1616496); await sleep(100)
+    // runAPITest(32, amplifierID, "qc kp", 1661666, 1695704); await sleep(100)
 
-    // Loadbearer III
-    amplifierID = 33
-    runAPITest(41, amplifierID, "chili con carne", 1728376, 1616496)
-    runAPITest(42, amplifierID, "qc kp", 1661666, 1781460)
+    // // Synchronised II
+    // amplifierID = 29
+    // runAPITest(33, amplifierID, "chili con carne", 1929194, 1616496); await sleep(100)
+    // runAPITest(34, amplifierID, "qc kp", 1661666, 1857354); await sleep(100)
 
-    // True Hero
-    amplifierID = 36
-    runAPITest(43, amplifierID, "chili con carne", 1930929, 1616496)
-    runAPITest(44, amplifierID, "qc kp", 1661666, 1908460)
+    // // Go with the flow
+    // amplifierID = 30
+    // runAPITest(35, amplifierID, "chili con carne", 1910915, 1616496); await sleep(100)
+    // runAPITest(36, amplifierID, "qc kp", 1661666, 1858971); await sleep(100)
 
-    // The Dragon Consumes I
-    amplifierID = 37
-    runAPITest(45, amplifierID, "chili con carne", 1827832, 1616496)
-    runAPITest(46, amplifierID, "qc kp", 1661666, 1778145)
+    // // Loadbearer I
+    // amplifierID = 31
+    // runAPITest(37, amplifierID, "chili con carne", 1695021, 1616496); await sleep(100)
+    // runAPITest(38, amplifierID, "qc kp", 1661666, 1698978); await sleep(100)
 
-    // The Dragon Consumes II
-    amplifierID = 38
-    runAPITest(47, amplifierID, "chili con carne", 1994000, 1616496)
-    runAPITest(48, amplifierID, "qc kp", 1661666, 1939795)
+    // // Loadbearer II
+    // amplifierID = 32
+    // runAPITest(39, amplifierID, "chili con carne", 1728376, 1616496); await sleep(100)
+    // runAPITest(40, amplifierID, "qc kp", 1661666, 1781460); await sleep(100)
 
-    // The Dragon Consumes III
-    amplifierID = 39
-    runAPITest(49, amplifierID, "chili con carne", 1910916, 1616496)
-    runAPITest(50, amplifierID, "qc kp", 1661666, 1858970)
+    // // Loadbearer III
+    // amplifierID = 33
+    // runAPITest(41, amplifierID, "chili con carne", 1728376, 1616496); await sleep(100)
+    // runAPITest(42, amplifierID, "qc kp", 1661666, 1781460); await sleep(100)
 
-    // Snail
-    amplifierID = 27
-    runAPITest(51, amplifierID, "chili con carne", 98.96, 99.16)
-    runAPITest(52, amplifierID, "qc kp", 98.96, 99.16)
+    // // True Hero
+    // amplifierID = 36
+    // runAPITest(43, amplifierID, "chili con carne", 1930929, 1616496); await sleep(100)
+    // runAPITest(44, amplifierID, "qc kp", 1661666, 1908460); await sleep(100)
 
-    // Snail Sect
-    amplifierID = 8
-    runAPITest(53, amplifierID, "chili con carne", 98.96, 99.16)
-    runAPITest(54, amplifierID, "qc kp", 98.96, 99.16)
-    }
+    // // The Dragon Consumes I
+    // amplifierID = 37
+    // runAPITest(45, amplifierID, "chili con carne", 1827832, 1616496); await sleep(100)
+    // runAPITest(46, amplifierID, "qc kp", 1661666, 1778145); await sleep(100)
+
+    // // The Dragon Consumes II
+    // amplifierID = 38
+    // runAPITest(47, amplifierID, "chili con carne", 1994000, 1616496); await sleep(100)
+    // runAPITest(48, amplifierID, "qc kp", 1661666, 1939795); await sleep(100)
+
+    // // The Dragon Consumes III
+    // amplifierID = 39
+    // runAPITest(49, amplifierID, "chili con carne", 1910916, 1616496); await sleep(100)
+    // runAPITest(50, amplifierID, "qc kp", 1661666, 1858970); await sleep(100)
+
+    // // Snail
+    // amplifierID = 27
+    // runAPITest(51, amplifierID, "chili con carne", 98.96, 99.16); await sleep(100)
+    // runAPITest(52, amplifierID, "qc kp", 98.96, 99.16); await sleep(100)
+
+    // // Snail Sect
+    // amplifierID = 8
+    // runAPITest(53, amplifierID, "chili con carne", 98.96, 99.16); await sleep(100)
+    // runAPITest(54, amplifierID, "qc kp", 98.96, 99.16); await sleep(100)
+}
 
 const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms))
 
 function runAPITest(index, amplifierID, teamName, team1_score, team2_score) {
     let test = new XMLHttpRequest()
-    console.log(address)
     test.open("GET", `${address}/score?team_name=${teamName}` + 
                         `&amplifier_id=${amplifierID}` +
                         `&player1_id=${player1ID}&player1_score=${player1Score}&player1_combo=${player1Combo}&player1_acc=${player1Acc}&player1_misses=${player1Misses}&player1_mods=${player1Mods}` +
@@ -208,9 +243,12 @@ function runAPITest(index, amplifierID, teamName, team1_score, team2_score) {
         if (test.readyState === XMLHttpRequest.DONE) {
             if (test.status === 200) {
                 var responseData = JSON.parse(test.responseText);
-                if (responseData.team1_score == team1_score && responseData.team2_score == team2_score) document.body.append(`TEST ${index} PASSED<br>`)
-                else document.body.append(`TEST ${index} FAILED<br>`)
-            } else document.body.append(`ERROR ${index}: ${test.status}<br>`)
+                if (responseData.team1_score == team1_score && responseData.team2_score == team2_score) document.body.append(`TEST ${index} PASSED`, document.createElement("br"))
+                else {
+                    document.body.append(`TEST ${index} FAILED`, document.createElement("br"))
+                    console.log(index, team1_score, responseData.team1_score, team2_score, responseData.team2_score)
+                }
+            } else document.body.append(`ERROR ${index}: ${test.status}`, document.createElement("br"))
         }
     }
     test.send()

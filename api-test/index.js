@@ -201,25 +201,35 @@ async function initialize() {
     runAPITest(53, amplifierID, "chili con carne", player1Score + player2Score + scoreDifferenceTeam5, 1616496); await sleep(100)
     runAPITest(54, amplifierID, "qc kp", 1661666, player3Score + player4Score + scoreDifferenceTeam6); await sleep(100)
 
-    // // True Hero
-    // amplifierID = 36
-    // runAPITest(43, amplifierID, "chili con carne", 1930929, 1616496); await sleep(100)
-    // runAPITest(44, amplifierID, "qc kp", 1661666, 1908460); await sleep(100)
+    // The Dragon Consumes I
+    amplifierID = 33
+    runAPITest(55, amplifierID, "chili con carne", 1827832, 1616496); await sleep(100)
+    runAPITest(56, amplifierID, "qc kp", 1661666, 1778145); await sleep(100)
 
-    // // The Dragon Consumes I
-    // amplifierID = 37
-    // runAPITest(45, amplifierID, "chili con carne", 1827832, 1616496); await sleep(100)
-    // runAPITest(46, amplifierID, "qc kp", 1661666, 1778145); await sleep(100)
+    // The Dragon Consumes II
+    amplifierID = 34
+    runAPITest(57, amplifierID, "chili con carne", 1994000, 1616496); await sleep(100)
+    runAPITest(58, amplifierID, "qc kp", 1661666, 1939795); await sleep(100)
 
-    // // The Dragon Consumes II
-    // amplifierID = 38
-    // runAPITest(47, amplifierID, "chili con carne", 1994000, 1616496); await sleep(100)
-    // runAPITest(48, amplifierID, "qc kp", 1661666, 1939795); await sleep(100)
+    // The Dragon Consumes III
+    amplifierID = 35
+    runAPITest(59, amplifierID, "chili con carne", Math.round((player1Score + player2Score) * 1.3), 1616496); await sleep(100)
+    runAPITest(60, amplifierID, "qc kp", 1661666, Math.round((player3Score + player4Score) * 1.3)); await sleep(100)
 
-    // // The Dragon Consumes III
-    // amplifierID = 39
-    // runAPITest(49, amplifierID, "chili con carne", 1910916, 1616496); await sleep(100)
-    // runAPITest(50, amplifierID, "qc kp", 1661666, 1858970); await sleep(100)
+    // JTBFREAKS
+    amplifierID = 37
+    runAPITest(61, amplifierID, "chili con carne", player1Combo + player2Combo, player3Combo + player4Combo)
+    runAPITest(62, amplifierID, "qc kp", player1Combo + player2Combo, player3Combo + player4Combo)
+
+     // Desperation I
+    amplifierID = 38
+    runAPITest(63, amplifierID, "chili con carne", Math.round((player1Score + player2Score) * 0.7), player3Score + player4Score)
+    runAPITest(64, amplifierID, "qc kp", player1Score + player2Score, Math.round((player3Score + player4Score) * 0.7))
+    
+    // Desperation II
+    amplifierID = 39
+    runAPITest(65, amplifierID, "chili con carne", Math.round((player1Score + player2Score) * 0.85), player3Score + player4Score)
+    runAPITest(66, amplifierID, "qc kp", player1Score + player2Score, Math.round((player3Score + player4Score) * 0.85))
 }
 
 const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms))

@@ -161,33 +161,45 @@ async function initialize() {
 
     // Synchronised I
     amplifierID = 25
-    runAPITest(43, amplifierID, "chili con carne", 1763028, 1616496); await sleep(100)
-    runAPITest(44, amplifierID, "qc kp", 1661666, 1695704); await sleep(100)
+    let accDifferenceTeam1 = Math.abs(player1Acc - player2Acc)
+    let multiplierTeam1 = Math.max(1, 1.1 - 0.0025 * accDifferenceTeam1)
+    let accDifferenceTeam2 = Math.abs(player3Acc - player4Acc)
+    let multiplierTeam2 = Math.max(1, 1.1 - 0.0025 * accDifferenceTeam2)
+    runAPITest(43, amplifierID, "chili con carne", Math.round((player1Score + player2Score) * multiplierTeam1), 1616496); await sleep(100)
+    runAPITest(44, amplifierID, "qc kp", 1661666, Math.round((player3Score + player4Score) * multiplierTeam2)); await sleep(100)
 
     // Synchronised II
     amplifierID = 26
-    runAPITest(45, amplifierID, "chili con carne", 1929194, 1616496); await sleep(100)
-    runAPITest(46, amplifierID, "qc kp", 1661666, 1857354); await sleep(100)
+    let multiplierTeam3 = Math.max(1, 1.2 - 0.0025 * accDifferenceTeam1)
+    let multiplierTeam4 = Math.max(1, 1.2 - 0.0025 * accDifferenceTeam2)
+    runAPITest(45, amplifierID, "chili con carne", Math.round((player1Score + player2Score) * multiplierTeam3), 1616496); await sleep(100)
+    runAPITest(46, amplifierID, "qc kp", 1661666, Math.round((player3Score + player4Score) * multiplierTeam4)); await sleep(100)
 
-    // // Go with the flow
+    // Go with the flow
     amplifierID = 27
-    runAPITest(47, amplifierID, "chili con carne", 1910915, 1616496); await sleep(100)
-    runAPITest(48, amplifierID, "qc kp", 1661666, 1858971); await sleep(100)
+    runAPITest(47, amplifierID, "chili con carne", Math.round((player1Score + player2Score) * 1.15), 1616496); await sleep(100)
+    runAPITest(48, amplifierID, "qc kp", 1661666, Math.round((player3Score + player4Score) * 1.15)); await sleep(100)
 
-    // // Loadbearer I
-    // amplifierID = 31
-    // runAPITest(37, amplifierID, "chili con carne", 1695021, 1616496); await sleep(100)
-    // runAPITest(38, amplifierID, "qc kp", 1661666, 1698978); await sleep(100)
+    // Loadbearer I
+    amplifierID = 28
+    const scoreDifferenceTeam1 = Math.min(Math.round(Math.abs(player1Score - player2Score) * 0.25), 150000)
+    const scoreDifferenceTeam2 = Math.min(Math.round(Math.abs(player3Score - player4Score) * 0.25), 150000)
+    runAPITest(49, amplifierID, "chili con carne", player1Score + player2Score + scoreDifferenceTeam1, 1616496); await sleep(100)
+    runAPITest(50, amplifierID, "qc kp", 1661666, player3Score + player4Score + scoreDifferenceTeam2); await sleep(100)
 
-    // // Loadbearer II
-    // amplifierID = 32
-    // runAPITest(39, amplifierID, "chili con carne", 1728376, 1616496); await sleep(100)
-    // runAPITest(40, amplifierID, "qc kp", 1661666, 1781460); await sleep(100)
+    // Loadbearer II
+    amplifierID = 29
+    const scoreDifferenceTeam3 = Math.min(Math.round(Math.abs(player1Score - player2Score) * 0.5), 300000)
+    const scoreDifferenceTeam4 = Math.min(Math.round(Math.abs(player3Score - player4Score) * 0.5), 300000)
+    runAPITest(51, amplifierID, "chili con carne", player1Score + player2Score + scoreDifferenceTeam3, 1616496); await sleep(100)
+    runAPITest(52, amplifierID, "qc kp", 1661666, player3Score + player4Score + scoreDifferenceTeam4); await sleep(100)
 
-    // // Loadbearer III
-    // amplifierID = 33
-    // runAPITest(41, amplifierID, "chili con carne", 1728376, 1616496); await sleep(100)
-    // runAPITest(42, amplifierID, "qc kp", 1661666, 1781460); await sleep(100)
+    // Loadbearer III
+    amplifierID = 30
+    const scoreDifferenceTeam5 = Math.min(Math.round(Math.abs(player1Score - player2Score) * 0.75), 400000)
+    const scoreDifferenceTeam6 = Math.min(Math.round(Math.abs(player3Score - player4Score) * 0.75), 400000)
+    runAPITest(53, amplifierID, "chili con carne", player1Score + player2Score + scoreDifferenceTeam5, 1616496); await sleep(100)
+    runAPITest(54, amplifierID, "qc kp", 1661666, player3Score + player4Score + scoreDifferenceTeam6); await sleep(100)
 
     // // True Hero
     // amplifierID = 36

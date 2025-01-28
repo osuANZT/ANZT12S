@@ -39,7 +39,7 @@
     color: white;
     letter-spacing: 1px;
     line-height: var(--height);
-    padding: 0 3px;
+    padding: 0 3px 3px 3px;
 }
 .left-team-name {
     left: 192px;
@@ -228,4 +228,15 @@
     width: var(--dimension);
     height: var(--dimension);
     opacity: 1;
+}
+
+/* Pick Ban Won */
+.panel-pick-ban-won {
+    position: absolute;
+    top: 96%;
+    right: 0;
+    display: flex;
+}
+.panel-pick-ban-won > * {
+    margin-left: -7px;
 }

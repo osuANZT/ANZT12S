@@ -92,3 +92,13 @@
     background-color: black;
     padding: 0 6px;
 }
+
+/* Mappool Background */
+.mappool-background-large {
+    position: absolute; 
+    top: 77px;
+}
+.mappool-background-small {
+    position: absolute; 
+    top: 144px;
+}

@@ -1,3 +1,15 @@
 .main {
     background-image: url("static/background.png")
 }
+
+/* Team Amps */
+.team-amps-container {
+    position: absolute;
+    top: 64px;
+    left: 40px;
+}
+.team-amps {
+    --dimension: 45px;
+    width: var(--dimension);
+    height: var(--dimension);
+}

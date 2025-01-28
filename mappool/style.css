@@ -6,10 +6,31 @@
 .team-amps-container {
     position: absolute;
     top: 64px;
-    left: 40px;
 }
+.left-team-amps-container { left: 40px; }
+.right-team-amps-container { right: 40px; }
 .team-amps {
     --dimension: 45px;
     width: var(--dimension);
     height: var(--dimension);
+}
+
+/* Team Name */
+.team-name {
+    --height: 23px;
+    position: absolute;
+    top: 41px;
+    left: 147px;
+    height: var(--height);
+    font-size: 1.5625rem;
+    color: white;
+    font-weight: 700;
+    font-family: "Torus";
+    letter-spacing: 1px;
+    line-height: var(--height);
+    padding: 0 3px;
+}
+.left-team-name {
+    background-color: #FF2B2B;
+    box-shadow: 0 0 10px #FF2B2B;
 }

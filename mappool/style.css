@@ -102,3 +102,90 @@
     position: absolute; 
     top: 144px;
 }
+
+/* Mappool Section */
+.mappool-section {
+    position: absolute;
+    top: 518px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 1662px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+
+/* Panel */
+.panel {
+    position: relative;
+    width: 396px;
+    height: 114.75px;
+    margin-bottom: 36px;
+}
+/* Panel Song Background */
+.panel-song-background {
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    width: 388px;
+    height: 103px;
+    background-image: url("https://assets.ppy.sh/beatmaps/2259255/covers/cover.jpg");
+    background-size: cover;
+    background-position: center;
+    border-radius: 2px;
+}
+/* Panel Gradient */
+.panel-gradient {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+/* Panel Metadata */
+.panel-metadata {
+    position: absolute;
+    top: 0;
+    left: 10px;
+    font-size: 0.875rem;
+    color: white;
+    letter-spacing: 0.2px;
+    white-space: nowrap;
+}
+/* Panel Song Name */
+.panel-song-name {
+    position: absolute;
+    top: 10px;
+}
+/* Panel Artist */
+.panel-artist {
+    position: absolute;
+    top: 27.5px;
+    font-weight: 400;
+}
+/* Panel Difficulty */
+.panel-difficulty {
+    position: absolute;
+    top: 45px;
+}
+/* Panel Mapper */
+.panel-mapper {
+    position: absolute;
+    top: 62.5px;
+    font-weight: 400;
+}
+/* Panel SR / BPM */
+.panel-sr-bpm {
+    position: absolute;
+    top: 80px;
+}
+.panel-sr { color: #EBFA03; }
+/* Panel Mod Icon */
+.panel-mod-icon {
+    --dimension: 80px;
+    position: absolute;
+    right: -6px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: var(--dimension);
+    height: var(--dimension);
+}

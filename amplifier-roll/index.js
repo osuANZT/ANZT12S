@@ -92,9 +92,9 @@ function displayTeams() {
             currentContainer.children[2].innerText = allTeams[currentTeamIndex + i].player2Name
             if (i !== 0 && allTeams[currentTeamIndex + i].silverAmplifier && allTeams[currentTeamIndex + i].goldAmplifier && allTeams[currentTeamIndex + i].prismaticAmplifier) {
                 currentContainer.children[3].style.display = "flex"
-                currentContainer.children[3].children[0].setAttribute("src", `static/amplifier-icons/${allTeams[currentTeamIndex + i].silverAmplifier}.png`)
-                currentContainer.children[3].children[1].setAttribute("src", `static/amplifier-icons/${allTeams[currentTeamIndex + i].goldAmplifier}.png`)
-                currentContainer.children[3].children[2].setAttribute("src", `static/amplifier-icons/${allTeams[currentTeamIndex + i].prismaticAmplifier}.png`)
+                currentContainer.children[3].children[0].setAttribute("src", `../_shared/assets/amplifier-icons/${allTeams[currentTeamIndex + i].silverAmplifier}.png`)
+                currentContainer.children[3].children[1].setAttribute("src", `../_shared/assets/amplifier-icons/${allTeams[currentTeamIndex + i].goldAmplifier}.png`)
+                currentContainer.children[3].children[2].setAttribute("src", `../_shared/assets/amplifier-icons/${allTeams[currentTeamIndex + i].prismaticAmplifier}.png`)
             } else if (i !== 0) {
                 currentContainer.children[3].style.display = "none"
             } else if (i === 0) {

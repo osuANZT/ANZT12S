@@ -17,7 +17,7 @@ async function getBeatmaps() {
         modIconContainer.classList.add("mod-icon-container")
         const modIcon = document.createElement("img")
         modIcon.classList.add("mod-icon-inactive")
-        modIcon.setAttribute("src", `static/mod-icons/${allBeatmaps[i].mod.toLowerCase()}${allBeatmaps[i].order}.png`)
+        modIcon.setAttribute("src", `../_shared/assets/mod-icons/${allBeatmaps[i].mod.toLowerCase()}${allBeatmaps[i].order}.png`)
         modIconContainer.append(modIcon)
 
         switch (allBeatmaps[i].mod) {

@@ -1,14 +1,20 @@
 .main {
-    background-image: url("static/background.png")
+    background-image: url("static/background.png");
+    font-family: "Torus";
+    font-weight: 700;
 }
 
 /* Team Amps */
 .team-amps-container {
     position: absolute;
     top: 64px;
+    display: flex;
 }
 .left-team-amps-container { left: 40px; }
-.right-team-amps-container { right: 40px; }
+.right-team-amps-container { 
+    right: 40px;
+    flex-direction: row-reverse;
+}
 .team-amps {
     --dimension: 45px;
     width: var(--dimension);
@@ -20,27 +26,34 @@
     --height: 23px;
     position: absolute;
     top: 41px;
-    left: 192px;
     height: var(--height);
     font-size: 1.5625rem;
     color: white;
-    font-weight: 700;
-    font-family: "Torus";
     letter-spacing: 1px;
     line-height: var(--height);
     padding: 0 3px;
 }
 .left-team-name {
+    left: 192px;
     background-color: #FF2B2B;
     box-shadow: 0 0 10px #FF2B2B;
+}
+.right-team-name {
+    right: 192px;
+    background-color: #2B61FF;
+    box-shadow: 0 0 10px #2B61FF;
 }
 
 /* Points */
 .point-container {
     position: absolute;
-    left: 186px;
     top: 68px;
     display: flex;
+}
+.left-points-container { left: 186px; }
+.right-points-container {
+    right: 186px;
+    flex-direction: row-reverse;
 }
 .individual-point-container {
     --dimension: 37px;
@@ -54,4 +67,28 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+}
+
+/* Logo */
+.logo {
+    position: absolute;
+    top: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 155px;
+}
+
+/* Round Name */
+.round-name {
+    --height: 17px;
+    position: absolute;
+    top: 91px;
+    left: 50%;
+    transform: translateX(-50%);
+    height: var(--height);
+    font-size: 1.125rem;
+    color: white;
+    line-height: 14px;
+    background-color: black;
+    padding: 0 6px;
 }

@@ -4,6 +4,14 @@
     font-weight: 700;
 }
 
+/* Helper Class */
+.position-absolute-exact-middle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
 /* Team Amps */
 .team-amps-container {
     position: absolute;
@@ -61,12 +69,6 @@
     width: var(--dimension);
     height: var(--dimension);
     margin: 0 -1px;
-}
-.individual-point-container img {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
 }
 
 /* Logo */
@@ -188,4 +190,42 @@
     transform: translateY(-50%);
     width: var(--dimension);
     height: var(--dimension);
+}
+
+/* Panel Picked */
+.panel-picked {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 111px;
+    border-radius: 4px;
+    background-color: rgba(0,0,0,0.5);
+}
+/* Panel Picked Amp */
+.panel-picked-amp {
+    width: 51px;
+    height: 51px;
+    border-radius: 3px;
+}
+.left-panel-picked-amp {
+    background-color: rgba(255,43,43,0.5686274509803921);
+    border: 2px solid #FF8282;
+}
+.right-panel-picked-amp {
+    background-color: rgba(43,98,255,0.5686274509803921);
+    border: 2px solid #82B4FFFF;
+}
+/* White Reflect */
+.panel-white-reflect {
+    position: absolute; 
+    top: -2px;
+    left: -2px;
+}
+/* Panel Picked Amp Image */
+.panel-picked-amp-image {
+    --dimension: 37px;
+    width: var(--dimension);
+    height: var(--dimension);
+    opacity: 1;
 }

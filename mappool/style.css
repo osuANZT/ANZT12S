@@ -237,6 +237,16 @@
     right: 0;
     display: flex;
 }
-.panel-pick-ban-won > * {
-    margin-left: -7px;
+.panel-pick-ban-won > * { margin-left: -7px; }
+
+/* Chat Display */
+.chat-display {
+    position: absolute;
+    bottom: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 564px;
+    height: 164px;
+    background-image: url("static/chat-background.png");
+    border-radius: 30px;
 }

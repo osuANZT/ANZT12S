@@ -22,6 +22,7 @@ async function getApi() {
 getApi()
 
 // Load beatmaps
+const roundName = document.getElementById("round-name")
 const mappoolBackgroundLarge = document.getElementById("mappool-background-large")
 const mappoolBackgroundSmall = document.getElementById("mappool-background-small")
 let allBeatmaps
@@ -30,6 +31,7 @@ async function getBeatmaps() {
     const response = await fetch("../_data/beatmaps.json")
     const responseJson = await response.json()
     allBeatmaps = responseJson.beatmaps
+    roundName.innerText = `${responseJson.roundName} Mappool`
 
     // Set correct background
     if (allBeatmaps.length < 17) {

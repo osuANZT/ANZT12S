@@ -178,7 +178,9 @@
 /* Panel SR / BPM */
 .panel-sr-bpm {
     position: absolute;
+    left: 10px;
     top: 80px;
+    color: white;
 }
 .panel-sr { color: #EBFA03; }
 /* Panel Mod Icon */

@@ -2,6 +2,16 @@
 document.addEventListener("mousedown", function(event) {event.preventDefault()})
 document.addEventListener("contextmenu", function(event) {event.preventDefault()})
 
+// Load all teams
+let teams
+async function getTeams() {
+    const response = await fetch("../_data/teams.json")
+    const responseJson = await response.json()
+    teams = responseJson
+}
+getTeams()
+const findTeam = teamName => teams.find(team => team.team_name === teamName)
+
 // Load osu! api
 let osuApi
 async function getApi() {
@@ -34,11 +44,10 @@ async function getBeatmaps() {
         else if (allBeatmaps[i].mod === "DT") modNumber = 64
         
         // Get API response
-        const response = await fetch("https://api.allorigins.win/get?url=" + encodeURIComponent(`https://osu.ppy.sh/api/get_beatmaps?k=${osuApi}&b=${allBeatmaps[i].beatmapId}&mods=${modNumber}`))
+        const response = await fetch("https://corsproxy.io/?" + encodeURIComponent(`https://osu.ppy.sh/api/get_beatmaps?k=${osuApi}&b=${allBeatmaps[i].beatmapId}&mods=${modNumber}`))
         await delay(1000)
         let responseJson = await response.json()
-        responseJson = JSON.parse(responseJson.contents)
-        allBeatmapsJson.push(responseJson)
+        allBeatmapsJson.push(responseJson[0])
 
         createBeatmapPanel(allBeatmaps[i], responseJson[0])
     }
@@ -131,8 +140,6 @@ function createBeatmapPanel(allBeatmapsInfo, jsonInfo) {
     mappoolSection.append(panel)
 }
 
-const socket = createTosuWsSocket()
-
 // Map Click Event
 let lastTeamPick
 function mapClickEvent(event) {
@@ -185,5 +192,52 @@ function mapClickEvent(event) {
         this.children[7].append(pickBanImage)
         this.dataset.pickban = action
         this.dataset.team = team
+    }
+}
+
+const socket = createTosuWsSocket()
+
+// Team Names 
+const leftTeamNameEl = document.getElementById("left-team-name")
+const rightTeamNameEl = document.getElementById("right-team-name")
+let leftTeamName, rightTeamName
+
+// Team Amplifier Container
+const leftTeamAmpsContainer = document.getElementById("left-team-amps-container")
+const rightTeamAmpsContainer = document.getElementById("right-team-amps-container")
+
+socket.onmessage = event => {
+    const data = JSON.parse(event.data)
+    
+    // Team names
+    if (leftTeamName !== data.tourney.manager.teamName.left && teams) {
+        leftTeamName = data.tourney.manager.teamName.left
+        leftTeamNameEl.innerText = leftTeamName
+
+        leftTeamAmpsContainer.innerHTML = ""
+        const team = findTeam(leftTeamName)
+        if (team) {
+            ["silver_amp", "gold_amp", "pris_amp"].forEach(amplifier => {
+                const amplifierImage = document.createElement("img")
+                amplifierImage.classList.add("team-amps")
+                amplifierImage.setAttribute("src", `../_shared/assets/amplifier-icons/${team[amplifier]}.png`)
+                leftTeamAmpsContainer.append(amplifierImage)
+            })
+        }
+    }
+    if (rightTeamName !== data.tourney.manager.teamName.right && teams) {
+        rightTeamName = data.tourney.manager.teamName.right
+        rightTeamNameEl.innerText = rightTeamName
+
+        rightTeamAmpsContainer.innerHTML = ""
+        const team = findTeam(rightTeamName)
+        if (team) {
+            ["silver_amp", "gold_amp", "pris_amp"].forEach(amplifier => {
+                const amplifierImage = document.createElement("img")
+                amplifierImage.classList.add("team-amps")
+                amplifierImage.setAttribute("src", `../_shared/assets/amplifier-icons/${team[amplifier]}.png`)
+                rightTeamAmpsContainer.append(amplifierImage)
+            })
+        }
     }
 }

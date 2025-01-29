@@ -6,7 +6,7 @@ function submit() {
     for (let i = 0; i < textareaElValueIndividual.length; i++) {
         const textareaElValueIndividualSeparated = textareaElValueIndividual[i].split(",")
         const teamData = {
-            "player": textareaElValueIndividualSeparated[0],
+            "team_name": textareaElValueIndividualSeparated[0],
             "silver_amp": Number(textareaElValueIndividualSeparated[1]),
             "gold_amp": Number(textareaElValueIndividualSeparated[2]),
             "pris_amp": Number(textareaElValueIndividualSeparated[3])

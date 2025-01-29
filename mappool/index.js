@@ -9,7 +9,6 @@ async function getTeams() {
     const responseJson = await response.json()
     teams = responseJson
 }
-getTeams()
 const findTeam = teamName => teams.find(team => team.team_name === teamName)
 
 // Load osu! api
@@ -19,7 +18,6 @@ async function getApi() {
     const responseJson = await response.json()
     osuApi = responseJson.api
 }
-getApi()
 
 // Load beatmaps
 const roundName = document.getElementById("round-name")
@@ -54,12 +52,18 @@ async function getBeatmaps() {
         createBeatmapPanel(allBeatmaps[i], responseJson[0])
     }
 }
-getBeatmaps()
+
+// Initisalise
+async function initialise() {
+    await getTeams()
+    await getApi()
+    await getBeatmaps()
+}
+initialise()
 
 // Create beatmap panel
 const mappoolSection = document.getElementById("mappool-section")
 function createBeatmapPanel(allBeatmapsInfo, jsonInfo) {
-    console.log(jsonInfo)
     // Create panel
     const panel = document.createElement("div")
     panel.classList.add("panel")
@@ -145,7 +149,6 @@ function createBeatmapPanel(allBeatmapsInfo, jsonInfo) {
 // Map Click Event
 let lastTeamPick
 function mapClickEvent(event) {
-    console.log(event)
     // Team
     let team
     if (event.button === 0) team = "red"
@@ -208,6 +211,10 @@ let leftTeamName, rightTeamName
 const leftTeamAmpsContainer = document.getElementById("left-team-amps-container")
 const rightTeamAmpsContainer = document.getElementById("right-team-amps-container")
 
+// Chat Display
+const chatDisplay = document.getElementById("chat-display")
+let chatLen = 0
+
 socket.onmessage = event => {
     const data = JSON.parse(event.data)
     
@@ -241,5 +248,48 @@ socket.onmessage = event => {
                 rightTeamAmpsContainer.append(amplifierImage)
             })
         }
+    }
+
+    // Chat Stuff
+    // This is also mostly taken from Victim Crasher: https://github.com/VictimCrasher/static/tree/master/WaveTournament
+    if (chatLen !== data.tourney.manager.chat.length) {
+        (chatLen === 0 || chatLen > data.tourney.manager.chat.length) ? (chatDisplay.innerHTML = "", chatLen = 0) : null
+        const fragment = document.createDocumentFragment()
+
+        for (let i = chatLen; i < data.tourney.manager.chat.length; i++) {
+            const chatColour = data.tourney.manager.chat[i].team
+
+            // Chat message container
+            const chatMessageContainer = document.createElement("div")
+            chatMessageContainer.classList.add("chatMessageContainer")
+
+            // Time
+            const chatDisplayTime = document.createElement("div")
+            chatDisplayTime.classList.add("chatDisplayTime")
+            chatDisplayTime.innerText = data.tourney.manager.chat[i].time
+
+            // Whole Message
+            const chatDisplayWholeMessage = document.createElement("div")
+            chatDisplayWholeMessage.classList.add("chatDisplayWholeMessage")  
+            
+            // Name
+            const chatDisplayName = document.createElement("span")
+            chatDisplayName.classList.add("chatDisplayName")
+            chatDisplayName.classList.add(chatColour)
+            chatDisplayName.innerText = data.tourney.manager.chat[i].name + ": ";
+
+            // Message
+            const chatDisplayMessage = document.createElement("span")
+            chatDisplayMessage.classList.add("chatDisplayMessage")
+            chatDisplayMessage.innerText = data.tourney.manager.chat[i].messageBody
+
+            chatDisplayWholeMessage.append(chatDisplayName, chatDisplayMessage)
+            chatMessageContainer.append(chatDisplayTime, chatDisplayWholeMessage)
+            fragment.append(chatMessageContainer)
+        }
+
+        chatDisplay.append(fragment)
+        chatLen = data.tourney.manager.chat.length;
+        chatDisplay.scrollTop = chatDisplay.scrollHeight;
     }
 }

@@ -14,7 +14,7 @@ const findTeam = teamName => teams.find(team => team.team_name === teamName)
 // Load osu! api
 let osuApi
 async function getApi() {
-    const response = await fetch("osu-api.json")
+    const response = await fetch("../_data/osu-api.json")
     const responseJson = await response.json()
     osuApi = responseJson.api
 }

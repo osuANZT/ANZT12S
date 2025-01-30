@@ -9,3 +9,116 @@
     letter-spacing: 0.4px;
     text-indent: 0.2px;
 }
+
+/* Mod Image */
+/* .mod-image {
+    position: absolute;
+    top: 882px;
+} */
+
+/* Map Stats */
+.map-stats {
+    position: absolute;
+    top: 954px;
+    left: 18px;
+    color: white;
+}
+.map-stats > * {
+    margin-bottom: -2px;
+}
+.map-sr {
+    color: #EDFB0D;
+}
+
+/* Amplifier Background */
+.amplifier-container {
+    position: absolute;
+    top: 950px;
+}
+.left-amplifier-container {
+    left: 25%;
+    transform: translateX(-50%);
+}
+.right-amplifier-container {
+    right: 25%;
+    transform: translateX(50%);
+}
+/* Amplifier Icon */
+.amplifier-icon {
+    --dimension: 67px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: var(--dimension);
+    height: var(--dimension);
+}
+
+/* Left Score Difference */
+.score-difference {
+    position: absolute;
+    top: 931px;
+    font-size: 23px;
+    color: white;
+    font-weight: 700;
+    font-family: "Torus";
+    letter-spacing: 0.1px;
+}
+.left-score-difference { right: 977px; }
+.right-score-difference { left: 977px; }
+
+/* Score Bar */
+.score-bar {
+    position: absolute;
+    top: 935px;
+    width: 65px;
+    height: 10px;
+    background-color: white;
+    transition: 500ms ease-in-out;
+}
+.left-score-bar { right: 960px; }
+.right-score-bar { left: 960px; }
+
+/* Score Number */
+.score-number {
+    position: absolute;
+    top: 958px;
+    color: white;
+    font-size: 32px;
+    font-weight: 400;
+}
+.left-score-number { right: 977px; }
+.right-score-number { left: 977px; }
+.lead-score-number {
+    position: absolute;
+    top: 951px;
+    font-weight: 700;
+    font-size: 40px;
+}
+
+/* Map Banner */
+.map-banner {
+    --dimension: 111px;
+    position: absolute;
+    top: 944px;
+    right: 10px;
+    width: var(--dimension);
+    height: var(--dimension);
+    background-image: url("https://assets.ppy.sh/beatmaps/319890/covers/cover.jpg");
+    background-position: center;
+    background-size: cover;
+}
+
+/* Map Metadata */
+.map-metadata {
+    position: absolute;
+    top: 964px;
+    right: 131px;
+    text-align: right;
+    font-size: 14px;
+    letter-spacing: 0.2px;
+    color: white;
+}
+.map-metadata div:nth-child(even) {
+    font-weight: 400;
+}

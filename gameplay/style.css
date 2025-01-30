@@ -1,3 +1,11 @@
-.main {
-    background-image: url("static/background.png");
+.main { background-image: url("static/background.png"); }
+
+/* Logo */
+.logo { top: 23px; }
+
+/* Round Name */
+.round-name {
+    top: 81px;
+    letter-spacing: 0.4px;
+    text-indent: 0.2px;
 }

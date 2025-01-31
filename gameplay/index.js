@@ -152,6 +152,28 @@ let mapId, mapMd5, foundMapInMappool = false
 const bottomSection = document.getElementById("bottom-section")
 let scoreVisible
 
+// Score
+// Score difference
+const leftScoreDifference = document.getElementById("left-score-difference")
+const rightScoreDifference = document.getElementById("right-score-difference")
+// Score bar
+const leftScoreBar = document.getElementById("left-score-bar")
+const rightScoreBar = document.getElementById("right-score-bar")
+// Score number
+const leftScoreNumber = document.getElementById("left-score-number")
+const rightScoreNumber = document.getElementById("right-score-number")
+// Variables
+let leftScore = 0, rightScore = 0, scoreDelta = 0
+
+// CountUp
+const animation = {
+    leftScoreNumber: new CountUp(leftScoreNumber, 0, 0, 0, 0.2, { useEasing: true, useGrouping: true, separator: ",", decimal: "." }),
+    rightScoreNumber: new CountUp(rightScoreNumber, 0, 0, 0, 0.2, { useEasing: true, useGrouping: true, separator: ",", decimal: "." }),
+    leftScoreDifference: new CountUp(leftScoreDifference, 0, 0, 0, 0.2, { useEasing: true, useGrouping: true, separator: ",", decimal: "." }),
+    rightScoreDifference: new CountUp(rightScoreDifference, 0, 0, 0, 0.2, { useEasing: true, useGrouping: true, separator: ",", decimal: "." }),
+}
+
+
 // Chat Display
 const chatDisplay = document.getElementById("chat-display")
 let chatLen = 0
@@ -239,12 +261,52 @@ socket.onmessage = event => {
 
     // Score stuff
     if (scoreVisible) {
-        
+        // If there is no amplifiers
+        leftScore = data.tourney.manager.gameplay.score.left
+        rightScore = data.tourney.manager.gameplay.score.right
+        scoreDelta = Math.abs(leftScore - rightScore)
+
+        // Update numbers
+        animation.leftScoreNumber.update(data.tourney.manager.gameplay.score.left)
+        animation.rightScoreNumber.update(data.tourney.manager.gameplay.score.right)
+
+        // Bar percentage
+        let movingScoreBarDifferencePercent = Math.min(scoreDelta / 500000, 1)
+        let movingScoreBarRectangleWidth = Math.min(Math.pow(movingScoreBarDifferencePercent, 0.5)* 600, 600)
+
+        // Update score bar and score distance
+        if (leftScore > rightScore) {
+            leftScoreDifference.style.display = "none"
+            animation.rightScoreDifference.update(rightScore - leftScore)
+
+            leftScoreBar.style.width = `${movingScoreBarRectangleWidth}px`
+            rightScoreBar.style.width = "0px"
+
+            leftScoreNumber.classList.add("lead-score-number")
+            rightScoreNumber.classList.remove("lead-score-number")
+        } else if (leftScore === rightScore) {
+            leftScoreDifference.style.display = "none"
+            rightScoreDifference.style.display = "none"
+
+            leftScoreBar.style.width = "0px"
+            rightScoreBar.style.width = "0px"
+
+            leftScoreNumber.classList.remove("lead-score-number")
+            rightScoreNumber.classList.remove("lead-score-number")
+        } else if (leftScore < rightScore) {
+            animation.leftScoreDifference.update(leftScore - rightScore)
+            rightScoreDifference.style.display = "none"
+
+            leftScoreBar.style.width = `0px`
+            rightScoreBar.style.width = `${movingScoreBarRectangleWidth}px`
+
+            leftScoreNumber.classList.add("lead-score-number")
+            rightScoreNumber.classList.add("lead-score-number")
+        }
     }
 
     // Chat Stuff
     if (!scoreVisible) {
-        
         // This is also mostly taken from Victim Crasher: https://github.com/VictimCrasher/static/tree/master/WaveTournament
         if (chatLen !== data.tourney.manager.chat.length) {
             (chatLen === 0 || chatLen > data.tourney.manager.chat.length) ? (chatDisplay.innerHTML = "", chatLen = 0) : null

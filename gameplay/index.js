@@ -29,7 +29,22 @@ async function getBeatmaps() {
     const response = await fetch("../_data/beatmaps.json")
     const responseJson = await response.json()
     allBeatmaps = responseJson.beatmaps
-    roundName.innerText = `${responseJson.roundName} Mappool`
+    roundName.innerText = `${responseJson.roundName} Match`
+
+    switch (responseJson.roundName) {
+        case "RO32": case "RO16":
+            bestOfPoints = 9
+            break
+        case "QF": case "SF": 
+            bestOfPoints = 11
+            break
+        case "F": case "GF":
+            bestOfPoints = 13
+            break
+    }
+    firstToPoints = Math.ceil(bestOfPoints / 2)
+
+    generateStars()
 
     // Set correct background
     if (allBeatmaps.length < 17) {
@@ -49,6 +64,39 @@ async function getBeatmaps() {
         let responseJson = await response.json()
         allBeatmapsJson.push(responseJson[0])
     }
+}
+
+// Generate stars
+const leftPointsContainer = document.getElementById("left-points-container")
+const rightPointsContainer = document.getElementById("right-points-container")
+let leftPoints = 0, rightPoints = 0, firstToPoints = 0, bestOfPoints = 0
+async function generateStars() {
+    leftPointsContainer.innerHTML = ""
+    rightPointsContainer.innerHTML = ""
+
+    let i = 0
+    for (i; i < leftPoints; i++) createStar(leftPointsContainer, true)
+    for (i; i < firstToPoints; i++) createStar(leftPointsContainer, false)
+
+    i = 0
+    for (i; i < rightPoints; i++) createStar(rightPointsContainer, true)
+    for (i; i < firstToPoints; i++) createStar(rightPointsContainer, false)
+}
+
+// Create Star
+{/* <div class="individual-point-container"><img class="position-absolute-exact-middle" src="static/points/full.png"></div> */}
+function createStar(parent, full) {
+    // Individual Point Container
+    const individualPointContainer = document.createElement("div")
+    individualPointContainer.classList.add("individual-point-container")
+
+    // Star
+    const point = document.createElement("img")
+    point.classList.add("position-absolute-exact-middle")
+    point.setAttribute("src", `static/points/${full? "full": "empty"}.png`)
+
+    individualPointContainer.append(point)
+    parent.append(individualPointContainer)
 }
 
 // Initisalise

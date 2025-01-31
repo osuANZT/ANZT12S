@@ -44,7 +44,7 @@ async function getBeatmaps() {
     }
     firstToPoints = Math.ceil(bestOfPoints / 2)
 
-    generateStars()
+    generatePoints()
 
     // Set correct background
     if (allBeatmaps.length < 17) {
@@ -66,37 +66,52 @@ async function getBeatmaps() {
     }
 }
 
-// Generate stars
+// Generate points
 const leftPointsContainer = document.getElementById("left-points-container")
 const rightPointsContainer = document.getElementById("right-points-container")
 let leftPoints = 0, rightPoints = 0, firstToPoints = 0, bestOfPoints = 0
-async function generateStars() {
+async function generatePoints() {
     leftPointsContainer.innerHTML = ""
     rightPointsContainer.innerHTML = ""
 
     let i = 0
-    for (i; i < leftPoints; i++) createStar(leftPointsContainer, true)
-    for (i; i < firstToPoints; i++) createStar(leftPointsContainer, false)
+    for (i; i < leftPoints; i++) createPoint(leftPointsContainer, true)
+    for (i; i < firstToPoints; i++) createPoint(leftPointsContainer, false)
 
     i = 0
-    for (i; i < rightPoints; i++) createStar(rightPointsContainer, true)
-    for (i; i < firstToPoints; i++) createStar(rightPointsContainer, false)
+    for (i; i < rightPoints; i++) createPoint(rightPointsContainer, true)
+    for (i; i < firstToPoints; i++) createPoint(rightPointsContainer, false)
 }
 
-// Create Star
+// Create point
 {/* <div class="individual-point-container"><img class="position-absolute-exact-middle" src="static/points/full.png"></div> */}
-function createStar(parent, full) {
+function createPoint(parent, full) {
     // Individual Point Container
     const individualPointContainer = document.createElement("div")
     individualPointContainer.classList.add("individual-point-container")
 
-    // Star
+    // Point
     const point = document.createElement("img")
     point.classList.add("position-absolute-exact-middle")
     point.setAttribute("src", `static/points/${full? "full": "empty"}.png`)
 
     individualPointContainer.append(point)
     parent.append(individualPointContainer)
+}
+
+// Adjust points count
+function updatePointCount(team, action) {
+    if (team === "red" && action === "plus") leftPoints++
+    if (team === "blue" && action === "plus") rightPoints++
+    if (team === "red" && action === "minus") leftPoints--
+    if (team === "blue" && action === "minus") rightPoints--
+
+    if (leftPoints < 0) leftPoints = 0
+    if (rightPoints < 0) rightPoints = 0
+    if (leftPoints > firstToPoints) leftPoints = firstToPoints
+    if (rightPoints > firstToPoints) rightPoints = firstToPoints
+
+    generatePoints()
 }
 
 // Initisalise

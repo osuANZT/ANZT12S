@@ -65,6 +65,7 @@ async function getBeatmaps() {
         allBeatmapsJson.push(responseJson[0])
     }
 }
+const findMapInMappool = beatmapId => allBeatmapsJson.find(beatmap => beatmap.beatmapId == beatmapId)
 
 // Generate points
 const leftPointsContainer = document.getElementById("left-points-container")
@@ -84,7 +85,6 @@ async function generatePoints() {
 }
 
 // Create point
-{/* <div class="individual-point-container"><img class="position-absolute-exact-middle" src="static/points/full.png"></div> */}
 function createPoint(parent, full) {
     // Individual Point Container
     const individualPointContainer = document.createElement("div")
@@ -134,12 +134,26 @@ let leftTeamName, rightTeamName
 const leftTeamAmpsContainer = document.getElementById("left-team-amps-container")
 const rightTeamAmpsContainer = document.getElementById("right-team-amps-container")
 
+// Song Details
+const mapSr = document.getElementById("map-sr")
+const mapBpm = document.getElementById("map-bpm")
+const mapCs = document.getElementById("map-cs")
+const mapAr = document.getElementById("map-ar")
+const mapOd = document.getElementById("map-od")
+const mapBanner = document.getElementById("map-banner")
+const mapSongName = document.getElementById("map-song-name")
+const mapArtist = document.getElementById("map-artist")
+const mapDifficulty = document.getElementById("map-difficulty")
+const mapMapper = document.getElementById("map-mapper")
+let mapId, mapMd5, foundMapInMappool = false
+
 // Chat Display
 const chatDisplay = document.getElementById("chat-display")
 let chatLen = 0
 
 socket.onmessage = event => {
     const data = JSON.parse(event.data)
+    console.log(data)
     
     // Team names
     if (leftTeamName !== data.tourney.manager.teamName.left && teams) {
@@ -173,6 +187,36 @@ socket.onmessage = event => {
         }
     }
 
+    // Map details
+    if (mapId !== data.menu.bm.id || mapMd5 !== data.menu.bm.md5 && allBeatmapsJson.length === allBeatmaps.length && allBeatmaps.length !== 0) {
+        mapId = data.menu.bm.id
+        mapMd5 = data.menu.bm.md5
+        foundMapInMappool = false
+
+        mapBanner.style.backgroundImage = `url("https://assets.ppy.sh/beatmaps/${data.menu.bm.set}/covers/cover.jpg")`
+        mapSongName.innerText = data.menu.bm.metadata.title
+        mapArtist.innerText = data.menu.bm.metadata.artist
+        mapDifficulty.innerText = data.menu.bm.metadata.version
+        mapMapper.innerText = data.menu.bm.metadata.mapper
+
+        const map = findMapInMappool(mapId)
+        if (map) {
+            mapSr.innerText = `${Math.round(Number(map.difficultyrating) * 100) / 100}*`
+            mapBpm.innerText = `${map.bpm}bpm`
+            mapCs.innerText = `cs${map.diff_size}`
+            mapAr.innerText = `ar${map.diff_approach}`
+            mapOd.innerText = `od${map.diff_overall}`
+            foundMapInMappool = true
+        }
+    }
+
+    if (!foundMapInMappool) {
+        mapSr.innerText = `${Math.round(Number(data.menu.bm.stats.fullSR) * 100) / 100}*`
+        mapBpm.innerText = `${data.menu.bm.stats.BPM.common}bpm`
+        mapCs.innerText = `cs${data.menu.bm.stats.memoryCS}`
+        mapAr.innerText = `ar${data.menu.bm.stats.memoryAR}`
+        mapOd.innerText = `od${data.menu.bm.stats.memoryOD}`
+    }
     // // Chat Stuff
     // // This is also mostly taken from Victim Crasher: https://github.com/VictimCrasher/static/tree/master/WaveTournament
     // if (chatLen !== data.tourney.manager.chat.length) {

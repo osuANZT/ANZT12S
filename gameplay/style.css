@@ -23,12 +23,8 @@
     left: 18px;
     color: white;
 }
-.map-stats > * {
-    margin-bottom: -2px;
-}
-.map-sr {
-    color: #EDFB0D;
-}
+.map-stats > * { margin-bottom: -2px; }
+#map-sr { color: #EDFB0D; }
 
 /* Amplifier Background */
 .amplifier-container {
@@ -97,7 +93,7 @@
 }
 
 /* Map Banner */
-.map-banner {
+#map-banner {
     --dimension: 111px;
     position: absolute;
     top: 944px;

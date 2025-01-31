@@ -1,3 +1,60 @@
+// Amplifiers
+const amplifiers = {
+    1: { name: 'The Carry I', description: 'The highest score on your team gets a 1.2x multiplier' },
+    2: { name: 'The Carry II', description: 'The highest score on your team gets a 1.3x multiplier' },
+    3: { name: 'The Carry III', description: 'The highest score on your team gets a 1.5x multiplier' },
+    4: { name: 'Poison I', description: 'Play as 2v1. Opposing team picks their player and gets a 2x multiplier.' },
+    5: { name: 'Poison II', description: 'Play as 2v1. Opposing team picks their player and gets a 1.75x multiplier.' },
+    6: { name: 'Poison III', description: 'Play as 2v1. Your team picks their player and gets a 1.75x multiplier.' },
+    7: { name: 'Limit Break', description: 'Scored by highest combined combo.' },
+    8: { name: 'The King I', description: 'Play as 1v2 and gain a 1.75x multiplier' },
+    9: { name: 'The King II', description: 'Play as 1v2 and gain a 2x multiplier' },
+    10: { name: 'Dude That Fingerlock', description: 'Each player\'s miss gains 0.5% to their score, up to 20%.' },
+    11: { name: 'Cold Clear Eyes I', description: 'Both teams play the next HD/HR/DT map with HD. Your team gets a 1.05x multiplier.' },
+    12: { name: 'Cold Clear Eyes II', description: 'Both teams play the next HD/HR/DT map with HD. Your team gets a 1.15x multiplier.' },
+    13: { name: 'Cold Clear Eyes III', description: 'Both teams play the next HD/HR/DT map with HD. Your team gets a 1.2x multiplier.' },
+    14: { name: 'Turn It Up', description: 'Your NM pick is now FM. 1 mod minimum from each team (HD/HR/EZ/FL). EZ = 1.9x multiplier.' },
+    15: { name: 'Gambler', description: 'Wager 1 point (must have at least 1 point). Gain 1.25x multiplier. Forfeit wagered point if you lose.' },
+    16: { name: 'Chance Time', description: 'Pick map not banned/protected If ref rolls 1 - 40, opponent gets point. Else, team gets point.' },
+    17: { name: 'Easy Peasy', description: 'Your NM1/HD1/HR1 pick will be played with EZ instead.' },
+    18: { name: 'Make It Rock', description: 'Opponent plays your NM pick with HR and gains a 1.25x multiplier.' },
+    19: { name: 'Yin And Yang I', description: 'Highest score multiplied by accuracy of other player. Gains a 1.05x multiplier.' },
+    20: { name: 'Yin And Yang II', description: 'Highest score multiplied by accuracy of other player. Gains a 1.1x multiplier.' },
+    21: { name: 'Yin And Yang III', description: 'Highest score multiplied by accuracy of other player. Gains a 1.15x multiplier.' },
+    22: { name: 'Trickster', description: 'When there are 2+ NM/HD maps left, opponent picks NM/HD map. You play NM, they HD. This uses your pick.' },
+    23: { name: 'Trickster II', description: 'When there are 2+ NM/HD maps left, opponent picks NM/HD map. You play NM, they HD. This uses your pick. Opponent does not get HD multiplier.' },
+    24: { name: 'AccDance', description: 'Scored by highest average accuracy.' },
+    25: { name: 'Synchronised I', description: 'Start at 1.1x multiplier. Drop 0.0025x for every % of acc difference. Capped at 1x.' },
+    26: { name: 'Synchronised II', description: 'Start at 1.2x multiplier. Drop 0.0025x for every % of acc difference. Capped at 1x.' },
+    27: { name: 'Go With The Flow', description: 'Opponent picks the map. You gain a 1.15x multiplier.' },
+    28: { name: 'Loadbearer I', description: 'Score increased by 20% of score difference between teammates. Score increase is capped at 150k.' },
+    29: { name: 'Loadbearer II', description: 'Score increased by 40% of score difference between teammates. Score increase is capped at 250k.' },
+    30: { name: 'Loadbearer III', description: 'Score increased by 60% of score difference between teammates. Score increase is capped at 350k.' },
+    31: { name: 'LightBearer', description: 'On your next HD pick, one player on your team can play with NM.' },
+    32: { name: 'Cheating Death', description: 'When your opponent is at match point, pick a banned map.' },
+    33: { name: 'The Dragon Consumes I', description: 'If your team won the previous map, gain a 1.1x multiplier on this map.' },
+    34: { name: 'The Dragon Consumes II', description: 'If your team won the previous map, gain a 1.2x multiplier on this map.' },
+    35: { name: 'The Dragon Consumes III', description: 'If your team won the previous map, gain a 1.3x multiplier on this map.' },
+    36: { name: 'The Missing Piece', description: 'Pick from the previous week\'s pool. Map slot must not be banned / picked already. Map slot will be marked as picked.' },
+    37: { name: 'JTBFREAKS', description: 'Play with RX and ScoreV1. Highest combined combo wins. ScoreV1 results used for a draw.' },
+    38: { name: 'Desperation I', description: 'Pick a banned map. Get a 0.7x multiplier.' },
+    39: { name: 'Desperation II', description: 'Pick a banned map. Get a 0.85x multiplier.' },
+    40: { name: 'Soft Rock', description: 'On your next HR pick, one player on your team can play with NM.' },
+    41: { name: 'Roulette', description: 'The next map is randomly picked, and your team receives a 1.4x multiplier.' }
+}
+const silverAmplifiers = [1, 4, 7, 11, 14, 19, 22, 24, 25, 28, 33, 38]
+const goldAmplifiers = [8, 2, 5, 10, 12, 15, 20, 23, 26, 27, 29, 31, 34, 36, 37, 39, 40]
+const prismaticAmplifiers = [9, 3, 6, 13, 16, 17, 18, 21, 30, 32, 35, 41]
+const ampsThatUseApi = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 18, 19, 20, 21, 23, 24, 25, 26, 27, 28, 29, 30, 33, 34, 35, 37,38, 39, 41]
+
+// Get API Address
+let address
+async function getAddress() {
+    const response = await fetch("../_data/api-address.json")
+    const responseJson = await response.json()
+    address = responseJson.address
+}
+
 // Prevent default actions
 document.addEventListener("mousedown", function(event) {event.preventDefault()})
 document.addEventListener("contextmenu", function(event) {event.preventDefault()})
@@ -116,6 +173,7 @@ function updatePointCount(team, action) {
 
 // Initisalise
 async function initialise() {
+    await getAddress()
     await getTeams()
     await getApi()
     await getBeatmaps()
@@ -173,10 +231,16 @@ const animation = {
     rightScoreDifference: new CountUp(rightScoreDifference, 0, 0, 0, 0.2, { useEasing: true, useGrouping: true, separator: ",", decimal: "." }),
 }
 
-
 // Chat Display
 const chatDisplay = document.getElementById("chat-display")
 let chatLen = 0
+
+// IPC State
+let ipcState
+
+// Sidebar Amplifier Selection Control Button Containers
+const leftAmplifierSelectionButtonContainer = document.getElementById("left-amplifier-selection-button-container")
+const rightAmplifierSelectionButtonContainer = document.getElementById("right-amplifier-selection-button-container")
 
 socket.onmessage = event => {
     const data = JSON.parse(event.data)
@@ -188,6 +252,7 @@ socket.onmessage = event => {
         leftTeamNameEl.innerText = leftTeamName
 
         leftTeamAmpsContainer.innerHTML = ""
+        leftAmplifierSelectionButtonContainer.innerHTML = ""
         const team = findTeam(leftTeamName)
         if (team) {
             ["silver_amp", "gold_amp", "pris_amp"].forEach(amplifier => {
@@ -195,6 +260,12 @@ socket.onmessage = event => {
                 amplifierImage.classList.add("team-amps")
                 amplifierImage.setAttribute("src", `../_shared/assets/amplifier-icons/${team[amplifier]}.png`)
                 leftTeamAmpsContainer.append(amplifierImage)
+
+                const amplifierButton = document.createElement("button")
+                amplifierButton.classList.add("amplifier-selection-button")
+                amplifierButton.innerText = amplifiers[team[amplifier]].name
+                amplifierButton.setAttribute("onclick", `updateAmplifier('red',${team[amplifier]})`)
+                leftAmplifierSelectionButtonContainer.append(amplifierButton)
             })
         }
     }
@@ -203,6 +274,7 @@ socket.onmessage = event => {
         rightTeamNameEl.innerText = rightTeamName
 
         rightTeamAmpsContainer.innerHTML = ""
+        rightAmplifierSelectionButtonContainer.innerHTML = ""
         const team = findTeam(rightTeamName)
         if (team) {
             ["silver_amp", "gold_amp", "pris_amp"].forEach(amplifier => {
@@ -210,6 +282,12 @@ socket.onmessage = event => {
                 amplifierImage.classList.add("team-amps")
                 amplifierImage.setAttribute("src", `../_shared/assets/amplifier-icons/${team[amplifier]}.png`)
                 rightTeamAmpsContainer.append(amplifierImage)
+
+                const amplifierButton = document.createElement("button")
+                amplifierButton.classList.add("amplifier-selection-button")
+                amplifierButton.innerText = amplifiers[team[amplifier]].name
+                amplifierButton.setAttribute("onclick", `updateAmplifier('blue',${team[amplifier]})`)
+                rightAmplifierSelectionButtonContainer.append(amplifierButton)
             })
         }
     }
@@ -223,7 +301,7 @@ socket.onmessage = event => {
         mapBanner.style.backgroundImage = `url("https://assets.ppy.sh/beatmaps/${data.menu.bm.set}/covers/cover.jpg")`
         mapSongName.innerText = data.menu.bm.metadata.title
         mapArtist.innerText = data.menu.bm.metadata.artist
-        mapDifficulty.innerText = data.menu.bm.metadata.version
+        mapDifficulty.innerText = data.menu.bm.metadata.difficulty
         mapMapper.innerText = data.menu.bm.metadata.mapper
 
         const map = findMapInMappool(mapId)
@@ -246,7 +324,7 @@ socket.onmessage = event => {
         mapOd.innerText = `od${data.menu.bm.stats.memoryOD}`
     }
 
-    // Score visibility
+    // // Score visibility
     if (scoreVisible !== data.tourney.manager.bools.scoreVisible) {
         scoreVisible = data.tourney.manager.bools.scoreVisible
     
@@ -262,46 +340,114 @@ socket.onmessage = event => {
     // Score stuff
     if (scoreVisible) {
         // If there is no amplifiers
-        leftScore = data.tourney.manager.gameplay.score.left
-        rightScore = data.tourney.manager.gameplay.score.right
-        scoreDelta = Math.abs(leftScore - rightScore)
+        if (!amplifierId || !ampsThatUseApi.includes(amplifierId)) {
+            leftScore = data.tourney.ipcClients[0].gameplay.score + data.tourney.ipcClients[1].gameplay.score
+            rightScore = data.tourney.ipcClients[2].gameplay.score + data.tourney.ipcClients[3].gameplay.score
+            scoreDelta = Math.abs(leftScore - rightScore)
 
-        // Update numbers
-        animation.leftScoreNumber.update(data.tourney.manager.gameplay.score.left)
-        animation.rightScoreNumber.update(data.tourney.manager.gameplay.score.right)
+            // Update numbers
+            animation.leftScoreNumber.update(data.tourney.ipcClients[0].gameplay.score + data.tourney.ipcClients[1].gameplay.score)
+            animation.rightScoreNumber.update(data.tourney.ipcClients[2].gameplay.score + data.tourney.ipcClients[3].gameplay.score)
 
-        // Bar percentage
-        let movingScoreBarDifferencePercent = Math.min(scoreDelta / 500000, 1)
-        let movingScoreBarRectangleWidth = Math.min(Math.pow(movingScoreBarDifferencePercent, 0.5)* 600, 600)
+            // Bar percentage
+            let movingScoreBarDifferencePercent = Math.min(scoreDelta / 500000, 1)
+            let movingScoreBarRectangleWidth = Math.min(Math.pow(movingScoreBarDifferencePercent, 0.5)* 600, 600)
 
-        // Update score bar and score distance
-        if (leftScore > rightScore) {
-            leftScoreDifference.style.display = "none"
-            animation.rightScoreDifference.update(rightScore - leftScore)
+            // Update score bar and score distance
+            if (leftScore > rightScore) {
+                leftScoreDifference.style.display = "none"
+                rightScoreDifference.style.display = "block"
+                animation.rightScoreDifference.update(rightScore - leftScore)
 
-            leftScoreBar.style.width = `${movingScoreBarRectangleWidth}px`
-            rightScoreBar.style.width = "0px"
+                leftScoreBar.style.width = `${movingScoreBarRectangleWidth}px`
+                rightScoreBar.style.width = "0px"
 
-            leftScoreNumber.classList.add("lead-score-number")
-            rightScoreNumber.classList.remove("lead-score-number")
-        } else if (leftScore === rightScore) {
-            leftScoreDifference.style.display = "none"
-            rightScoreDifference.style.display = "none"
+                leftScoreNumber.classList.add("lead-score-number")
+                rightScoreNumber.classList.remove("lead-score-number")
+            } else if (leftScore === rightScore) {
+                leftScoreDifference.style.display = "none"
+                rightScoreDifference.style.display = "none"
 
-            leftScoreBar.style.width = "0px"
-            rightScoreBar.style.width = "0px"
+                leftScoreBar.style.width = "0px"
+                rightScoreBar.style.width = "0px"
 
-            leftScoreNumber.classList.remove("lead-score-number")
-            rightScoreNumber.classList.remove("lead-score-number")
-        } else if (leftScore < rightScore) {
-            animation.leftScoreDifference.update(leftScore - rightScore)
-            rightScoreDifference.style.display = "none"
+                leftScoreNumber.classList.remove("lead-score-number")
+                rightScoreNumber.classList.remove("lead-score-number")
+            } else if (leftScore < rightScore) {
+                leftScoreDifference.style.display = "block"
+                animation.leftScoreDifference.update(leftScore - rightScore)
+                rightScoreDifference.style.display = "none"
 
-            leftScoreBar.style.width = `0px`
-            rightScoreBar.style.width = `${movingScoreBarRectangleWidth}px`
+                leftScoreBar.style.width = `0px`
+                rightScoreBar.style.width = `${movingScoreBarRectangleWidth}px`
 
-            leftScoreNumber.classList.add("lead-score-number")
-            rightScoreNumber.classList.add("lead-score-number")
+                leftScoreNumber.classList.remove("lead-score-number")
+                rightScoreNumber.classList.add("lead-score-number")
+            }
+        } else {
+            // Amps that do not only affect score: 7 (Limit Break), 24 (AccDance), 37 (JTBFREAKS)
+            // Get team name
+            const teamName = (amplifierTeam === "red")? leftTeamName : rightTeamName
+            const ipcClients = data.tourney.ipcClients
+            let test = new XMLHttpRequest()
+            // 
+            test.open("GET", `${address}/score?team_name=${encodeURIComponent(teamName)}` + 
+                                `&amplifier_id=${amplifierId}` +
+                                `&player1_id=${ipcClients[0].spectating.userID}&player1_score=${ipcClients[0].gameplay.score}&player1_combo=${ipcClients[0].gameplay.combo.max}&player1_acc=${ipcClients[0].gameplay.accuracy}&player1_misses=${ipcClients[0].gameplay.hits["0"]}&player1_mods=${ipcClients[0].gameplay.mods.str}` +
+                                `&player2_id=${ipcClients[1].spectating.userID}&player2_score=${ipcClients[1].gameplay.score}&player2_combo=${ipcClients[1].gameplay.combo.max}&player2_acc=${ipcClients[1].gameplay.accuracy}&player2_misses=${ipcClients[1].gameplay.hits["0"]}&player2_mods=${ipcClients[1].gameplay.mods.str}` +
+                                `&player3_id=${ipcClients[2].spectating.userID}&player3_score=${ipcClients[2].gameplay.score}&player3_combo=${ipcClients[2].gameplay.combo.max}&player3_acc=${ipcClients[2].gameplay.accuracy}&player3_misses=${ipcClients[2].gameplay.hits["0"]}&player3_mods=${ipcClients[2].gameplay.mods.str}` +
+                                `&player4_id=${ipcClients[3].spectating.userID}&player4_score=${ipcClients[3].gameplay.score}&player4_combo=${ipcClients[3].gameplay.combo.max}&player4_acc=${ipcClients[3].gameplay.accuracy}&player4_misses=${ipcClients[3].gameplay.hits["0"]}&player4_mods=${ipcClients[3].gameplay.mods.str}`, false)
+            test.onreadystatechange = function() {
+                if (test.readyState === XMLHttpRequest.DONE) {
+                    if (test.status === 200) {
+                        var responseData = JSON.parse(test.responseText)
+                        leftScore = responseData.team1_score
+                        rightScore = responseData.team2_score
+                        scoreDelta = Math.abs(leftScore - rightScore)
+            
+                        // Update numbers
+                        animation.leftScoreNumber.update(leftScore)
+                        animation.rightScoreNumber.update(rightScore)
+            
+                        // Bar percentage
+                        let movingScoreBarDifferencePercent = Math.min(scoreDelta / 500000, 1)
+                        let movingScoreBarRectangleWidth = Math.min(Math.pow(movingScoreBarDifferencePercent, 0.5)* 600, 600)
+            
+                        // Update score bar and score distance
+                        if (leftScore > rightScore) {
+                            leftScoreDifference.style.display = "none"
+                            rightScoreDifference.style.display = "block"
+                            animation.rightScoreDifference.update(rightScore - leftScore)
+            
+                            leftScoreBar.style.width = `${movingScoreBarRectangleWidth}px`
+                            rightScoreBar.style.width = "0px"
+            
+                            leftScoreNumber.classList.add("lead-score-number")
+                            rightScoreNumber.classList.remove("lead-score-number")
+                        } else if (leftScore === rightScore) {
+                            leftScoreDifference.style.display = "none"
+                            rightScoreDifference.style.display = "none"
+            
+                            leftScoreBar.style.width = "0px"
+                            rightScoreBar.style.width = "0px"
+            
+                            leftScoreNumber.classList.remove("lead-score-number")
+                            rightScoreNumber.classList.remove("lead-score-number")
+                        } else if (leftScore < rightScore) {
+                            leftScoreDifference.style.display = "block"
+                            animation.leftScoreDifference.update(leftScore - rightScore)
+                            rightScoreDifference.style.display = "none"
+            
+                            leftScoreBar.style.width = `0px`
+                            rightScoreBar.style.width = `${movingScoreBarRectangleWidth}px`
+            
+                            leftScoreNumber.classList.remove("lead-score-number")
+                            rightScoreNumber.classList.add("lead-score-number")
+                        }
+                    } else console.log(test.status)
+                }
+            }
+            test.send()
         }
     }
 
@@ -348,5 +494,49 @@ socket.onmessage = event => {
             chatLen = data.tourney.manager.chat.length
             chatDisplay.scrollTop = chatDisplay.scrollHeight
         }
+    }
+
+    // IPC State
+    if (ipcState !== data.tourney.manager.ipcState) {
+        ipcState = data.tourney.manager.ipcState
+
+        if (ipcState === 4) {
+            
+        }
+    }
+}
+
+// Update amplifiers
+const leftAmplifierContainer = document.getElementById("left-amplifier-container")
+const rightAmplifierContainer = document.getElementById("right-amplifier-container")
+const amplifierSelectedText = document.getElementById("amplifier-selected-text")
+let amplifierId
+let amplifierTeam
+function updateAmplifier(team, amplifierNumber) {
+    if (team === "none") {
+        amplifierId = undefined
+        amplifierTeam = undefined
+        amplifierSelectedText.innerText = `None`
+        leftAmplifierContainer.style.display = "none"
+        rightAmplifierContainer.style.display = "none"
+        return
+    }
+
+    amplifierId = amplifierNumber
+    amplifierTeam = team
+    amplifierSelectedText.innerText = `${amplifiers[amplifierId].name} - ${amplifierTeam.substring(0, 1).toUpperCase()}${amplifierTeam.substring(1)}`
+
+    if (team === "red") {
+        leftAmplifierContainer.children[0].children[0].setAttribute("src", `static/amplifier-background/${(silverAmplifiers.includes(amplifierNumber))? "silver" : (goldAmplifiers.includes(amplifierNumber))? "gold" : "prismatic"}.png`)
+        leftAmplifierContainer.children[0].children[1].setAttribute("src", `../_shared/assets/amplifier-icons/${amplifierNumber}.png`)
+        leftAmplifierContainer.children[1].innerText = amplifiers[amplifierId].description
+        leftAmplifierContainer.style.display = "flex"
+        rightAmplifierContainer.style.display = "none"
+    } else if (team === "blue") {
+        rightAmplifierContainer.children[0].children[0].setAttribute("src", `static/amplifier-background/${(silverAmplifiers.includes(amplifierNumber))? "silver" : (goldAmplifiers.includes(amplifierNumber))? "gold" : "prismatic"}.png`)
+        rightAmplifierContainer.children[0].children[1].setAttribute("src", `../_shared/assets/amplifier-icons/${amplifierNumber}.png`)
+        rightAmplifierContainer.children[1].innerText = amplifiers[amplifierId].description
+        rightAmplifierContainer.style.display = "flex"
+        leftAmplifierContainer.style.display = "none"
     }
 }

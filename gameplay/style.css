@@ -30,16 +30,20 @@
 .amplifier-container {
     position: absolute;
     top: 950px;
+    display: flex;
+    color: white;
+    display: none;
 }
 .left-amplifier-container {
-    left: 25%;
+    left: 30%;
     transform: translateX(-50%);
 }
 .right-amplifier-container {
-    right: 25%;
+    right: 30%;
     transform: translateX(50%);
 }
 /* Amplifier Icon */
+.amplifier-image-container { position: relative; }
 .amplifier-icon {
     --dimension: 67px;
     position: absolute;
@@ -48,6 +52,11 @@
     transform: translate(-50%, -50%);
     width: var(--dimension);
     height: var(--dimension);
+}
+/* Amplifier Text */
+.amplifier-text {
+    width: 250px;
+    align-self: center;
 }
 
 /* Left Score Difference */
@@ -151,17 +160,21 @@
     font-weight: 700;
     font-size: 1.25em;
 }
-/* Star Control Section */
-.star-control {
-    margin-top: 10px;
+/* Sidebar Section */
+.sidebar-section {
+    margin-top: 20px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid black;
 }
-/* Star Control Button Container */
-.star-control-button-container {
+/* Sidebar Button Container */
+.sidebar-button-container {
     margin: 0.5em 0;
     display: flex;
     justify-content: center;
+    flex-wrap: wrap;
     gap: 10px;
 }
+/* Star Control Button */
 .star-control-button {
     width: 90px;
     height: 40px;
@@ -176,3 +189,21 @@
     background-color: black;
     color: orange;
 }
+/* Amplifier Selection Button */
+.amplifier-selection-button {
+    width: 190px;
+    height: 60px;
+    background-color: transparent;
+    font-family: "Torus";
+    font-weight: 700;
+    border: 2px solid black;
+    border-radius: 25px;
+    font-size: 1.1em;
+}
+.amplifier-selection-button:active {
+    background-color: black;
+    color: orange;
+}
+/* Amplifier Selection Text */
+.amplifier-selection-title-text { margin-bottom: 30px; }
+.amplifier-selection-text { margin-top: 30px; }

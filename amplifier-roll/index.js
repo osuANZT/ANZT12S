@@ -53,9 +53,9 @@ const amplifiers = {
     40: 'Soft Rock',
     41: 'Roulette'
 }
-const silverAmplifiers = [1, 4, 7, 11, 14, 19, 22, 23, 24, 25, 28, 33, 38]
-const goldAmplifiers = [8, 2, 5, 10, 12, 15, 20, 26, 27, 29, 31, 34, 36, 37, 39]
-const prismaticAmplifiers = [9, 3, 6, 13, 16, 17, 18, 21, 30, 32, 35]
+const silverAmplifiers = [1, 4, 7, 11, 14, 19, 22, 24, 25, 28, 33, 38]
+const goldAmplifiers = [8, 2, 5, 10, 12, 15, 20, 23, 26, 27, 29, 31, 34, 36, 37, 39, 40]
+const prismaticAmplifiers = [9, 3, 6, 13, 16, 17, 18, 21, 30, 32, 35, 41]
 
 // Get Google Sheets URL
 let googleSheetsUrl = ""

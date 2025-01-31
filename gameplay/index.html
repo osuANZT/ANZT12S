@@ -69,11 +69,12 @@
             </div>
     
             <!-- Left Amplifier Being Used -->
-            <div class="left-amplifier-container amplifier-container">
+            <div class="left-amplifier-container amplifier-container" id="left-amplifier-container">
                <div class="amplifier-image-container">
                     <img src="static/amplifier-background/gold.png">
                     <img class="amplifier-icon" src="../_shared/assets/amplifier-icons/2.png">
                </div>
+               <div class="amplifier-text"></div>
             </div>
     
             <!-- Score -->
@@ -90,11 +91,12 @@
             <div class="score-number right-score-number lead-score-number" id="right-score-number">234,567</div>
     
             <!-- Right Amplifier Being Used -->
-            <div class="right-amplifier-container amplifier-container">
+            <div class="right-amplifier-container amplifier-container" id="right-amplifier-container">
                <div class="amplifier-image-container">
                     <img src="static/amplifier-background/gold.png">
                     <img class="amplifier-icon" src="../_shared/assets/amplifier-icons/2.png">
                </div>
+               <div class="amplifier-text"></div>
             </div>
     
             <!-- Now Playing Metadata -->
@@ -108,24 +110,42 @@
         </section>
 
         <!-- Chat Display -->
-        <div class="chat-display">
+        <div class="chat-display" id="chat-display">
             <div class="chat-display-container" id="chat-display"></div>
         </div>
     </div>
 
     <!-- Sidebar -->
     <section class="sidebar">
-        <div class="star-control">
+        <div class="sidebar-section star-control">
             <div class="sidebar-title">Star Control</div>
             <div class="sidebar-text">Red Team</div>
-            <div class="star-control-button-container">
+            <div class="sidebar-button-container">
                 <button class="star-control-button" onclick="updatePointCount('red', 'plus')">Red ++</button>
                 <button class="star-control-button" onclick="updatePointCount('red', 'minus')">Red --</button>
             </div>
             <div class="sidebar-text">Blue Team</div>
-            <div class="star-control-button-container">
+            <div class="sidebar-button-container">
                 <button class="star-control-button" onclick="updatePointCount('blue', 'plus')">Blue ++</button>
                 <button class="star-control-button" onclick="updatePointCount('blue', 'minus')">Blue --</button>
+            </div>
+        </div>
+        <div class="sidebar-section amplifier-selection">
+            <div class="sidebar-title">Active Amplifier:</div>
+            <div class="sidebar-text amplifier-selection-title-text" id="amplifier-selected-text">None</div>
+            <div class="sidebar-title">Amplifier Selection</div>
+            <div class="sidebar-text amplifier-selection-text">Red Team</div>
+            <div class="sidebar-button-container" id="left-amplifier-selection-button-container">
+                <button class="amplifier-selection-button" onclick="updatePointCount('red', 'plus')">Red ++</button>
+                <button class="amplifier-selection-button" onclick="updatePointCount('red', 'minus')">Red --</button>
+            </div>
+            <div class="sidebar-text amplifier-selection-text">Blue Team</div>
+            <div class="sidebar-button-container" id="right-amplifier-selection-button-container">
+                <button class="amplifier-selection-button" onclick="updatePointCount('blue', 'plus')">Blue ++</button>
+                <button class="amplifier-selection-button" onclick="updatePointCount('blue', 'minus')">Blue --</button>
+            </div><br><br>
+            <div class="sidebar-button-container" id="right-amplifier-selection-button-container">
+                <button class="amplifier-selection-button" onclick="updateAmplifier('none', 'reset')">Reset Amplifier</button>
             </div>
         </div>
     </section>

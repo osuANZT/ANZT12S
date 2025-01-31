@@ -93,3 +93,39 @@
     background-color: black;
     padding: 0 6px;
 }
+
+/* Chat Display */
+.chat-display {
+    position: absolute;
+    bottom: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 564px;
+    height: 164px;
+    background-image: url("assets/chat-background.png");
+    border-radius: 30px;
+    color: white;
+    overflow: hidden;
+    font-size: 1.1em;
+}
+/* Chat Display Container */
+.chat-display-container {
+    --margin: 6px;
+    position: absolute;
+    top: var(--margin);
+    left: var(--margin);
+    width: calc(100% - (var(--margin) * 2));
+    height: calc(100% - (var(--margin) * 2));
+}
+.chatMessageContainer {
+    display: flex;
+    padding: 0.1em 0;
+}
+.chatDisplayTime {
+    width: 90px;
+    text-align: center;
+}
+.bot { color: greenyellow; }
+.unknown { color: yellow; }
+.left { color: rgb(255, 209, 209); }
+.right { color: rgb(205, 242, 255); }

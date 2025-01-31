@@ -119,6 +119,13 @@
     font-weight: 400;
 }
 
+/* Chat Display */
+.chat-display {
+    height: 142px;
+    opacity: 0;
+    transition: 500ms ease-in-out;
+}
+
 /* Sidebar */
 .sidebar {
     position: absolute;

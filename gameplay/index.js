@@ -135,6 +135,7 @@ const leftTeamAmpsContainer = document.getElementById("left-team-amps-container"
 const rightTeamAmpsContainer = document.getElementById("right-team-amps-container")
 
 // Song Details
+const modImage = document.getElementById("mod-image")
 const mapSr = document.getElementById("map-sr")
 const mapBpm = document.getElementById("map-bpm")
 const mapCs = document.getElementById("map-cs")
@@ -146,6 +147,10 @@ const mapArtist = document.getElementById("map-artist")
 const mapDifficulty = document.getElementById("map-difficulty")
 const mapMapper = document.getElementById("map-mapper")
 let mapId, mapMd5, foundMapInMappool = false
+
+// Score visibility
+const bottomSection = document.getElementById("bottom-section")
+let scoreVisible
 
 // Chat Display
 const chatDisplay = document.getElementById("chat-display")
@@ -206,6 +211,7 @@ socket.onmessage = event => {
             mapCs.innerText = `cs${map.diff_size}`
             mapAr.innerText = `ar${map.diff_approach}`
             mapOd.innerText = `od${map.diff_overall}`
+            modImage.setAttribute(`static/mod-backgrounds/${map.mod}.png`)
             foundMapInMappool = true
         }
     }
@@ -214,49 +220,71 @@ socket.onmessage = event => {
         mapSr.innerText = `${Math.round(Number(data.menu.bm.stats.fullSR) * 100) / 100}*`
         mapBpm.innerText = `${data.menu.bm.stats.BPM.common}bpm`
         mapCs.innerText = `cs${data.menu.bm.stats.memoryCS}`
-        mapAr.innerText = `ar${data.menu.bm.stats.memoryAR}`
+        mapAr.innerText = `ar${data.menu.bm.stats.memoryAR}f`
         mapOd.innerText = `od${data.menu.bm.stats.memoryOD}`
     }
-    // // Chat Stuff
-    // // This is also mostly taken from Victim Crasher: https://github.com/VictimCrasher/static/tree/master/WaveTournament
-    // if (chatLen !== data.tourney.manager.chat.length) {
-    //     (chatLen === 0 || chatLen > data.tourney.manager.chat.length) ? (chatDisplay.innerHTML = "", chatLen = 0) : null
-    //     const fragment = document.createDocumentFragment()
 
-    //     for (let i = chatLen; i < data.tourney.manager.chat.length; i++) {
-    //         const chatColour = data.tourney.manager.chat[i].team
+    // Score visibility
+    if (scoreVisible !== data.tourney.manager.bools.scoreVisible) {
+        scoreVisible = data.tourney.manager.bools.scoreVisible
+    
+        if (scoreVisible) {
+            bottomSection.style.opacity = 1
+            chatDisplay.style.opacity = 0
+        } else {
+            bottomSection.style.opacity = 0
+            chatDisplay.style.opacity = 1
+        }
+    }
 
-    //         // Chat message container
-    //         const chatMessageContainer = document.createElement("div")
-    //         chatMessageContainer.classList.add("chatMessageContainer")
+    // Score stuff
+    if (scoreVisible) {
+        
+    }
 
-    //         // Time
-    //         const chatDisplayTime = document.createElement("div")
-    //         chatDisplayTime.classList.add("chatDisplayTime")
-    //         chatDisplayTime.innerText = data.tourney.manager.chat[i].time
+    // Chat Stuff
+    if (!scoreVisible) {
+        
+        // This is also mostly taken from Victim Crasher: https://github.com/VictimCrasher/static/tree/master/WaveTournament
+        if (chatLen !== data.tourney.manager.chat.length) {
+            (chatLen === 0 || chatLen > data.tourney.manager.chat.length) ? (chatDisplay.innerHTML = "", chatLen = 0) : null
+            const fragment = document.createDocumentFragment()
 
-    //         // Whole Message
-    //         const chatDisplayWholeMessage = document.createElement("div")
-    //         chatDisplayWholeMessage.classList.add("chatDisplayWholeMessage")  
-            
-    //         // Name
-    //         const chatDisplayName = document.createElement("span")
-    //         chatDisplayName.classList.add("chatDisplayName")
-    //         chatDisplayName.classList.add(chatColour)
-    //         chatDisplayName.innerText = data.tourney.manager.chat[i].name + ": ";
+            for (let i = chatLen; i < data.tourney.manager.chat.length; i++) {
+                const chatColour = data.tourney.manager.chat[i].team
 
-    //         // Message
-    //         const chatDisplayMessage = document.createElement("span")
-    //         chatDisplayMessage.classList.add("chatDisplayMessage")
-    //         chatDisplayMessage.innerText = data.tourney.manager.chat[i].messageBody
+                // Chat message container
+                const chatMessageContainer = document.createElement("div")
+                chatMessageContainer.classList.add("chatMessageContainer")
 
-    //         chatDisplayWholeMessage.append(chatDisplayName, chatDisplayMessage)
-    //         chatMessageContainer.append(chatDisplayTime, chatDisplayWholeMessage)
-    //         fragment.append(chatMessageContainer)
-    //     }
+                // Time
+                const chatDisplayTime = document.createElement("div")
+                chatDisplayTime.classList.add("chatDisplayTime")
+                chatDisplayTime.innerText = data.tourney.manager.chat[i].time
 
-    //     chatDisplay.append(fragment)
-    //     chatLen = data.tourney.manager.chat.length;
-    //     chatDisplay.scrollTop = chatDisplay.scrollHeight;
-    // }
+                // Whole Message
+                const chatDisplayWholeMessage = document.createElement("div")
+                chatDisplayWholeMessage.classList.add("chatDisplayWholeMessage")  
+
+                // Name
+                const chatDisplayName = document.createElement("span")
+                chatDisplayName.classList.add("chatDisplayName")
+                chatDisplayName.classList.add(chatColour)
+                chatDisplayName.innerText = data.tourney.manager.chat[i].name + ": ";
+
+                // Message
+                const chatDisplayMessage = document.createElement("span")
+                chatDisplayMessage.classList.add("chatDisplayMessage")
+                chatDisplayMessage.innerText = data.tourney.manager.chat[i].messageBody
+
+                chatDisplayWholeMessage.append(chatDisplayName, chatDisplayMessage)
+                chatMessageContainer.append(chatDisplayTime, chatDisplayWholeMessage)
+                fragment.append(chatMessageContainer)
+            }
+
+            chatDisplay.append(fragment)
+            chatLen = data.tourney.manager.chat.length
+            chatDisplay.scrollTop = chatDisplay.scrollHeight
+        }
+    }
 }

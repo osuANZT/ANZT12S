@@ -5,6 +5,7 @@ const amplifierSets = [
     [8,9],
     [11,12,13],
     [19,20,21],
+    [22,23]
     [25,26],
     [33,34,35],
     [38,39]
@@ -32,7 +33,7 @@ const amplifiers = {
     20: 'Yin And Yang II',
     21: 'Yin And Yang III',
     22: 'Trickster',
-    23: 'Classic Farmer',
+    23: 'Trickster II',
     24: 'AccDance',
     25: 'Synchronised I',
     26: 'Synchronised II',
@@ -48,7 +49,9 @@ const amplifiers = {
     36: 'The Missing Piece',
     37: 'JTBFREAKS',
     38: 'Desperation I',
-    39: 'Desperation II'
+    39: 'Desperation II',
+    40: 'Soft Rock',
+    41: 'Roulette'
 }
 const silverAmplifiers = [1, 4, 7, 11, 14, 19, 22, 23, 24, 25, 28, 33, 38]
 const goldAmplifiers = [8, 2, 5, 10, 12, 15, 20, 26, 27, 29, 31, 34, 36, 37, 39]

@@ -204,22 +204,43 @@ const mapSongName = document.getElementById("map-song-name")
 const mapArtist = document.getElementById("map-artist")
 const mapDifficulty = document.getElementById("map-difficulty")
 const mapMapper = document.getElementById("map-mapper")
-let mapId, mapMd5, foundMapInMappool = false
+let mapId, mapMd5, foundMapInMappool = false, mapMaxCombo = 0
 
 // Score visibility
 const bottomSection = document.getElementById("bottom-section")
 let scoreVisible
 
 // Score
+// Score V2
+const scorev2Scores = document.getElementById("scorev2-scores")
 // Score difference
 const leftScoreDifference = document.getElementById("left-score-difference")
 const rightScoreDifference = document.getElementById("right-score-difference")
-// Score bar
-const leftScoreBar = document.getElementById("left-score-bar")
-const rightScoreBar = document.getElementById("right-score-bar")
 // Score number
 const leftScoreNumber = document.getElementById("left-score-number")
 const rightScoreNumber = document.getElementById("right-score-number")
+
+// Combos
+const comboScores = document.getElementById("combo-scores")
+// Combo difference
+const leftComboDifference = document.getElementById("left-combo-difference")
+const rightComboDifference = document.getElementById("right-combo-difference")
+// Combo number
+const leftComboNumber = document.getElementById("left-combo-number")
+const rightComboNumber = document.getElementById("right-combo-number")
+
+// Accuracy
+const accuracyScores = document.getElementById("accuracy-scores")
+// Accuracy difference
+const leftAccuracyDifference = document.getElementById("left-accuracy-difference")
+const rightAccuracyDifference = document.getElementById("right-accuracy-difference")
+// Accuracy number
+const leftAccuracyNumber = document.getElementById("left-accuracy-number")
+const rightAccuracyNumber = document.getElementById("right-accuracy-number")
+
+// Score bar
+const leftScoreBar = document.getElementById("left-score-bar")
+const rightScoreBar = document.getElementById("right-score-bar")
 // Variables
 let leftScore = 0, rightScore = 0, scoreDelta = 0
 
@@ -229,6 +250,14 @@ const animation = {
     rightScoreNumber: new CountUp(rightScoreNumber, 0, 0, 0, 0.2, { useEasing: true, useGrouping: true, separator: ",", decimal: "." }),
     leftScoreDifference: new CountUp(leftScoreDifference, 0, 0, 0, 0.2, { useEasing: true, useGrouping: true, separator: ",", decimal: "." }),
     rightScoreDifference: new CountUp(rightScoreDifference, 0, 0, 0, 0.2, { useEasing: true, useGrouping: true, separator: ",", decimal: "." }),
+    leftComboNumber: new CountUp(leftComboNumber, 0, 0, 0, 0.2, { useEasing: true, useGrouping: true, separator: ",", decimal: "." , suffix: "x"}),
+    rightComboNumber: new CountUp(leftComboNumber, 0, 0, 0, 0.2, { useEasing: true, useGrouping: true, separator: ",", decimal: "." , suffix: "x"}),
+    leftComboDifference: new CountUp(leftComboDifference, 0, 0, 0, 0.2, { useEasing: true, useGrouping: true, separator: ",", decimal: "." , suffix: "x"}),
+    rightComboDifference: new CountUp(rightComboDifference, 0, 0, 0, 0.2, { useEasing: true, useGrouping: true, separator: ",", decimal: "." , suffix: "x"}),
+    leftAccuracyNumber: new CountUp(leftAccuracyNumber, 0, 0, 0, 0.2, { useEasing: true, useGrouping: true, separator: ",", decimal: "." , suffix: "%"}),
+    rightAccuracyNumber: new CountUp(leftAccuracyNumber, 0, 0, 0, 0.2, { useEasing: true, useGrouping: true, separator: ",", decimal: "." , suffix: "%"}),
+    leftAccuracyDifference: new CountUp(leftAccuracyDifference, 0, 0, 0, 0.2, { useEasing: true, useGrouping: true, separator: ",", decimal: "." , suffix: "%"}),
+    rightAccuracyDifference: new CountUp(rightAccuracyDifference, 0, 0, 0, 0.2, { useEasing: true, useGrouping: true, separator: ",", decimal: "." , suffix: "%"})
 }
 
 // Chat Display
@@ -242,7 +271,7 @@ let ipcState
 const leftAmplifierSelectionButtonContainer = document.getElementById("left-amplifier-selection-button-container")
 const rightAmplifierSelectionButtonContainer = document.getElementById("right-amplifier-selection-button-container")
 
-socket.onmessage = event => {
+socket.onmessage = async event => {
     const data = JSON.parse(event.data)
     console.log(data)
     
@@ -312,16 +341,21 @@ socket.onmessage = event => {
             mapAr.innerText = `ar${map.diff_approach}`
             mapOd.innerText = `od${map.diff_overall}`
             modImage.setAttribute(`static/mod-backgrounds/${map.mod}.png`)
+            mapMaxCombo = Number(map.max_combo)
             foundMapInMappool = true
-        }
+        } else delay(250)
     }
 
     if (!foundMapInMappool) {
         mapSr.innerText = `${Math.round(Number(data.menu.bm.stats.fullSR) * 100) / 100}*`
         mapBpm.innerText = `${data.menu.bm.stats.BPM.common}bpm`
         mapCs.innerText = `cs${data.menu.bm.stats.memoryCS}`
-        mapAr.innerText = `ar${data.menu.bm.stats.memoryAR}f`
+        mapAr.innerText = `ar${data.menu.bm.stats.memoryAR}`
         mapOd.innerText = `od${data.menu.bm.stats.memoryOD}`
+        const response = await fetch("https://corsproxy.io/?" + encodeURIComponent(`https://osu.ppy.sh/api/get_beatmaps?k=${osuApi}&b=${mapId}`))
+        const responseJson = await response.json()
+        mapMaxCombo = Number(responseJson.max_combo)
+        foundMapInMappool = true
     }
 
     // // Score visibility
@@ -339,6 +373,20 @@ socket.onmessage = event => {
 
     // Score stuff
     if (scoreVisible) {
+        if (amplifierId !== 7 || amplifierId !== 24 || amplifierId !== 37) {
+            scorev2Scores.style.display = "block"
+            comboScores.style.display = "none"
+            accuracyScores.style.display = "none"
+        } else  if (amplifierId === 6 || amplifierId === 37) {
+            scorev2Scores.style.display = "none"
+            comboScores.style.display = "block"
+            accuracyScores.style.display = "none"
+        } else if (amplifierId === 24) {
+            scorev2Scores.style.display = "none"
+            comboScores.style.display = "none"
+            accuracyScores.style.display = "block"
+        }
+
         // If there is no amplifiers
         if (!amplifierId || !ampsThatUseApi.includes(amplifierId)) {
             leftScore = data.tourney.ipcClients[0].gameplay.score + data.tourney.ipcClients[1].gameplay.score
@@ -404,45 +452,128 @@ socket.onmessage = event => {
                         leftScore = responseData.team1_score
                         rightScore = responseData.team2_score
                         scoreDelta = Math.abs(leftScore - rightScore)
+
+                        let movingScoreBarDifferencePercent
+                        let movingScoreBarRectangleWidth
             
-                        // Update numbers
-                        animation.leftScoreNumber.update(leftScore)
-                        animation.rightScoreNumber.update(rightScore)
-            
-                        // Bar percentage
-                        let movingScoreBarDifferencePercent = Math.min(scoreDelta / 500000, 1)
-                        let movingScoreBarRectangleWidth = Math.min(Math.pow(movingScoreBarDifferencePercent, 0.5)* 600, 600)
-            
-                        // Update score bar and score distance
-                        if (leftScore > rightScore) {
-                            leftScoreDifference.style.display = "none"
-                            rightScoreDifference.style.display = "block"
-                            animation.rightScoreDifference.update(rightScore - leftScore)
-            
-                            leftScoreBar.style.width = `${movingScoreBarRectangleWidth}px`
-                            rightScoreBar.style.width = "0px"
-            
-                            leftScoreNumber.classList.add("lead-score-number")
-                            rightScoreNumber.classList.remove("lead-score-number")
-                        } else if (leftScore === rightScore) {
-                            leftScoreDifference.style.display = "none"
-                            rightScoreDifference.style.display = "none"
-            
-                            leftScoreBar.style.width = "0px"
-                            rightScoreBar.style.width = "0px"
-            
-                            leftScoreNumber.classList.remove("lead-score-number")
-                            rightScoreNumber.classList.remove("lead-score-number")
-                        } else if (leftScore < rightScore) {
-                            leftScoreDifference.style.display = "block"
-                            animation.leftScoreDifference.update(leftScore - rightScore)
-                            rightScoreDifference.style.display = "none"
-            
-                            leftScoreBar.style.width = `0px`
-                            rightScoreBar.style.width = `${movingScoreBarRectangleWidth}px`
-            
-                            leftScoreNumber.classList.remove("lead-score-number")
-                            rightScoreNumber.classList.add("lead-score-number")
+                        if (amplifierId !== 7 || amplifierId !== 24 || amplifierId !== 37) {
+                            // Update numbers
+                            animation.leftScoreNumber.update(leftScore)
+                            animation.rightScoreNumber.update(rightScore)
+
+                            // Bar percentage
+                            movingScoreBarDifferencePercent = Math.min(scoreDelta / 500000, 1)
+                            movingScoreBarRectangleWidth = Math.min(Math.pow(movingScoreBarDifferencePercent, 0.5)* 600, 600)
+
+                            // Update score bar and score distance
+                            if (leftScore > rightScore) {
+                                leftScoreDifference.style.display = "none"
+                                rightScoreDifference.style.display = "block"
+                                animation.rightScoreDifference.update(rightScore - leftScore)
+                            
+                                leftScoreBar.style.width = `${movingScoreBarRectangleWidth}px`
+                                rightScoreBar.style.width = "0px"
+                            
+                                leftScoreNumber.classList.add("lead-score-number")
+                                rightScoreNumber.classList.remove("lead-score-number")
+                            } else if (leftScore === rightScore) {
+                                leftScoreDifference.style.display = "none"
+                                rightScoreDifference.style.display = "none"
+                            
+                                leftScoreBar.style.width = "0px"
+                                rightScoreBar.style.width = "0px"
+                            
+                                leftScoreNumber.classList.remove("lead-score-number")
+                                rightScoreNumber.classList.remove("lead-score-number")
+                            } else if (leftScore < rightScore) {
+                                leftScoreDifference.style.display = "block"
+                                animation.leftScoreDifference.update(leftScore - rightScore)
+                                rightScoreDifference.style.display = "none"
+                            
+                                leftScoreBar.style.width = `0px`
+                                rightScoreBar.style.width = `${movingScoreBarRectangleWidth}px`
+                            
+                                leftScoreNumber.classList.remove("lead-score-number")
+                                rightScoreNumber.classList.add("lead-score-number")
+                            }
+                        } else if (amplifierId === 7 || amplifierId === 37) {
+                            animation.leftComboNumber.update(leftScore)
+                            animation.rightComboNumber.update(rightScore)
+
+                            // Bar percentage
+                            movingScoreBarDifferencePercent = Math.min(scoreDelta / mapMaxCombo, 1)
+                            movingScoreBarRectangleWidth = Math.min(Math.pow(movingScoreBarDifferencePercent, 0.5)* 600, 600)
+
+                            // Update score bar and score distance
+                            if (leftScore > rightScore) {
+                                leftComboDifference.style.display = "none"
+                                rightComboDifference.style.display = "block"
+                                animation.rightComboDifference.update(rightScore - leftScore)
+                            
+                                leftScoreBar.style.width = `${movingScoreBarRectangleWidth}px`
+                                rightScoreBar.style.width = "0px"
+                            
+                                leftComboNumber.classList.add("lead-score-number")
+                                rightComboNumber.classList.remove("lead-score-number")
+                            } else if (leftScore === rightScore) {
+                                leftComboDifference.style.display = "none"
+                                rightComboDifference.style.display = "none"
+                            
+                                leftScoreBar.style.width = "0px"
+                                rightScoreBar.style.width = "0px"
+                            
+                                leftComboNumber.classList.remove("lead-score-number")
+                                rightComboNumber.classList.remove("lead-score-number")
+                            } else if (leftScore < rightScore) {
+                                leftComboDifference.style.display = "block"
+                                animation.leftComboDifference.update(leftScore - rightScore)
+                                rightComboDifference.style.display = "none"
+                            
+                                leftScoreBar.style.width = `0px`
+                                rightScoreBar.style.width = `${movingScoreBarRectangleWidth}px`
+                            
+                                leftComboNumber.classList.remove("lead-score-number")
+                                rightComboNumber.classList.add("lead-score-number")
+                            }
+                        } else if (amplifierId === 24) {
+                            animation.leftAccuracyNumber.update(leftScore)
+                            animation.rightAccuracyNumber.update(rightScore)
+
+                            // Bar percentage
+                            movingScoreBarDifferencePercent = Math.min(scoreDelta / mapMaxCombo, 1)
+                            movingScoreBarRectangleWidth = Math.min(Math.pow(movingScoreBarDifferencePercent, 0.5)* 600, 600)
+
+                            // Update score bar and score distance
+                            if (leftScore > rightScore) {
+                                leftAccuracyDifference.style.display = "none"
+                                rightAccuracyDifference.style.display = "block"
+                                animation.rightAccuracyDifference.update(rightScore - leftScore)
+                            
+                                leftScoreBar.style.width = `${movingScoreBarRectangleWidth}px`
+                                rightScoreBar.style.width = "0px"
+                            
+                                leftAccuracyNumber.classList.add("lead-score-number")
+                                rightAccuracyNumber.classList.remove("lead-score-number")
+                            } else if (leftScore === rightScore) {
+                                leftAccuracyDifference.style.display = "none"
+                                rightAccuracyDifference.style.display = "none"
+                            
+                                leftScoreBar.style.width = "0px"
+                                rightScoreBar.style.width = "0px"
+                            
+                                leftAccuracyNumber.classList.remove("lead-score-number")
+                                rightAccuracyNumber.classList.remove("lead-score-number")
+                            } else if (leftScore < rightScore) {
+                                leftAccuracyDifference.style.display = "block"
+                                animation.leftAccuracyDifference.update(leftScore - rightScore)
+                                rightAccuracyDifference.style.display = "none"
+                            
+                                leftScoreBar.style.width = `0px`
+                                rightScoreBar.style.width = `${movingScoreBarRectangleWidth}px`
+                            
+                                leftAccuracyNumber.classList.remove("lead-score-number")
+                                rightAccuracyNumber.classList.add("lead-score-number")
+                            }
                         }
                     } else console.log(test.status)
                 }

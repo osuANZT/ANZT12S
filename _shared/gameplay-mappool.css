@@ -116,7 +116,9 @@
     left: var(--margin);
     width: calc(100% - (var(--margin) * 2));
     height: calc(100% - (var(--margin) * 2));
+    overflow-y: scroll;
 }
+.chat-display-container::-webkit-scrollbar { display: none; }
 .chatMessageContainer {
     display: flex;
     padding: 0.1em 0;

@@ -251,21 +251,23 @@ const animation = {
     leftScoreDifference: new CountUp(leftScoreDifference, 0, 0, 0, 0.2, { useEasing: true, useGrouping: true, separator: ",", decimal: "." }),
     rightScoreDifference: new CountUp(rightScoreDifference, 0, 0, 0, 0.2, { useEasing: true, useGrouping: true, separator: ",", decimal: "." }),
     leftComboNumber: new CountUp(leftComboNumber, 0, 0, 0, 0.2, { useEasing: true, useGrouping: true, separator: ",", decimal: "." , suffix: "x"}),
-    rightComboNumber: new CountUp(leftComboNumber, 0, 0, 0, 0.2, { useEasing: true, useGrouping: true, separator: ",", decimal: "." , suffix: "x"}),
+    rightComboNumber: new CountUp(rightComboNumber, 0, 0, 0, 0.2, { useEasing: true, useGrouping: true, separator: ",", decimal: "." , suffix: "x"}),
     leftComboDifference: new CountUp(leftComboDifference, 0, 0, 0, 0.2, { useEasing: true, useGrouping: true, separator: ",", decimal: "." , suffix: "x"}),
     rightComboDifference: new CountUp(rightComboDifference, 0, 0, 0, 0.2, { useEasing: true, useGrouping: true, separator: ",", decimal: "." , suffix: "x"}),
-    leftAccuracyNumber: new CountUp(leftAccuracyNumber, 0, 0, 0, 0.2, { useEasing: true, useGrouping: true, separator: ",", decimal: "." , suffix: "%"}),
-    rightAccuracyNumber: new CountUp(leftAccuracyNumber, 0, 0, 0, 0.2, { useEasing: true, useGrouping: true, separator: ",", decimal: "." , suffix: "%"}),
-    leftAccuracyDifference: new CountUp(leftAccuracyDifference, 0, 0, 0, 0.2, { useEasing: true, useGrouping: true, separator: ",", decimal: "." , suffix: "%"}),
-    rightAccuracyDifference: new CountUp(rightAccuracyDifference, 0, 0, 0, 0.2, { useEasing: true, useGrouping: true, separator: ",", decimal: "." , suffix: "%"})
+    leftAccuracyNumber: new CountUp(leftAccuracyNumber, 0, 0, 2, 0.2, { useEasing: true, useGrouping: true, separator: ",", decimal: "." , suffix: "%"}),
+    rightAccuracyNumber: new CountUp(rightAccuracyNumber, 0, 0, 2, 0.2, { useEasing: true, useGrouping: true, separator: ",", decimal: "." , suffix: "%"}),
+    leftAccuracyDifference: new CountUp(leftAccuracyDifference, 0, 0, 2, 0.2, { useEasing: true, useGrouping: true, separator: ",", decimal: "." , suffix: "%"}),
+    rightAccuracyDifference: new CountUp(rightAccuracyDifference, 0, 0, 2, 0.2, { useEasing: true, useGrouping: true, separator: ",", decimal: "." , suffix: "%"})
 }
 
 // Chat Display
+const chatDisplayOutside = document.getElementById("chat-display-outside")
 const chatDisplay = document.getElementById("chat-display")
 let chatLen = 0
 
 // IPC State
 let ipcState
+let chosenWinner = false
 
 // Sidebar Amplifier Selection Control Button Containers
 const leftAmplifierSelectionButtonContainer = document.getElementById("left-amplifier-selection-button-container")
@@ -364,20 +366,20 @@ socket.onmessage = async event => {
     
         if (scoreVisible) {
             bottomSection.style.opacity = 1
-            chatDisplay.style.opacity = 0
+            chatDisplayOutside.style.opacity = 0
         } else {
             bottomSection.style.opacity = 0
-            chatDisplay.style.opacity = 1
+            chatDisplayOutside.style.opacity = 1
         }
     }
 
     // Score stuff
     if (scoreVisible) {
-        if (amplifierId !== 7 || amplifierId !== 24 || amplifierId !== 37) {
+        if (amplifierId !== 7 && amplifierId !== 24 && amplifierId !== 37) {
             scorev2Scores.style.display = "block"
             comboScores.style.display = "none"
             accuracyScores.style.display = "none"
-        } else  if (amplifierId === 6 || amplifierId === 37) {
+        } else  if (amplifierId === 7 || amplifierId === 37) {
             scorev2Scores.style.display = "none"
             comboScores.style.display = "block"
             accuracyScores.style.display = "none"
@@ -501,7 +503,7 @@ socket.onmessage = async event => {
                             animation.rightComboNumber.update(rightScore)
 
                             // Bar percentage
-                            movingScoreBarDifferencePercent = Math.min(scoreDelta / mapMaxCombo, 1)
+                            movingScoreBarDifferencePercent = Math.min(scoreDelta / (mapMaxCombo / 2), 1)
                             movingScoreBarRectangleWidth = Math.min(Math.pow(movingScoreBarDifferencePercent, 0.5)* 600, 600)
 
                             // Update score bar and score distance
@@ -630,9 +632,19 @@ socket.onmessage = async event => {
     // IPC State
     if (ipcState !== data.tourney.manager.ipcState) {
         ipcState = data.tourney.manager.ipcState
+        const otherRedScore = data.tourney.ipcClients[0].gameplay.score + data.tourney.ipcClients[1].gameplay.score
+        const otherBlueScore = data.tourney.ipcClients[2].gameplay.score + data.tourney.ipcClients[3].gameplay.score
 
-        if (ipcState === 4) {
-            
+        if (ipcState === 4 && !chosenWinner) {
+            if (leftScore > rightScore) updatePointCount('red', 'add')
+            else if (rightScore < leftScore) updatePointCount('blue', 'add')
+            else if (amplifierId === 4 || amplifierId === 24 || amplifierId === 37) {
+                if (otherRedScore > otherBlueScore) updatePointCount('red', 'add')
+                else if (otherRedScore < otherBlueScore) updatePointCount('blue', 'add')
+            }
+            chosenWinner = true
+        } else if (ipcState === 1 || ipcState === 3) {
+            chosenWinner = false
         }
     }
 }

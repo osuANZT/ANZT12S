@@ -307,23 +307,28 @@ socket.onmessage = event => {
         mapId = data.menu.bm.id
         mapMd5 = data.menu.bm.md5
 
-        // Check if autopicked already
-        // if (!element.hasAttribute("data-is-autopicked") || element.getAttribute("data-is-autopicked") !== "true") {
-        //     const event = new MouseEvent('mousedown', {
-        //         bubbles: true,
-        //         cancelable: true,
-        //         view: window,
-        //         button: (nextAutoPicker === "Red")? 0 : 2
-        //     })
-        //     element.dispatchEvent(event)
-        //     element.setAttribute("data-is-autopicked", "true")
+        if (autoPickerOn) {
+            // Find button to click on
+            let element = document.querySelector(`[data-id="${mapId}"]`)
 
-        //     if (nextAutoPicker === "Red") {
-        //         setNextAutoPicker("Blue")
-        //     } else if (nextAutoPicker === "Blue") {
-        //         setNextAutoPicker("Red")
-        //     }
-        // }
+            // Check if autopicked already
+            if (!element.hasAttribute("data-is-autopicked") || element.getAttribute("data-is-autopicked") !== "true") {
+                const event = new MouseEvent('mousedown', {
+                    bubbles: true,
+                    cancelable: true,
+                    view: window,
+                    button: (nextAutoPicker === "Red")? 0 : 2
+                })
+                element.dispatchEvent(event)
+                element.setAttribute("data-is-autopicked", "true")
+
+                if (nextAutoPicker === "Red") {
+                    setNextAutoPicker("Blue")
+                } else if (nextAutoPicker === "Blue") {
+                    setNextAutoPicker("Red")
+                }
+            }
+        }
     }
 
     // IPC State
@@ -418,4 +423,24 @@ function createPoint(parent, full) {
 
     individualPointContainer.append(point)
     parent.append(individualPointContainer)
+}
+
+// Set next auto picker
+const nextAutoPickerEl = document.getElementById("next-auto-picker")
+let nextAutoPicker = "Red"
+function setNextAutoPicker(colour) {
+    nextAutoPickerEl.innerText = colour
+    nextAutoPicker = colour
+}
+
+// Toggle Auto picker
+const toggleAutoPickButtonEl = document.getElementById("toggle-auto-pick-button")
+let autoPickerOn = false
+function toggleAutoPick() {
+    autoPickerOn = !autoPickerOn
+    if (!autoPickerOn) {
+        toggleAutoPickButtonEl.innerText = "Toggle Auto Pick: OFF"
+    } else {
+        toggleAutoPickButtonEl.innerText = "Toggle Auto Pick: ON"
+    }
 }

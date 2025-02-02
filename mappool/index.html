@@ -67,6 +67,22 @@
         </div>
     </div>
 
+    <!-- Sidebar -->
+    <section class="sidebar">
+        <div class="sidebar-section amplifier-selection">
+            <div class="sidebar-title">Current Next Picker:</div>
+            <div class="sidebar-text amplifier-selection-title-text" id="next-auto-picker">None</div>
+            <div class="sidebar-title">Set Auto Next Picker:</div>
+            <div class="sidebar-button-container" id="left-amplifier-selection-button-container">
+                <button class="amplifier-selection-button" onclick="setNextAutoPicker('Red')">Red</button>
+                <button class="amplifier-selection-button" onclick="setNextAutoPicker('Blue')">Blue</button>
+            </div><br><br>
+            <div class="sidebar-button-container" id="right-amplifier-selection-button-container">
+                <button class="amplifier-selection-button" id="toggle-auto-pick-button" onclick="toggleAutoPick()">Toggle Auto Picker: OFF</button>
+            </div>
+        </div>
+    </section>
+
     <script src="../_shared/deps/reconnecting-websocket.min.js"></script>
     <script src="../_shared/utils.js"></script>
     <script src="index.js"></script>

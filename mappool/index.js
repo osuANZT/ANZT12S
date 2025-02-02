@@ -479,7 +479,7 @@ function updateSidebarSelect(element) {
     }
     currentSidebarAction = element.value
 
-    if (currentSidebarAction === "addBan" || currentSidebarAction === "addPick") {
+    if (currentSidebarAction === "addBan" || currentSidebarAction === "addPick" || currentSidebarAction === "addWinner") {
         // Create something to set the team that would be involved in the set ban
         const createTeamTitle = document.createElement("div")
         createTeamTitle.innerText = "Which Team?"
@@ -522,6 +522,12 @@ function updateSidebarSelect(element) {
             break
         case "removePick":
             applyButton.setAttribute("onclick", "removePick()")
+            break
+        case "addWinner":
+            applyButton.setAttribute("onclick", "addWinner()")
+            break
+        case "removeWinner":
+            applyButton.setAttribute("onclick", "removeWinner()")
             break
     }
     pickBanManagement.append(applyButtonContainer)
@@ -630,5 +636,53 @@ function removePick() {
     // Check if there are any picks
     if (parent.childElementCount === 0) {
         element.children[6].style.display = "none"
+    }
+}
+
+// Add Winner
+function addWinner() {
+    if (!currentSidebarTeam || !currentSidebarMapId) return
+
+    // Remove other winner elements
+    const element = document.querySelector(`[data-id="${currentSidebarMapId}"]`)
+    const parent = element.children[7]
+    const elementsToRemove = []
+    if (parent.childElementCount > 0) {
+        Array.from(parent.children).forEach(element => {
+            const src = element.getAttribute("src")
+            if (src && src.includes("won")) {
+                elementsToRemove.push(element)
+            }
+        })
+        
+        // Remove elements after iteration to avoid modification issues
+        elementsToRemove.forEach(element => parent.removeChild(element))
+    }
+
+    // Create winner
+    element.children[6].style.display = "block"
+    const image = document.createElement("img")
+    image.setAttribute("src", `static/panel-assets/bottom-assets/${currentSidebarTeam} won.png`)
+    element.children[7].append(image)
+}
+
+// Remove winner
+function removeWinner() {
+    if (!currentSidebarMapId) return
+
+    // Remove other winner elements
+    const element = document.querySelector(`[data-id="${currentSidebarMapId}"]`)
+    const parent = element.children[7]
+    const elementsToRemove = []
+    if (parent.childElementCount > 0) {
+        Array.from(parent.children).forEach(element => {
+            const src = element.getAttribute("src")
+            if (src && src.includes("won")) {
+                elementsToRemove.push(element)
+            }
+        })
+        
+        // Remove elements after iteration to avoid modification issues
+        elementsToRemove.forEach(element => parent.removeChild(element))
     }
 }

@@ -1,3 +1,11 @@
+// Amplifiers
+let amplifiers
+async function getAmplifiers() {
+    const response = await fetch("../_data/amplifiers.json")
+    const responseJson = await response.json()
+    amplifiers = responseJson
+}
+
 // Prevent default actions
 const main = document.getElementById("main")
 main.addEventListener("mousedown", function(event) {event.preventDefault()})
@@ -57,6 +65,7 @@ async function getBeatmaps() {
 
 // Initisalise
 async function initialise() {
+    await getAmplifiers()
     await getTeams()
     await getApi()
     await getBeatmaps()
@@ -478,9 +487,11 @@ function updateSidebarSelect(element) {
         pickBanManagement.removeChild(pickBanManagement.lastElementChild)
     }
     currentSidebarAction = element.value
+    currentSidebarTeam = undefined
+    currentSidebarAmplifierId = undefined
 
     if (currentSidebarAction === "addBan" || currentSidebarAction === "addPick" || currentSidebarAction === "addWinner") {
-        // Create something to set the team that would be involved in the set ban
+        // Title
         const createTeamTitle = document.createElement("div")
         createTeamTitle.innerText = "Which Team?"
         createTeamTitle.classList.add("sidebar-title")
@@ -499,6 +510,41 @@ function updateSidebarSelect(element) {
         optionBlue.innerText = "Blue"
 
         select.append(optionRed, optionBlue)
+        pickBanManagement.append(createTeamTitle, select)
+    }
+
+    if (currentSidebarAction === "addAmplifier") {
+        // Create something to set the amplifiers for each team involved
+        const createTeamTitle = document.createElement("div")
+        createTeamTitle.innerText = "Which Team?"
+        createTeamTitle.classList.add("sidebar-title")
+
+        // Create Select
+        const select = document.createElement("select")
+        select.classList.add("sidebar-select-list-container")
+        select.setAttribute("id", "sidebar-select-amp-container")
+        select.setAttribute("size", 6)
+        select.setAttribute("onchange", "updateAmplifier(this)")
+        // Set Amplifiers
+        const leftTeam = findTeam(leftTeamName)
+        const rightTeam = findTeam(rightTeamName)
+        const ampTypes = ["silver_amp", "gold_amp", "pris_amp"]
+        
+        ampTypes.forEach(amp => {
+            const amplifierOption = document.createElement("option");
+            const ampId = leftTeam[amp];
+            amplifierOption.setAttribute("value", `red|${ampId}`);
+            amplifierOption.innerText = `${amplifiers[ampId].name} - Red`;
+            select.append(amplifierOption);
+        });
+        ampTypes.forEach(amp => {
+            const amplifierOption = document.createElement("option")
+            const ampId = rightTeam[amp]
+            amplifierOption.setAttribute("value", `blue|${ampId}`)
+            amplifierOption.innerText = `${amplifiers[ampId].name} - Blue`
+            select.append(amplifierOption)
+        })
+
         pickBanManagement.append(createTeamTitle, select)
     }
 
@@ -529,6 +575,12 @@ function updateSidebarSelect(element) {
         case "removeWinner":
             applyButton.setAttribute("onclick", "removeWinner()")
             break
+        case "addAmplifier":
+            applyButton.setAttribute("onclick", "addAmplifier()")
+            break
+        case "removeAmplifier":
+            applyButton.setAttribute("onclick", "removeAmplifier()")
+            break
     }
     pickBanManagement.append(applyButtonContainer)
 }
@@ -537,6 +589,13 @@ function updateSidebarSelect(element) {
 let currentSidebarTeam
 function updateTeam(element) {
     currentSidebarTeam = element.value
+}
+
+// Update amplifier
+let currentSidebarAmplifierId
+function updateAmplifier(element) {
+    currentSidebarTeam = element.value.split("|")[0]
+    currentSidebarAmplifierId = Number(element.value.split("|")[1])
 }
 
 // Add bans
@@ -597,7 +656,7 @@ function addPick() {
     if (parent.childElementCount > 0) {
         Array.from(parent.children).forEach(element => {
             const src = element.getAttribute("src")
-            if (src && src.includes("ban")) {
+            if (src && (src.includes("ban") || src.includes("pick"))) {
                 elementsToRemove.push(element)
             }
         })
@@ -685,4 +744,28 @@ function removeWinner() {
         // Remove elements after iteration to avoid modification issues
         elementsToRemove.forEach(element => parent.removeChild(element))
     }
+}
+
+// Add Amplifier
+function addAmplifier() {
+    if (!currentSidebarTeam || !currentSidebarMapId || !currentSidebarAmplifierId) return
+
+    // Need to add pick before adding amplifier
+    addPick()
+
+    const element = document.querySelector(`[data-id="${currentSidebarMapId}"]`)
+    element.children[6].style.display = "block"
+    element.children[6].children[0].style.display = "block"
+    element.children[6].children[0].classList.add(`${(currentSidebarTeam === "red")? "left" : "right"}-panel-picked-amp`)
+    element.children[6].children[0].classList.remove(`${(currentSidebarTeam === "red")? "right" : "left"}-panel-picked-amp`)
+    element.children[6].children[1].setAttribute("src", `../_shared/assets/amplifier-icons/${currentSidebarAmplifierId}.png`)
+}
+
+// Remove Amplifier
+function removeAmplifier() {
+    if (!currentSidebarMapId) return
+    const element = document.querySelector(`[data-id="${currentSidebarMapId}"]`)
+    element.children[6].children[0].style.display = "none"
+    element.children[6].children[0].classList.remove("left-panel-picked-map", "right-panel-picked-map")
+    element.children[6].children[1].setAttribute("src", `../_shared/assets/amplifier-icons/transparent.png`)
 }

@@ -1,46 +1,9 @@
 // Amplifiers
-const amplifiers = {
-    1: { name: 'The Carry I', description: 'The highest score on your team gets a 1.2x multiplier' },
-    2: { name: 'The Carry II', description: 'The highest score on your team gets a 1.3x multiplier' },
-    3: { name: 'The Carry III', description: 'The highest score on your team gets a 1.5x multiplier' },
-    4: { name: 'Poison I', description: 'Play as 2v1. Opposing team picks their player and gets a 2x multiplier.' },
-    5: { name: 'Poison II', description: 'Play as 2v1. Opposing team picks their player and gets a 1.75x multiplier.' },
-    6: { name: 'Poison III', description: 'Play as 2v1. Your team picks their player and gets a 1.75x multiplier.' },
-    7: { name: 'Limit Break', description: 'Scored by highest combined combo.' },
-    8: { name: 'The King I', description: 'Play as 1v2 and gain a 1.75x multiplier' },
-    9: { name: 'The King II', description: 'Play as 1v2 and gain a 2x multiplier' },
-    10: { name: 'Dude That Fingerlock', description: 'Each player\'s miss gains 0.5% to their score, up to 20%.' },
-    11: { name: 'Cold Clear Eyes I', description: 'Both teams play the next HD/HR/DT map with HD. Your team gets a 1.05x multiplier.' },
-    12: { name: 'Cold Clear Eyes II', description: 'Both teams play the next HD/HR/DT map with HD. Your team gets a 1.15x multiplier.' },
-    13: { name: 'Cold Clear Eyes III', description: 'Both teams play the next HD/HR/DT map with HD. Your team gets a 1.2x multiplier.' },
-    14: { name: 'Turn It Up', description: 'Your NM pick is now FM. 1 mod minimum from each team (HD/HR/EZ/FL). EZ = 1.9x multiplier.' },
-    15: { name: 'Gambler', description: 'Wager 1 point (must have at least 1 point). Gain 1.25x multiplier. Forfeit wagered point if you lose.' },
-    16: { name: 'Chance Time', description: 'Pick map not banned/protected If ref rolls 1 - 40, opponent gets point. Else, team gets point.' },
-    17: { name: 'Easy Peasy', description: 'Your NM1/HD1/HR1 pick will be played with EZ instead.' },
-    18: { name: 'Make It Rock', description: 'Opponent plays your NM pick with HR and gains a 1.25x multiplier.' },
-    19: { name: 'Yin And Yang I', description: 'Highest score multiplied by accuracy of other player. Gains a 1.05x multiplier.' },
-    20: { name: 'Yin And Yang II', description: 'Highest score multiplied by accuracy of other player. Gains a 1.1x multiplier.' },
-    21: { name: 'Yin And Yang III', description: 'Highest score multiplied by accuracy of other player. Gains a 1.15x multiplier.' },
-    22: { name: 'Trickster', description: 'When there are 2+ NM/HD maps left, opponent picks NM/HD map. You play NM, they HD. This uses your pick.' },
-    23: { name: 'Trickster II', description: 'When there are 2+ NM/HD maps left, opponent picks NM/HD map. You play NM, they HD. This uses your pick. Opponent does not get HD multiplier.' },
-    24: { name: 'AccDance', description: 'Scored by highest average accuracy.' },
-    25: { name: 'Synchronised I', description: 'Start at 1.1x multiplier. Drop 0.0025x for every % of acc difference. Capped at 1x.' },
-    26: { name: 'Synchronised II', description: 'Start at 1.2x multiplier. Drop 0.0025x for every % of acc difference. Capped at 1x.' },
-    27: { name: 'Go With The Flow', description: 'Opponent picks the map. You gain a 1.15x multiplier.' },
-    28: { name: 'Loadbearer I', description: 'Score increased by 20% of score difference between teammates. Score increase is capped at 150k.' },
-    29: { name: 'Loadbearer II', description: 'Score increased by 40% of score difference between teammates. Score increase is capped at 250k.' },
-    30: { name: 'Loadbearer III', description: 'Score increased by 60% of score difference between teammates. Score increase is capped at 350k.' },
-    31: { name: 'LightBearer', description: 'On your next HD pick, one player on your team can play with NM.' },
-    32: { name: 'Cheating Death', description: 'When your opponent is at match point, pick a banned map.' },
-    33: { name: 'The Dragon Consumes I', description: 'If your team won the previous map, gain a 1.1x multiplier on this map.' },
-    34: { name: 'The Dragon Consumes II', description: 'If your team won the previous map, gain a 1.2x multiplier on this map.' },
-    35: { name: 'The Dragon Consumes III', description: 'If your team won the previous map, gain a 1.3x multiplier on this map.' },
-    36: { name: 'The Missing Piece', description: 'Pick from the previous week\'s pool. Map slot must not be banned / picked already. Map slot will be marked as picked.' },
-    37: { name: 'JTBFREAKS', description: 'Play with RX and ScoreV1. Highest combined combo wins. ScoreV1 results used for a draw.' },
-    38: { name: 'Desperation I', description: 'Pick a banned map. Get a 0.7x multiplier.' },
-    39: { name: 'Desperation II', description: 'Pick a banned map. Get a 0.85x multiplier.' },
-    40: { name: 'Soft Rock', description: 'On your next HR pick, one player on your team can play with NM.' },
-    41: { name: 'Roulette', description: 'The next map is randomly picked, and your team receives a 1.4x multiplier.' }
+let amplifiers
+async function getAmplifiers() {
+    const response = await fetch("../_data/amplifiers.json")
+    const responseJson = await response.json()
+    amplifiers = responseJson.address
 }
 const silverAmplifiers = [1, 4, 7, 11, 14, 19, 22, 24, 25, 28, 33, 38]
 const goldAmplifiers = [8, 2, 5, 10, 12, 15, 20, 23, 26, 27, 29, 31, 34, 36, 37, 39, 40]
@@ -178,6 +141,7 @@ function updatePointCount(team, action) {
 
 // Initisalise
 async function initialise() {
+    await getAmplifiers()
     await getAddress()
     await getTeams()
     await getApi()

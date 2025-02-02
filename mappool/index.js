@@ -145,9 +145,10 @@ function createBeatmapPanel(allBeatmapsInfo, jsonInfo) {
     panel.append(panelBackground, panelSongBackground, panelGradient, panelMetadata, panelSrBpm, panelModIcon, panelPicked, panelPickBanWon)
     mappoolSection.append(panel)
 }
+const findMapInMappool = beatmapId => allBeatmapsJson.find(beatmap => beatmap.beatmapId === beatmapId)
 
 // Map Click Event
-let lastTeamPick
+let currentPickTile
 function mapClickEvent(event) {
     // Team
     let team
@@ -173,6 +174,7 @@ function mapClickEvent(event) {
         this.children[7].style.display = "block"
         
         if (action === "pick") {
+            currentPickTile = this
             const parent = this.children[7]
             const elementsToRemove = []
             
@@ -214,6 +216,13 @@ const rightTeamAmpsContainer = document.getElementById("right-team-amps-containe
 // Chat Display
 const chatDisplay = document.getElementById("chat-display")
 let chatLen = 0
+
+// Beatmap information
+let mapId, mapMd5
+
+// IPC State
+let currentIPCState
+let checkedForWinner = true
 
 socket.onmessage = event => {
     const data = JSON.parse(event.data)
@@ -292,4 +301,121 @@ socket.onmessage = event => {
         chatLen = data.tourney.manager.chat.length;
         chatDisplay.scrollTop = chatDisplay.scrollHeight;
     }
+
+    // Beatmap 
+    if (mapId !== data.menu.bm.id || mapMd5 !== data.menu.bm.md5) {
+        mapId = data.menu.bm.id
+        mapMd5 = data.menu.bm.md5
+
+        // Check if autopicked already
+        // if (!element.hasAttribute("data-is-autopicked") || element.getAttribute("data-is-autopicked") !== "true") {
+        //     const event = new MouseEvent('mousedown', {
+        //         bubbles: true,
+        //         cancelable: true,
+        //         view: window,
+        //         button: (nextAutoPicker === "Red")? 0 : 2
+        //     })
+        //     element.dispatchEvent(event)
+        //     element.setAttribute("data-is-autopicked", "true")
+
+        //     if (nextAutoPicker === "Red") {
+        //         setNextAutoPicker("Blue")
+        //     } else if (nextAutoPicker === "Blue") {
+        //         setNextAutoPicker("Red")
+        //     }
+        // }
+    }
+
+    // IPC State
+    if (currentIPCState !== data.tourney.manager.ipcState) {
+        currentIPCState = data.tourney.manager.ipcState
+        if (currentIPCState !== 4) {
+            checkedForWinner = false
+            delay(500)
+            
+        }
+    }
+    
+    // Check for winner
+    if (currentIPCState === 4 && !checkedForWinner) {
+        checkedForWinner = true
+
+        if (currentPickTile) {
+            const parent = currentPickTile.children[7]
+            const elementsToRemove = []
+            
+            if (parent.childElementCount > 0) {
+                Array.from(parent.children).forEach(element => {
+                    const src = element.getAttribute("src")
+                    if (src && src.includes("won")) elementsToRemove.push(element)
+                })
+                
+                // Remove elements after iteration to avoid modification issues
+                elementsToRemove.forEach(element => parent.removeChild(element))
+            }
+
+            const pickBanImage = document.createElement("img")
+            pickBanImage.setAttribute("src", `static/panel-assets/bottom-assets/${team} won.png`)
+            currentPickTile.children[7].append(pickBanImage)
+
+            // Set amplifier
+            if (amplifierTeam === "red") {
+                currentPickTile.children[6].classList.add("left-panel-picked-amp")
+                currentPickTile.children[6].classList.remove("right-panel-picked-amp")
+            } else if (amplifierTeam === "blue") {
+                currentPickTile.children[6].classList.remove("left-panel-picked-amp")
+                currentPickTile.children[6].classList.add("right-panel-picked-amp")
+            }
+            currentPickTile.children[6].children[0].children[0].style.display = "block"
+            currentPickTile.children[6].children[1].setAttribute("src", `../_shared/assets/amplifier-icons/${amplifierId}.png`)
+        }
+    }
+}
+
+let currentWinner
+let amplifierId
+let amplifierTeam
+setInterval(() => {
+    currentWinner = getCookie('currentWinner')
+    amplifierId = Number(getCookie('amplifierId'))
+    amplifierTeam = getCookie('amplifierTeam')
+    leftPoints = Number(getCookie('currentLeftPoints'))
+    rightPoints = Number(getCookie('currentRightPoints'))
+    firstToPoints = Number(getCookie('currentFirstToPoints'))
+    bestOfPoints = Number(getCookie('currentBestOfPoints'))
+    generatePoints()
+}, 200)
+
+// Points
+const leftPointsContainer = document.getElementById("left-points-container")
+const rightPointsContainer = document.getElementById("right-points-container")
+let leftPoints, rightPoints, firstToPoints, bestOfPoints
+
+// Generate points
+async function generatePoints() {
+    leftPointsContainer.innerHTML = ""
+    rightPointsContainer.innerHTML = ""
+
+    let i = 0
+    for (i; i < leftPoints; i++) createPoint(leftPointsContainer, true)
+    for (i; i < firstToPoints; i++) createPoint(leftPointsContainer, false)
+
+    i = 0
+    for (i; i < rightPoints; i++) createPoint(rightPointsContainer, true)
+    for (i; i < firstToPoints; i++) createPoint(rightPointsContainer, false)
+}
+
+// Create point
+function createPoint(parent, full) {
+    // Individual Point Container
+    const individualPointContainer = document.createElement("div")
+    individualPointContainer.classList.add("individual-point-container")
+
+    // Point
+    const point = document.createElement("img")
+    point.classList.add("position-absolute-exact-middle")
+    point.setAttribute("src", `static/points/${full? "full": "empty"}.png`)
+
+    individualPointContainer.append(point)
+    parent.append(individualPointContainer)
 }

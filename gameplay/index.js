@@ -139,6 +139,11 @@ async function generatePoints() {
     i = 0
     for (i; i < rightPoints; i++) createPoint(rightPointsContainer, true)
     for (i; i < firstToPoints; i++) createPoint(rightPointsContainer, false)
+
+    document.cookie = `currentLeftPoints=${leftPoints}; path=/`
+    document.cookie = `currentRightPoints=${rightPoints}; path=/`
+    document.cookie = `currentFirstToPoints=${firstToPoints}; path=/`
+    document.cookie = `currentBestOfPoints=${bestOfPoints}; path=/`
 }
 
 // Create point
@@ -636,16 +641,31 @@ socket.onmessage = async event => {
         const otherBlueScore = data.tourney.ipcClients[2].gameplay.score + data.tourney.ipcClients[3].gameplay.score
 
         if (ipcState === 4 && !chosenWinner) {
-            if (leftScore > rightScore) updatePointCount('red', 'add')
-            else if (rightScore < leftScore) updatePointCount('blue', 'add')
+            let winner = ""
+            if (leftScore > rightScore) {
+                updatePointCount('red', 'add')
+                winner = "red"
+            } else if (rightScore < leftScore) {
+                updatePointCount('blue', 'add')
+                winner = "blue"
+            }
             else if (amplifierId === 4 || amplifierId === 24 || amplifierId === 37) {
-                if (otherRedScore > otherBlueScore) updatePointCount('red', 'add')
-                else if (otherRedScore < otherBlueScore) updatePointCount('blue', 'add')
+                if (otherRedScore > otherBlueScore) {
+                    updatePointCount('red', 'add')
+                    winner = "red"
+                } else if (otherRedScore < otherBlueScore) {
+                    updatePointCount('blue', 'add')
+                    winner = "blue"
+                }
             }
             chosenWinner = true
+
+            document.cookie = `currentWinner=${winner}; path=/`
         } else if (ipcState === 1 || ipcState === 3) {
             chosenWinner = false
         }
+
+        if (ipcState === 1) updateAmplifier("none", "reset")
     }
 }
 
@@ -659,6 +679,8 @@ function updateAmplifier(team, amplifierNumber) {
     if (team === "none") {
         amplifierId = undefined
         amplifierTeam = undefined
+        document.cookie = `amplifierId=${amplifierId}; path=/`
+        document.cookie = `amplifierTeam=${amplifierTeam}; path=/`
         amplifierSelectedText.innerText = `None`
         leftAmplifierContainer.style.display = "none"
         rightAmplifierContainer.style.display = "none"
@@ -667,6 +689,8 @@ function updateAmplifier(team, amplifierNumber) {
 
     amplifierId = amplifierNumber
     amplifierTeam = team
+    document.cookie = `amplifierId=${amplifierId}; path=/`
+    document.cookie = `amplifierTeam=${amplifierTeam}; path=/`
     amplifierSelectedText.innerText = `${amplifiers[amplifierId].name} - ${amplifierTeam.substring(0, 1).toUpperCase()}${amplifierTeam.substring(1)}`
 
     if (team === "red") {

@@ -1,6 +1,7 @@
 // Prevent default actions
-document.addEventListener("mousedown", function(event) {event.preventDefault()})
-document.addEventListener("contextmenu", function(event) {event.preventDefault()})
+const main = document.getElementById("main")
+main.addEventListener("mousedown", function(event) {event.preventDefault()})
+main.addEventListener("contextmenu", function(event) {event.preventDefault()})
 
 // Load all teams
 let teams
@@ -50,6 +51,7 @@ async function getBeatmaps() {
         allBeatmapsJson.push(responseJson[0])
 
         createBeatmapPanel(allBeatmaps[i], responseJson[0])
+        createSidebarButton(allBeatmaps[i])
     }
 }
 
@@ -200,6 +202,17 @@ function mapClickEvent(event) {
         this.dataset.pickban = action
         this.dataset.team = team
     }
+}
+
+// Create Sidebar Button for Map
+const sidebarSelectListContainer = document.getElementById("sidebar-select-list-container")
+function createSidebarButton(beatmap) {
+    const sidebarButton = document.createElement("div")
+    sidebarButton.innerText = `${beatmap.mod}${beatmap.order}`
+    sidebarButton.addEventListener("click", setSidebarMap)
+    sidebarButton.dataset.sidebarMapId = beatmap.beatmapId
+    console.log(sidebarButton)
+    sidebarSelectListContainer.append(sidebarButton)
 }
 
 const socket = createTosuWsSocket()
@@ -442,5 +455,117 @@ function toggleAutoPick() {
         toggleAutoPickButtonEl.innerText = "Toggle Auto Pick: OFF"
     } else {
         toggleAutoPickButtonEl.innerText = "Toggle Auto Pick: ON"
+    }
+}
+
+// Sidebar Set Map
+let currentSidebarMapId
+function setSidebarMap() {
+    currentSidebarMapId = this.dataset.sidebarMapId
+    for (let i = 0; i < sidebarSelectListContainer.childElementCount; i++) {
+        sidebarSelectListContainer.children[i].style.backgroundColor = "transparent"
+        if (sidebarSelectListContainer.children[i].dataset.sidebarMapId == currentSidebarMapId) {
+            sidebarSelectListContainer.children[i].style.backgroundColor = "lightgray"
+        }
+    }
+}
+
+// Select Action
+const pickBanManagement = document.getElementById("pick-ban-management")
+let currentSidebarAction
+function updateSidebarSelect(element) {
+    while (pickBanManagement.childElementCount > 5) {
+        pickBanManagement.removeChild(pickBanManagement.lastElementChild)
+    }
+    currentSidebarAction = element.value
+
+    if (currentSidebarAction === "addBan") {
+        // Create something to set the team that would be involved in the set ban
+        const createTeamTitle = document.createElement("div")
+        createTeamTitle.innerText = "Which Team?"
+        createTeamTitle.classList.add("sidebar-title")
+
+        // Add teams
+        const select = document.createElement("select")
+        select.classList.add("sidebar-select-list-container")
+        select.setAttribute("id", "sidebar-select-team-container")
+        select.setAttribute("size", 2)
+        select.setAttribute("onchange", "updateTeam(this)")
+        const optionRed = document.createElement("option")
+        optionRed.setAttribute("value", "red")
+        optionRed.innerText = "Red"
+        const optionBlue = document.createElement("option")
+        optionBlue.setAttribute("value", "blue")
+        optionBlue.innerText = "Blue"
+
+        select.append(optionRed, optionBlue)
+        pickBanManagement.append(createTeamTitle, select)
+    }
+
+    // Apply Changes Button
+    const applyButtonContainer = document.createElement("div")
+    applyButtonContainer.classList.add("sidebar-button-container")
+    const applyButton = document.createElement("button")
+    applyButton.classList.add("amplifier-selection-button")
+    applyButton.innerText = "Apply Changes"
+    applyButtonContainer.append(applyButton)
+
+    switch (currentSidebarAction) {
+        case "addBan":
+            applyButton.setAttribute("onclick", "addBan()")
+            break
+        case "removeBan":
+            applyButton.setAttribute("onclick", "removeBan()")
+            break
+    }
+    pickBanManagement.append(applyButtonContainer)
+}
+
+// Get team
+let currentSidebarTeam
+function updateTeam(element) {
+    currentSidebarTeam = element.value
+}
+
+// Add bans
+function addBan() {
+    if (!currentSidebarTeam || !currentSidebarMapId) return
+    
+    // Set the ban
+    const element = document.querySelector(`[data-id="${currentSidebarMapId}"]`)
+    element.children[6].style.display = "block"
+    element.children[6].children[0].style.display = "none"
+    element.children[7].innerText = ""
+
+    // Create ban
+    const image = document.createElement("img")
+    image.setAttribute("src", `static/panel-assets/bottom-assets/${currentSidebarTeam} ban.png`)
+    element.children[7].append(image)
+}
+
+// Remove Bans
+function removeBan() {
+    if (!currentSidebarMapId) return
+
+    // Remove all bans
+    const element = document.querySelector(`[data-id="${currentSidebarMapId}"]`)
+    const parent = element.children[7]
+    const elementsToRemove = []
+    
+    if (parent.childElementCount > 0) {
+        Array.from(parent.children).forEach(element => {
+            const src = element.getAttribute("src")
+            if (src && src.includes("ban")) {
+                elementsToRemove.push(element)
+            }
+        })
+        
+        // Remove elements after iteration to avoid modification issues
+        elementsToRemove.forEach(element => parent.removeChild(element))
+    }
+
+    // Check if there are any picks
+    if (parent.childElementCount === 0) {
+        element.children[6].style.display = "none"
     }
 }

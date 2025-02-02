@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="../_shared/gameplay-mappool.css">
 </head>
 <body>
-    <div class="screen-position main">
+    <div class="screen-position main" id="main">
         <!-- Left Team Amplifiers -->
         <div class="team-amps-container left-team-amps-container" id="left-team-amps-container">
             <img class="team-amps" src="../_shared/assets/amplifier-icons/1.png">
@@ -69,18 +69,39 @@
 
     <!-- Sidebar -->
     <section class="sidebar">
-        <div class="sidebar-section amplifier-selection">
-            <div class="sidebar-title">Current Next Picker:</div>
-            <div class="sidebar-text amplifier-selection-title-text" id="next-auto-picker">None</div>
-            <div class="sidebar-title">Set Auto Next Picker:</div>
-            <div class="sidebar-button-container" id="left-amplifier-selection-button-container">
-                <button class="amplifier-selection-button" onclick="setNextAutoPicker('Red')">Red</button>
-                <button class="amplifier-selection-button" onclick="setNextAutoPicker('Blue')">Blue</button>
-            </div><br><br>
-            <div class="sidebar-button-container" id="right-amplifier-selection-button-container">
-                <button class="amplifier-selection-button" id="toggle-auto-pick-button" onclick="toggleAutoPick()">Toggle Auto Picker: OFF</button>
+        <section class="sidebar-column">
+            <div class="sidebar-section amplifier-selection">
+                <div class="sidebar-title">Current Next Picker:</div>
+                <div class="sidebar-text amplifier-selection-title-text" id="next-auto-picker">None</div>
+                <div class="sidebar-title">Set Auto<br>Next Picker:</div>
+                <div class="sidebar-button-container" id="left-amplifier-selection-button-container">
+                    <button class="amplifier-selection-button" onclick="setNextAutoPicker('Red')">Red</button>
+                    <button class="amplifier-selection-button" onclick="setNextAutoPicker('Blue')">Blue</button>
+                </div><br><br>
+                <div class="sidebar-button-container" id="right-amplifier-selection-button-container">
+                    <button class="amplifier-selection-button" id="toggle-auto-pick-button" onclick="toggleAutoPick()">Toggle Auto Picker: OFF</button>
+                </div>
             </div>
-        </div>
+        </section>
+        <div class="divider"></div>
+        <section class="sidebar-column column-2">
+            <div class="sidebar-section amplifier-selection" id="pick-ban-management">
+                <div class="sidebar-title">Please select<br>the map you<br>want to change: </div>
+                <div class="sidebar-map-list-container" id="sidebar-select-list-container"></div><br>
+                <div class="sidebar-title">Please select what action you want to take: </div>
+                <select class="sidebar-select-list-container" size="9" id="sidebar-select-list-container" onchange="updateSidebarSelect(this)">
+                    <option value="addBan">Add Ban</option>
+                    <option value="removeBan">Remove Ban</option>
+                    <option value="addPick">Add Pick</option>
+                    <option value="removePick">Remove Pick</option>
+                    <option value="addWinner">Add Winner</option>
+                    <option value="removeWinner">Remove Winner</option>
+                    <option value="addAmplifier">Add Amplifier</option>
+                    <option value="removeAmplifier">Remove Amplifier</option>
+                    <option value="resetMap">Reset Map</option>
+                </select>
+            </div>
+        </section>
     </section>
 
     <script src="../_shared/deps/reconnecting-websocket.min.js"></script>

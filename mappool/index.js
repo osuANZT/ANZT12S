@@ -479,7 +479,7 @@ function updateSidebarSelect(element) {
     }
     currentSidebarAction = element.value
 
-    if (currentSidebarAction === "addBan") {
+    if (currentSidebarAction === "addBan" || currentSidebarAction === "addPick") {
         // Create something to set the team that would be involved in the set ban
         const createTeamTitle = document.createElement("div")
         createTeamTitle.innerText = "Which Team?"
@@ -516,6 +516,12 @@ function updateSidebarSelect(element) {
             break
         case "removeBan":
             applyButton.setAttribute("onclick", "removeBan()")
+            break
+        case "addPick":
+            applyButton.setAttribute("onclick", "addPick()")
+            break
+        case "removePick":
+            applyButton.setAttribute("onclick", "removePick()")
             break
     }
     pickBanManagement.append(applyButtonContainer)
@@ -556,6 +562,63 @@ function removeBan() {
         Array.from(parent.children).forEach(element => {
             const src = element.getAttribute("src")
             if (src && src.includes("ban")) {
+                elementsToRemove.push(element)
+            }
+        })
+        
+        // Remove elements after iteration to avoid modification issues
+        elementsToRemove.forEach(element => parent.removeChild(element))
+    }
+
+    // Check if there are any picks
+    if (parent.childElementCount === 0) {
+        element.children[6].style.display = "none"
+    }
+}
+
+// Add pick
+function addPick() {
+    if (!currentSidebarTeam || !currentSidebarMapId) return
+
+    // Set the pick
+    const element = document.querySelector(`[data-id="${currentSidebarMapId}"]`)
+    element.children[6].style.display = "block"
+
+    // Remove all bans
+    const parent = element.children[7]
+    const elementsToRemove = []
+
+    if (parent.childElementCount > 0) {
+        Array.from(parent.children).forEach(element => {
+            const src = element.getAttribute("src")
+            if (src && src.includes("ban")) {
+                elementsToRemove.push(element)
+            }
+        })
+        
+        // Remove elements after iteration to avoid modification issues
+        elementsToRemove.forEach(element => parent.removeChild(element))
+    }
+
+    // Create pick
+    const image = document.createElement("img")
+    image.setAttribute("src", `static/panel-assets/bottom-assets/${currentSidebarTeam} pick.png`)
+    element.children[7].append(image)
+}
+
+// Remove pick
+function removePick() {
+    if (!currentSidebarMapId) return
+
+    // Remove all bans
+    const element = document.querySelector(`[data-id="${currentSidebarMapId}"]`)
+    const parent = element.children[7]
+    const elementsToRemove = []
+    
+    if (parent.childElementCount > 0) {
+        Array.from(parent.children).forEach(element => {
+            const src = element.getAttribute("src")
+            if (src && (src.includes("pick") || src.includes("won"))) {
                 elementsToRemove.push(element)
             }
         })

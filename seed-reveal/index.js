@@ -12,6 +12,7 @@ getAllTeams()
 
 // Display Team
 const teamName = document.getElementById("team-name")
+const playerNames = document.getElementById("player-names")
 const seed = document.getElementById("seed")
 const nmModScoreContainer = document.getElementById("nm-mod-score-container")
 const hdModScoreContainer = document.getElementById("hd-mod-score-container")
@@ -24,6 +25,7 @@ function displayTeam() {
     
     // Team information
     teamName.innerText = currentTeam.teamName
+    playerNames.innerText = `${currentTeam.player1} / ${currentTeam.player2}`
     seed.innerText = `#${currentTeam.seed}`
 
     // NM maps

@@ -108,9 +108,9 @@ function displayTeams() {
 
     // Display amps on the big screen
     if (allTeams[currentTeamIndex].silverAmplifier && allTeams[currentTeamIndex].goldAmplifier && allTeams[currentTeamIndex].prismaticAmplifier) {
-        revealTileContainer.children[0].setAttribute("src", `static/amplifier-tiles/${allTeams[currentTeamIndex].silverAmplifier}.png`)
-        revealTileContainer.children[1].setAttribute("src", `static/amplifier-tiles/${allTeams[currentTeamIndex].goldAmplifier}.png`)
-        revealTileContainer.children[2].setAttribute("src", `static/amplifier-tiles/${allTeams[currentTeamIndex].prismaticAmplifier}.png`)
+        revealTileContainer.children[0].setAttribute("src", `../_shared/assets/amplifier-tiles/${allTeams[currentTeamIndex].silverAmplifier}.png`)
+        revealTileContainer.children[1].setAttribute("src", `../_shared/assets/amplifier-tiles/${allTeams[currentTeamIndex].goldAmplifier}.png`)
+        revealTileContainer.children[2].setAttribute("src", `../_shared/assets/amplifier-tiles/${allTeams[currentTeamIndex].prismaticAmplifier}.png`)
     } else {
         revealTileContainer.children[0].setAttribute("src", `static/mystery-tiles/silver-mystery-tile.png`)
         revealTileContainer.children[1].setAttribute("src", `static/mystery-tiles/gold-mystery-tile.png`)

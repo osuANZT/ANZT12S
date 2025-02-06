@@ -5,7 +5,7 @@ const amplifierSets = [
     [8,9],
     [11,12,13],
     [19,20,21],
-    [22,23]
+    [22,23],
     [25,26],
     [33,34,35],
     [38,39]
@@ -53,9 +53,9 @@ const amplifiers = {
     40: 'Soft Rock',
     41: 'Roulette'
 }
-const silverAmplifiers = [1, 4, 7, 11, 14, 19, 22, 24, 25, 28, 33, 38]
-const goldAmplifiers = [8, 2, 5, 10, 12, 15, 20, 23, 26, 27, 29, 31, 34, 36, 37, 39, 40]
-const prismaticAmplifiers = [9, 3, 6, 13, 16, 17, 18, 21, 30, 32, 35, 41]
+const silverAmplifiers = [1, 4, 11, 19, 28, 14, 22, 24]
+const goldAmplifiers = [2, 5, 12, 20, 29, 27, 31, 40, 23]
+const prismaticAmplifiers = [3, 6, 13, 21, 30, 41]
 
 // Get Google Sheets URL
 let googleSheetsUrl = ""
@@ -71,6 +71,7 @@ let allTeams = []
 async function loadAmplifierRollData() {
     const response = await fetch("../_data/amplifier-rolls-teams.json")
     allTeams = await response.json()
+    allTeams = allTeams.reverse()
     displayTeams()
 }
 loadAmplifierRollData()

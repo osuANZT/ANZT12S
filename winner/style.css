@@ -1,1 +1,82 @@
-.main { background-image: url("static/background.png"); }
+:root {
+    --team-horizontal-pixel-value: 777px;
+}
+.main { 
+    background-image: url("static/background.png"); 
+    font-family: "Torus";
+    font-weight: 700;
+}
+
+/* Logo */
+.logo { 
+    position: absolute;
+    top: 23px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 152px;
+}
+
+/* Round Name */
+.round-name {
+    position: absolute;
+    top: 81px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 19px;
+    color: white;
+    line-height: 17px;
+    background-color: black;
+    text-align: center;
+    padding: 0 5px;
+}
+
+/* Crown */
+.crown {
+    position: absolute;
+    top: 393px;
+    left: 724px;
+}
+
+/* Team Names */
+.team-name {
+    position: absolute;
+    top: 481px;
+    padding: 0 6px;
+    font-size: 25px;
+    color: white;
+    text-align: center;
+    line-height: 23px;
+    opacity: inherit;
+}
+.left-team-name {
+    --colour: #ff2b2b
+    left: var(--team-horizontal-pixel-value);
+    transform: translateX(-50%);
+    background-color: var(--colour);
+    box-shadow: 0 0 10px 1px var(--colour);
+}
+.right-team-name {
+    --colour: #2b61ff;
+    right: var(--team-horizontal-pixel-value);
+    transform: translateX(50%);
+    background-color: var(--colour);
+    box-shadow: 0 0 10px 1px var(--colour);
+}
+/* Player Names */
+.team-player-container {
+    position: absolute;
+    top: 537px;
+    font-size: 26px;
+    color: white;
+    opacity: inherit;
+}
+.left-team-player-container {
+    left: var(--team-horizontal-pixel-value);
+    transform: translateX(-50%);
+}
+.right-team-player-container {
+    right: var(--team-horizontal-pixel-value);
+    transform: translateX(50%);
+}
+.winning-team { opacity: 1; }
+.losing-team { opacity: 0.75; }

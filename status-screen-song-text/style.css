@@ -12,6 +12,4 @@
     justify-content: center;
     flex-direction: column;
 }
-#song-name {
-    font-weight: 700;
-}
+#song-name { font-weight: 700; }

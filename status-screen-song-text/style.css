@@ -10,6 +10,11 @@
 #song-name {
     top: 520px;
     font-weight: 700;
+    width: 1100px;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 #artist {

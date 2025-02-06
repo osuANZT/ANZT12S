@@ -1,22 +1,17 @@
-.status-screen-song-text {
+.status-screen-song-metadata {
     position: absolute;
+    top: 520px;
     left: 960px;
     transform: translateX(-50%);
+    width: 700px;
+    text-align: center;
     font-family: "Torus";
     font-size: 2rem;
     color: white;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
 }
-
 #song-name {
-    top: 520px;
     font-weight: 700;
-    width: 1100px;
-    text-align: center;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-#artist {
-    top: 555px;
 }

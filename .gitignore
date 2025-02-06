@@ -2,7 +2,8 @@ _data/amplifiers.json
 _data/qualifier-results.json
 _data/api-address.json
 _shared/assets/amplifier-icons
-amplifier-roll/static/amplifier-tiles/
+_shared/assets/amplifier-tiles/
 amplifier-roll/static/script.json
 fonts/
 _data/osu-api.json
+presentation

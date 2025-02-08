@@ -25,7 +25,7 @@ document.addEventListener("contextmenu", function(event) {event.preventDefault()
 // Load all teams
 let teams
 async function getTeams() {
-    const response = await fetch("../_data/teams.json")
+    const response = await fetch("../_data/amplifier-rolls-teams.json")
     const responseJson = await response.json()
     teams = responseJson
 }
@@ -50,6 +50,7 @@ async function getBeatmaps() {
     const responseJson = await response.json()
     allBeatmaps = responseJson.beatmaps
     roundName.innerText = `${responseJson.roundName} Match`
+    document.cookie = `round=${responseJson.roundName}; path=/`
 
     switch (responseJson.roundName) {
         case "RO32": case "RO16":
@@ -631,6 +632,14 @@ socket.onmessage = async event => {
 
         if (ipcState === 1) updateAmplifier("none", "reset")
     }
+
+    // Set cookies
+    document.cookie = `leftTeamName=${leftTeamName}; path=/`
+    document.cookie = `rightTeamName=${rightTeamName}; path=/`
+
+    if (leftPoints === bestOfPoints) document.cookie = `winnerTeamName=${leftTeamName}; path=/`
+    else if (rightPoints === bestOfPoints) document.cookie = `winnerTeamName=${rightTeamName}; path=/`
+    else document.cookie = `winnerTeamName=none; path=/`
 }
 
 // Update amplifiers

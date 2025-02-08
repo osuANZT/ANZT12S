@@ -124,6 +124,12 @@
         </div>
     </div>
 
+    <!-- Amplifiers -->
+    <section class="amplifier-animation" id="amplifier-animation">
+        <div class="amplifier-team-name" id="amplifier-team-name">Dabble</div>
+        <img class="amplifier-tile" id="amplifier-tile" src="../_shared/assets/amplifier-tiles/1.png">
+    </section>
+
     <!-- Sidebar -->
     <section class="sidebar">
         <div class="sidebar-section star-control">
@@ -144,16 +150,11 @@
             <div class="sidebar-text amplifier-selection-title-text" id="amplifier-selected-text">None</div>
             <div class="sidebar-title">Amplifier Selection</div>
             <div class="sidebar-text amplifier-selection-text">Red Team</div>
-            <div class="sidebar-button-container" id="left-amplifier-selection-button-container">
-                <button class="amplifier-selection-button" onclick="updatePointCount('red', 'plus')">Red ++</button>
-                <button class="amplifier-selection-button" onclick="updatePointCount('red', 'minus')">Red --</button>
-            </div>
+            <div class="sidebar-button-container" id="left-amplifier-selection-button-container"></div>
             <div class="sidebar-text amplifier-selection-text">Blue Team</div>
+            <div class="sidebar-button-container" id="right-amplifier-selection-button-container"></div><br><br>
             <div class="sidebar-button-container" id="right-amplifier-selection-button-container">
-                <button class="amplifier-selection-button" onclick="updatePointCount('blue', 'plus')">Blue ++</button>
-                <button class="amplifier-selection-button" onclick="updatePointCount('blue', 'minus')">Blue --</button>
-            </div><br><br>
-            <div class="sidebar-button-container" id="right-amplifier-selection-button-container">
+                <button class="amplifier-selection-button" onclick="toggleAnimation()" id="toggle-animation">Toggle Animation: OFF</button>
                 <button class="amplifier-selection-button" onclick="updateAmplifier('none', 'reset')">Reset Amplifier</button>
             </div>
         </div>

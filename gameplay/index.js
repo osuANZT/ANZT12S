@@ -3,7 +3,7 @@ let amplifiers
 async function getAmplifiers() {
     const response = await fetch("../_data/amplifiers.json")
     const responseJson = await response.json()
-    amplifiers = responseJson.address
+    amplifiers = responseJson
 }
 const silverAmplifiers = [1, 4, 7, 11, 14, 19, 22, 24, 25, 28, 33, 38]
 const goldAmplifiers = [8, 2, 5, 10, 12, 15, 20, 23, 26, 27, 29, 31, 34, 36, 37, 39, 40]
@@ -25,7 +25,7 @@ document.addEventListener("contextmenu", function(event) {event.preventDefault()
 // Load all teams
 let teams
 async function getTeams() {
-    const response = await fetch("../_data/amplifier-rolls-teams.json")
+    const response = await fetch("../_data/teams.json")
     const responseJson = await response.json()
     teams = responseJson
 }
@@ -648,6 +648,12 @@ const rightAmplifierContainer = document.getElementById("right-amplifier-contain
 const amplifierSelectedText = document.getElementById("amplifier-selected-text")
 let amplifierId
 let amplifierTeam
+
+// Animations
+const amplifierAnimationEl = document.getElementById("amplifier-animation")
+const amplifierTeamNameEl = document.getElementById("amplifier-team-name")
+const amplifierTileEl = document.getElementById("amplifier-tile")
+
 function updateAmplifier(team, amplifierNumber) {
     if (team === "none") {
         amplifierId = undefined
@@ -672,11 +678,36 @@ function updateAmplifier(team, amplifierNumber) {
         leftAmplifierContainer.children[1].innerText = amplifiers[amplifierId].description
         leftAmplifierContainer.style.display = "flex"
         rightAmplifierContainer.style.display = "none"
+
+        amplifierTeamNameEl.innerText = leftTeamName
     } else if (team === "blue") {
         rightAmplifierContainer.children[0].children[0].setAttribute("src", `static/amplifier-background/${(silverAmplifiers.includes(amplifierNumber))? "silver" : (goldAmplifiers.includes(amplifierNumber))? "gold" : "prismatic"}.png`)
         rightAmplifierContainer.children[0].children[1].setAttribute("src", `../_shared/assets/amplifier-icons/${amplifierNumber}.png`)
         rightAmplifierContainer.children[1].innerText = amplifiers[amplifierId].description
         rightAmplifierContainer.style.display = "flex"
         leftAmplifierContainer.style.display = "none"
+
+        amplifierTeamNameEl.innerText = rightTeamName
+    }
+
+    amplifierTileEl.setAttribute("src", `../_shared/assets/amplifier-tiles/${amplifierNumber}.png`)
+
+    if (ipcState !== 3 && ipcState !== 4 && toggleAnimationCurrent) {
+        amplifierAnimationEl.classList.remove("amplifier-animation-keyframes")
+        void amplifierAnimationEl.offsetHeight
+        amplifierAnimationEl.classList.add("amplifier-animation-keyframes")
+    }
+}
+
+// Toggle animation
+const toggleAnimationEl = document.getElementById("toggle-animation")
+let toggleAnimationCurrent = false
+function toggleAnimation() {
+    toggleAnimationCurrent = !toggleAnimationCurrent
+    if (toggleAnimationCurrent) {
+        toggleAnimationEl.innerText = "Toggle Animation: ON"
+    } else {
+        toggleAnimationEl.innerText = "Toggle Animation: OFF"
+        amplifierAnimationEl.classList.remove("amplifier-animation-keyframes")
     }
 }

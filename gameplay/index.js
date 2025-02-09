@@ -345,212 +345,21 @@ socket.onmessage = async event => {
 
     // Score stuff
     if (scoreVisible) {
-        if (amplifierId !== 7 && amplifierId !== 24 && amplifierId !== 37) {
-            scorev2Scores.style.display = "block"
-            comboScores.style.display = "none"
-            accuracyScores.style.display = "none"
-        } else  if (amplifierId === 7 || amplifierId === 37) {
-            scorev2Scores.style.display = "none"
-            comboScores.style.display = "block"
-            accuracyScores.style.display = "none"
-        } else if (amplifierId === 24) {
-            scorev2Scores.style.display = "none"
-            comboScores.style.display = "none"
-            accuracyScores.style.display = "block"
-        }
+        const isSpecialAmplifier = [7, 24, 37].includes(amplifierId)
 
-        // If there is no amplifiers
+        // Toggle Score Display Modes
+        scorev2Scores.style.display = isSpecialAmplifier ? "none" : "block"
+        comboScores.style.display = (amplifierId === 7 || amplifierId === 37) ? "block" : "none"
+        accuracyScores.style.display = (amplifierId === 24) ? "block" : "none"
+
+        // If no amplifier or not using API
         if (!amplifierId || !ampsThatUseApi.includes(amplifierId)) {
-            leftScore = data.tourney.ipcClients[0].gameplay.score + data.tourney.ipcClients[1].gameplay.score
-            rightScore = data.tourney.ipcClients[2].gameplay.score + data.tourney.ipcClients[3].gameplay.score
-            scoreDelta = Math.abs(leftScore - rightScore)
-
-            // Update numbers
-            animation.leftScoreNumber.update(data.tourney.ipcClients[0].gameplay.score + data.tourney.ipcClients[1].gameplay.score)
-            animation.rightScoreNumber.update(data.tourney.ipcClients[2].gameplay.score + data.tourney.ipcClients[3].gameplay.score)
-
-            // Bar percentage
-            let movingScoreBarDifferencePercent = Math.min(scoreDelta / 500000, 1)
-            let movingScoreBarRectangleWidth = Math.min(Math.pow(movingScoreBarDifferencePercent, 0.5)* 600, 600)
-
-            // Update score bar and score distance
-            if (leftScore > rightScore) {
-                leftScoreDifference.style.display = "none"
-                rightScoreDifference.style.display = "block"
-                animation.rightScoreDifference.update(rightScore - leftScore)
-
-                leftScoreBar.style.width = `${movingScoreBarRectangleWidth}px`
-                rightScoreBar.style.width = "0px"
-
-                leftScoreNumber.classList.add("lead-score-number")
-                rightScoreNumber.classList.remove("lead-score-number")
-            } else if (leftScore === rightScore) {
-                leftScoreDifference.style.display = "none"
-                rightScoreDifference.style.display = "none"
-
-                leftScoreBar.style.width = "0px"
-                rightScoreBar.style.width = "0px"
-
-                leftScoreNumber.classList.remove("lead-score-number")
-                rightScoreNumber.classList.remove("lead-score-number")
-            } else if (leftScore < rightScore) {
-                leftScoreDifference.style.display = "block"
-                animation.leftScoreDifference.update(leftScore - rightScore)
-                rightScoreDifference.style.display = "none"
-
-                leftScoreBar.style.width = `0px`
-                rightScoreBar.style.width = `${movingScoreBarRectangleWidth}px`
-
-                leftScoreNumber.classList.remove("lead-score-number")
-                rightScoreNumber.classList.add("lead-score-number")
-            }
+            updateScoreDisplay(
+                data.tourney.ipcClients[0].gameplay.score + data.tourney.ipcClients[1].gameplay.score,
+                data.tourney.ipcClients[2].gameplay.score + data.tourney.ipcClients[3].gameplay.score
+            );
         } else {
-            // Amps that do not only affect score: 7 (Limit Break), 24 (AccDance), 37 (JTBFREAKS)
-            // Get team name
-            const teamName = (amplifierTeam === "red")? leftTeamName : rightTeamName
-            const ipcClients = data.tourney.ipcClients
-            let test = new XMLHttpRequest()
-            // 
-            test.open("GET", `${address}/score?team_name=${encodeURIComponent(teamName)}` + 
-                                `&amplifier_id=${amplifierId}` +
-                                `&player1_id=${ipcClients[0].spectating.userID}&player1_score=${ipcClients[0].gameplay.score}&player1_combo=${ipcClients[0].gameplay.combo.max}&player1_acc=${ipcClients[0].gameplay.accuracy}&player1_misses=${ipcClients[0].gameplay.hits["0"]}&player1_mods=${ipcClients[0].gameplay.mods.str}` +
-                                `&player2_id=${ipcClients[1].spectating.userID}&player2_score=${ipcClients[1].gameplay.score}&player2_combo=${ipcClients[1].gameplay.combo.max}&player2_acc=${ipcClients[1].gameplay.accuracy}&player2_misses=${ipcClients[1].gameplay.hits["0"]}&player2_mods=${ipcClients[1].gameplay.mods.str}` +
-                                `&player3_id=${ipcClients[2].spectating.userID}&player3_score=${ipcClients[2].gameplay.score}&player3_combo=${ipcClients[2].gameplay.combo.max}&player3_acc=${ipcClients[2].gameplay.accuracy}&player3_misses=${ipcClients[2].gameplay.hits["0"]}&player3_mods=${ipcClients[2].gameplay.mods.str}` +
-                                `&player4_id=${ipcClients[3].spectating.userID}&player4_score=${ipcClients[3].gameplay.score}&player4_combo=${ipcClients[3].gameplay.combo.max}&player4_acc=${ipcClients[3].gameplay.accuracy}&player4_misses=${ipcClients[3].gameplay.hits["0"]}&player4_mods=${ipcClients[3].gameplay.mods.str}`, false)
-            test.onreadystatechange = function() {
-                if (test.readyState === XMLHttpRequest.DONE) {
-                    if (test.status === 200) {
-                        var responseData = JSON.parse(test.responseText)
-                        leftScore = responseData.team1_score
-                        rightScore = responseData.team2_score
-                        scoreDelta = Math.abs(leftScore - rightScore)
-
-                        let movingScoreBarDifferencePercent
-                        let movingScoreBarRectangleWidth
-            
-                        if (amplifierId !== 7 || amplifierId !== 24 || amplifierId !== 37) {
-                            // Update numbers
-                            animation.leftScoreNumber.update(leftScore)
-                            animation.rightScoreNumber.update(rightScore)
-
-                            // Bar percentage
-                            movingScoreBarDifferencePercent = Math.min(scoreDelta / 500000, 1)
-                            movingScoreBarRectangleWidth = Math.min(Math.pow(movingScoreBarDifferencePercent, 0.5)* 600, 600)
-
-                            // Update score bar and score distance
-                            if (leftScore > rightScore) {
-                                leftScoreDifference.style.display = "none"
-                                rightScoreDifference.style.display = "block"
-                                animation.rightScoreDifference.update(rightScore - leftScore)
-                            
-                                leftScoreBar.style.width = `${movingScoreBarRectangleWidth}px`
-                                rightScoreBar.style.width = "0px"
-                            
-                                leftScoreNumber.classList.add("lead-score-number")
-                                rightScoreNumber.classList.remove("lead-score-number")
-                            } else if (leftScore === rightScore) {
-                                leftScoreDifference.style.display = "none"
-                                rightScoreDifference.style.display = "none"
-                            
-                                leftScoreBar.style.width = "0px"
-                                rightScoreBar.style.width = "0px"
-                            
-                                leftScoreNumber.classList.remove("lead-score-number")
-                                rightScoreNumber.classList.remove("lead-score-number")
-                            } else if (leftScore < rightScore) {
-                                leftScoreDifference.style.display = "block"
-                                animation.leftScoreDifference.update(leftScore - rightScore)
-                                rightScoreDifference.style.display = "none"
-                            
-                                leftScoreBar.style.width = `0px`
-                                rightScoreBar.style.width = `${movingScoreBarRectangleWidth}px`
-                            
-                                leftScoreNumber.classList.remove("lead-score-number")
-                                rightScoreNumber.classList.add("lead-score-number")
-                            }
-                        } else if (amplifierId === 7 || amplifierId === 37) {
-                            animation.leftComboNumber.update(leftScore)
-                            animation.rightComboNumber.update(rightScore)
-
-                            // Bar percentage
-                            movingScoreBarDifferencePercent = Math.min(scoreDelta / (mapMaxCombo / 2), 1)
-                            movingScoreBarRectangleWidth = Math.min(Math.pow(movingScoreBarDifferencePercent, 0.5)* 600, 600)
-
-                            // Update score bar and score distance
-                            if (leftScore > rightScore) {
-                                leftComboDifference.style.display = "none"
-                                rightComboDifference.style.display = "block"
-                                animation.rightComboDifference.update(rightScore - leftScore)
-                            
-                                leftScoreBar.style.width = `${movingScoreBarRectangleWidth}px`
-                                rightScoreBar.style.width = "0px"
-                            
-                                leftComboNumber.classList.add("lead-score-number")
-                                rightComboNumber.classList.remove("lead-score-number")
-                            } else if (leftScore === rightScore) {
-                                leftComboDifference.style.display = "none"
-                                rightComboDifference.style.display = "none"
-                            
-                                leftScoreBar.style.width = "0px"
-                                rightScoreBar.style.width = "0px"
-                            
-                                leftComboNumber.classList.remove("lead-score-number")
-                                rightComboNumber.classList.remove("lead-score-number")
-                            } else if (leftScore < rightScore) {
-                                leftComboDifference.style.display = "block"
-                                animation.leftComboDifference.update(leftScore - rightScore)
-                                rightComboDifference.style.display = "none"
-                            
-                                leftScoreBar.style.width = `0px`
-                                rightScoreBar.style.width = `${movingScoreBarRectangleWidth}px`
-                            
-                                leftComboNumber.classList.remove("lead-score-number")
-                                rightComboNumber.classList.add("lead-score-number")
-                            }
-                        } else if (amplifierId === 24) {
-                            animation.leftAccuracyNumber.update(leftScore)
-                            animation.rightAccuracyNumber.update(rightScore)
-
-                            // Bar percentage
-                            movingScoreBarDifferencePercent = Math.min(scoreDelta / mapMaxCombo, 1)
-                            movingScoreBarRectangleWidth = Math.min(Math.pow(movingScoreBarDifferencePercent, 0.5)* 600, 600)
-
-                            // Update score bar and score distance
-                            if (leftScore > rightScore) {
-                                leftAccuracyDifference.style.display = "none"
-                                rightAccuracyDifference.style.display = "block"
-                                animation.rightAccuracyDifference.update(rightScore - leftScore)
-                            
-                                leftScoreBar.style.width = `${movingScoreBarRectangleWidth}px`
-                                rightScoreBar.style.width = "0px"
-                            
-                                leftAccuracyNumber.classList.add("lead-score-number")
-                                rightAccuracyNumber.classList.remove("lead-score-number")
-                            } else if (leftScore === rightScore) {
-                                leftAccuracyDifference.style.display = "none"
-                                rightAccuracyDifference.style.display = "none"
-                            
-                                leftScoreBar.style.width = "0px"
-                                rightScoreBar.style.width = "0px"
-                            
-                                leftAccuracyNumber.classList.remove("lead-score-number")
-                                rightAccuracyNumber.classList.remove("lead-score-number")
-                            } else if (leftScore < rightScore) {
-                                leftAccuracyDifference.style.display = "block"
-                                animation.leftAccuracyDifference.update(leftScore - rightScore)
-                                rightAccuracyDifference.style.display = "none"
-                            
-                                leftScoreBar.style.width = `0px`
-                                rightScoreBar.style.width = `${movingScoreBarRectangleWidth}px`
-                            
-                                leftAccuracyNumber.classList.remove("lead-score-number")
-                                rightAccuracyNumber.classList.add("lead-score-number")
-                            }
-                        }
-                    } else console.log(test.status)
-                }
-            }
-            test.send()
+            fetchAmplifiedScore()
         }
     }
 
@@ -640,6 +449,104 @@ socket.onmessage = async event => {
     if (leftPoints === bestOfPoints) document.cookie = `winnerTeamName=${leftTeamName}; path=/`
     else if (rightPoints === bestOfPoints) document.cookie = `winnerTeamName=${rightTeamName}; path=/`
     else document.cookie = `winnerTeamName=none; path=/`
+}
+
+// Update score display
+function updateScoreDisplay(leftScore, rightScore) {
+    const scoreDelta = Math.abs(leftScore - rightScore)
+    animation.leftScoreNumber.update(leftScore)
+    animation.rightScoreNumber.update(rightScore)
+
+    const barWidth = Math.min(Math.pow(scoreDelta / 500000, 0.5) * 600, 600)
+    updateScoreBar(leftScore, rightScore, barWidth)
+}
+
+// Update scorebar
+function updateScoreBar(leftScore, rightScore, barWidth) {
+    if (leftScore > rightScore) {
+        setScoreBarState("none", "block", rightScore - leftScore, barWidth, 0, true)
+    } else if (leftScore < rightScore) {
+        setScoreBarState("block", "none", leftScore - rightScore, 0, barWidth, false)
+    } else {
+        setScoreBarState("none", "none", 0, 0, 0, null)
+    }
+}
+
+// Set scorebar state
+function setScoreBarState(leftDisplay, rightDisplay, scoreDiff, leftBarWidth, rightBarWidth, isLeftLeading) {
+    leftScoreDifference.style.display = leftDisplay
+    rightScoreDifference.style.display = rightDisplay
+    animation.leftScoreDifference.update(scoreDiff)
+    animation.rightScoreDifference.update(scoreDiff)
+    leftScoreBar.style.width = `${leftBarWidth}px`
+    rightScoreBar.style.width = `${rightBarWidth}px`
+    
+    leftScoreNumber.classList.toggle("lead-score-number", isLeftLeading === true)
+    rightScoreNumber.classList.toggle("lead-score-number", isLeftLeading === false)
+}
+
+// Get amplified scores
+function fetchAmplifiedScore() {
+    const teamName = amplifierTeam === "red" ? leftTeamName : rightTeamName
+    const ipcClients = data.tourney.ipcClients
+    
+    const urlParams = new URLSearchParams({
+        team_name: teamName,
+        amplifier_id: amplifierId,
+        player1_id: ipcClients[0].spectating.userID,
+        player1_score: ipcClients[0].gameplay.score,
+        player1_combo: ipcClients[0].gameplay.combo.max,
+        player1_acc: ipcClients[0].gameplay.accuracy,
+        player1_misses: ipcClients[0].gameplay.hits["0"],
+        player1_mods: ipcClients[0].gameplay.mods.str,
+        player2_id: ipcClients[1].spectating.userID,
+        player2_score: ipcClients[1].gameplay.score,
+        player2_combo: ipcClients[1].gameplay.combo.max,
+        player2_acc: ipcClients[1].gameplay.accuracy,
+        player2_misses: ipcClients[1].gameplay.hits["0"],
+        player2_mods: ipcClients[1].gameplay.mods.str,
+        player3_id: ipcClients[2].spectating.userID,
+        player3_score: ipcClients[2].gameplay.score,
+        player3_combo: ipcClients[2].gameplay.combo.max,
+        player3_acc: ipcClients[2].gameplay.accuracy,
+        player3_misses: ipcClients[2].gameplay.hits["0"],
+        player3_mods: ipcClients[2].gameplay.mods.str,
+        player4_id: ipcClients[3].spectating.userID,
+        player4_score: ipcClients[3].gameplay.score,
+        player4_combo: ipcClients[3].gameplay.combo.max,
+        player4_acc: ipcClients[3].gameplay.accuracy,
+        player4_misses: ipcClients[3].gameplay.hits["0"],
+        player4_mods: ipcClients[3].gameplay.mods.str
+    }).toString()
+    
+    fetch(`${address}/score?${urlParams}`)
+        .then(response => response.json())
+        .then(data => processAmplifiedScore(data))
+        .catch(error => console.log(error))
+}
+
+// Process amplified scores
+function processAmplifiedScore(responseData) {
+    const leftScore = responseData.team1_score
+    const rightScore = responseData.team2_score
+    const scoreDelta = Math.abs(leftScore - rightScore)
+
+    let barWidth = Math.min(Math.pow(scoreDelta / 500000, 0.5) * 600, 600)
+
+    if ([7, 37].includes(amplifierId)) {
+        animation.leftComboNumber.update(leftScore)
+        animation.rightComboNumber.update(rightScore)
+        barWidth = Math.min(Math.pow(scoreDelta / (mapMaxCombo / 2), 0.5) * 600, 600)
+    } else if (amplifierId === 24) {
+        animation.leftAccuracyNumber.update(leftScore)
+        animation.rightAccuracyNumber.update(rightScore)
+        barWidth = Math.min(Math.pow(scoreDelta / mapMaxCombo, 0.5) * 600, 600)
+    } else {
+        animation.leftScoreNumber.update(leftScore)
+        animation.rightScoreNumber.update(rightScore)
+    }
+
+    updateScoreBar(leftScore, rightScore, barWidth)
 }
 
 // Update amplifiers

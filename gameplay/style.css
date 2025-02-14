@@ -1,4 +1,11 @@
-.main { background-image: url("static/background.png"); }
+/* Background Video */
+.background-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1920px;
+    height: 1080px;
+}
 
 /* Logo */
 .logo { top: 23px; }
@@ -235,6 +242,9 @@
 .star-control-button:active {
     background-color: black;
     color: orange;
+}
+#toggle-stars {
+    margin-left: 30px;
 }
 /* Amplifier Selection Button */
 .amplifier-selection {

@@ -41,8 +41,6 @@ async function getApi() {
 
 // Load beatmaps
 const roundName = document.getElementById("round-name")
-const mappoolBackgroundLarge = document.getElementById("mappool-background-large")
-const mappoolBackgroundSmall = document.getElementById("mappool-background-small")
 let allBeatmaps
 let allBeatmapsJson = []
 async function getBeatmaps() {
@@ -67,12 +65,6 @@ async function getBeatmaps() {
 
     generatePoints()
 
-    // Set correct background
-    if (allBeatmaps.length < 17) {
-        mappoolBackgroundLarge.style.display = "none"
-        mappoolBackgroundSmall.style.display = "block"
-    }
-
     for (let i = 0; i < allBeatmaps.length; i++) {
         // Set mod number
         let modNumber = 0
@@ -80,7 +72,7 @@ async function getBeatmaps() {
         else if (allBeatmaps[i].mod === "DT") modNumber = 64
         
         // Get API response
-        const response = await fetch("https://corsproxy.io/?" + encodeURIComponent(`https://osu.ppy.sh/api/get_beatmaps?k=${osuApi}&b=${allBeatmaps[i].beatmapId}&mods=${modNumber}`))
+        const response = await fetch(`https://corsproxy.io/?` + encodeURIComponent(`https://osu.ppy.sh/api/get_beatmaps?k=${osuApi}&b=${allBeatmaps[i].beatmapId}&mods=${modNumber}`))
         await delay(1000)
         let responseJson = await response.json()
         allBeatmapsJson.push(responseJson[0])
@@ -127,6 +119,8 @@ function createPoint(parent, full) {
 
 // Adjust points count
 function updatePointCount(team, action) {
+    if (!toggleStarsCurrent) return
+    
     if (team === "red" && action === "plus") leftPoints++
     if (team === "blue" && action === "plus") rightPoints++
     if (team === "red" && action === "minus") leftPoints--
@@ -146,6 +140,10 @@ async function initialise() {
     await getAddress()
     await getTeams()
     await getApi()
+
+    while (!osuApi) {
+        await delay(1000)
+    }
     await getBeatmaps()
 }
 initialise()
@@ -312,15 +310,19 @@ socket.onmessage = async event => {
             mapCs.innerText = `cs${map.diff_size}`
             mapAr.innerText = `ar${map.diff_approach}`
             mapOd.innerText = `od${map.diff_overall}`
-            modImage.setAttribute(`static/mod-backgrounds/${map.mod}.png`)
+            modImage.setAttribute('src', `static/mod-backgrounds/${map.mod}.png`)
             mapMaxCombo = Number(map.max_combo)
             foundMapInMappool = true
-        } else delay(250)
+        } else {
+            modImage.setAttribute('src', `static/mod-backgrounds/NM.png`)
+            delay(250)
+        }
     }
 
     if (!foundMapInMappool) {
         mapSr.innerText = `${Math.round(Number(data.menu.bm.stats.fullSR) * 100) / 100}*`
         mapBpm.innerText = `${data.menu.bm.stats.BPM.common}bpm`
+
         mapCs.innerText = `cs${data.menu.bm.stats.memoryCS}`
         mapAr.innerText = `ar${data.menu.bm.stats.memoryAR}`
         mapOd.innerText = `od${data.menu.bm.stats.memoryOD}`
@@ -446,8 +448,8 @@ socket.onmessage = async event => {
     document.cookie = `leftTeamName=${leftTeamName}; path=/`
     document.cookie = `rightTeamName=${rightTeamName}; path=/`
 
-    if (leftPoints === bestOfPoints) document.cookie = `winnerTeamName=${leftTeamName}; path=/`
-    else if (rightPoints === bestOfPoints) document.cookie = `winnerTeamName=${rightTeamName}; path=/`
+    if (leftPoints === firstToPoints) document.cookie = `winnerTeamName=${leftTeamName}; path=/`
+    else if (rightPoints === firstToPoints) document.cookie = `winnerTeamName=${rightTeamName}; path=/`
     else document.cookie = `winnerTeamName=none; path=/`
 }
 
@@ -606,6 +608,24 @@ function updateAmplifier(team, amplifierNumber) {
     }
 }
 
+// Toggle stars
+const toggleStarsEl = document.getElementById("toggle-stars")
+let toggleStarsCurrent = true
+function toggleStar() {
+    toggleStarsCurrent = !toggleStarsCurrent
+    console.log(toggleStarsCurrent)
+    if (toggleStarsCurrent) {
+        leftPointsContainer.style.display = "flex"
+        rightPointsContainer.style.display = "flex"
+        toggleStarsEl.innerText = "Toggle Stars: ON"
+    } else {
+        leftPointsContainer.style.display = "none"
+        rightPointsContainer.style.display = "none"
+        toggleStarsEl.innerText = "Toggle Stars: OFF"
+    }
+}
+toggleStar()
+
 // Toggle animation
 const toggleAnimationEl = document.getElementById("toggle-animation")
 let toggleAnimationCurrent = false
@@ -613,6 +633,7 @@ function toggleAnimation() {
     toggleAnimationCurrent = !toggleAnimationCurrent
     if (toggleAnimationCurrent) {
         toggleAnimationEl.innerText = "Toggle Animation: ON"
+        amplifierAnimationEl.classList.add("amplifier-animation-keyframes")
     } else {
         toggleAnimationEl.innerText = "Toggle Animation: OFF"
         amplifierAnimationEl.classList.remove("amplifier-animation-keyframes")

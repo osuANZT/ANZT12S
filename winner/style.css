@@ -2,7 +2,6 @@
     --team-horizontal-pixel-value: 777px;
 }
 .main { 
-    background-image: url("static/background.png"); 
     font-family: "Torus";
     font-weight: 700;
 }
@@ -49,7 +48,7 @@
     opacity: inherit;
 }
 .left-team-name {
-    --colour: #ff2b2b
+    --colour: #ff2b2b;
     left: var(--team-horizontal-pixel-value);
     transform: translateX(-50%);
     background-color: var(--colour);

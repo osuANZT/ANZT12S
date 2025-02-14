@@ -53,7 +53,7 @@ async function getBeatmaps() {
         else if (allBeatmaps[i].mod === "DT") modNumber = 64
         
         // Get API response
-        const response = await fetch("https://corsproxy.io/?" + encodeURIComponent(`https://osu.ppy.sh/api/get_beatmaps?k=${osuApi}&b=${allBeatmaps[i].beatmapId}&mods=${modNumber}`))
+        const response = await fetch(`https://corsproxy.io/?` + encodeURIComponent(`https://osu.ppy.sh/api/get_beatmaps?k=${osuApi}&b=${allBeatmaps[i].beatmapId}&mods=${modNumber}`))
         await delay(1000)
         let responseJson = await response.json()
         allBeatmapsJson.push(responseJson[0])
@@ -68,6 +68,10 @@ async function initialise() {
     await getAmplifiers()
     await getTeams()
     await getApi()
+
+    while (!osuApi) {
+        await delay(1000)
+    }
     await getBeatmaps()
 }
 initialise()

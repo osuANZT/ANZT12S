@@ -11,6 +11,10 @@
     
 </head>
 <body>
+    <video class="background-video" autoplay loop muted>
+        <source src="static/gameplay.webm">
+    </video>
+
     <div class="screen-position main">
         <!-- Left Team Amplifiers -->
         <div class="team-amps-container left-team-amps-container" id="left-team-amps-container">
@@ -144,6 +148,7 @@
                 <button class="star-control-button" onclick="updatePointCount('blue', 'plus')">Blue ++</button>
                 <button class="star-control-button" onclick="updatePointCount('blue', 'minus')">Blue --</button>
             </div>
+            <button class="amplifier-selection-button" onclick="toggleStar()" id="toggle-stars">Toggle Stars: OFF</button>
         </div>
         <div class="sidebar-section amplifier-selection">
             <div class="sidebar-title">Active Amplifier:</div>

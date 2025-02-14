@@ -34,17 +34,6 @@ async function getAddress() {
     address = responseJson.address
 }
 
-async function main() {
-    let count = 0
-    let iterations = 50
-
-    while (count < iterations) {
-        await initialize()
-        console.log(count)
-        count++
-    }
-}
-
 main()
 let sleepTimer = 10
 
@@ -132,8 +121,8 @@ async function initialize() {
 
     // Turn It Up
     amplifierID = 14
-    runAPITest(amplifierID * 2 - 1, amplifierID, "Dabble", Math.round(player1Score * 1.75) + player2Score, player3Score + Math.round(player4Score) * 1.75); await sleep(sleepTimer)
-    runAPITest(amplifierID * 2, amplifierID, "Okay lets go", Math.round(player1Score * 1.75) + player2Score, player3Score + Math.round(player4Score) * 1.75); await sleep(sleepTimer)
+    runAPITest(amplifierID * 2 - 1, amplifierID, "Dabble", Math.round(player1Score * 1.9) + player2Score, player3Score + Math.round(player4Score * 1.9)); await sleep(sleepTimer)
+    runAPITest(amplifierID * 2, amplifierID, "Okay lets go", Math.round(player1Score * 1.9) + player2Score, player3Score + Math.round(player4Score * 1.9)); await sleep(sleepTimer)
     
     // Gambler
     amplifierID = 15
@@ -161,10 +150,10 @@ async function initialize() {
     runAPITest(37, amplifierID, "Dabble", 1025465, 960074); await sleep(sleepTimer)
     runAPITest(38, amplifierID, "Okay lets go", 891709, 1104085); await sleep(sleepTimer)
 
-    // Classic Farmer I
+    // Trickster 2
     amplifierID = 23
-    runAPITest(39, amplifierID, "Dabble", 1744749, 1616496); await sleep(sleepTimer)
-    runAPITest(40, amplifierID, "Okay lets go", 1661666, 1697321); await sleep(sleepTimer)
+    runAPITest(39, amplifierID, "Dabble", player1Score + player2Score, Math.round((player3Score + player4Score) / 53 * 50)); await sleep(sleepTimer)
+    runAPITest(40, amplifierID, "Okay lets go", Math.round((player1Score + player2Score) / 53 * 50), player3Score + player4Score); await sleep(sleepTimer)
 
     // AccDance
     amplifierID = 24
@@ -194,22 +183,22 @@ async function initialize() {
 
     // Loadbearer I
     amplifierID = 28
-    const scoreDifferenceTeam1 = Math.min(Math.round(Math.abs(player1Score - player2Score) * 0.25), 150000)
-    const scoreDifferenceTeam2 = Math.min(Math.round(Math.abs(player3Score - player4Score) * 0.25), 150000)
+    const scoreDifferenceTeam1 = Math.min(Math.round(Math.abs(player1Score - player2Score) * 0.2), 150000)
+    const scoreDifferenceTeam2 = Math.min(Math.round(Math.abs(player3Score - player4Score) * 0.2), 150000)
     runAPITest(49, amplifierID, "Dabble", player1Score + player2Score + scoreDifferenceTeam1, 1616496); await sleep(sleepTimer)
     runAPITest(50, amplifierID, "Okay lets go", 1661666, player3Score + player4Score + scoreDifferenceTeam2); await sleep(sleepTimer)
 
     // Loadbearer II
     amplifierID = 29
-    const scoreDifferenceTeam3 = Math.min(Math.round(Math.abs(player1Score - player2Score) * 0.5), 300000)
-    const scoreDifferenceTeam4 = Math.min(Math.round(Math.abs(player3Score - player4Score) * 0.5), 300000)
+    const scoreDifferenceTeam3 = Math.min(Math.round(Math.abs(player1Score - player2Score) * 0.4), 250000)
+    const scoreDifferenceTeam4 = Math.min(Math.round(Math.abs(player3Score - player4Score) * 0.4), 250000)
     runAPITest(51, amplifierID, "Dabble", player1Score + player2Score + scoreDifferenceTeam3, 1616496); await sleep(sleepTimer)
     runAPITest(52, amplifierID, "Okay lets go", 1661666, player3Score + player4Score + scoreDifferenceTeam4); await sleep(sleepTimer)
 
     // Loadbearer III
     amplifierID = 30
-    const scoreDifferenceTeam5 = Math.min(Math.round(Math.abs(player1Score - player2Score) * 0.75), 400000)
-    const scoreDifferenceTeam6 = Math.min(Math.round(Math.abs(player3Score - player4Score) * 0.75), 400000)
+    const scoreDifferenceTeam5 = Math.min(Math.round(Math.abs(player1Score - player2Score) * 0.6), 350000)
+    const scoreDifferenceTeam6 = Math.min(Math.round(Math.abs(player3Score - player4Score) * 0.6), 350000)
     runAPITest(53, amplifierID, "Dabble", player1Score + player2Score + scoreDifferenceTeam5, 1616496); await sleep(sleepTimer)
     runAPITest(54, amplifierID, "Okay lets go", 1661666, player3Score + player4Score + scoreDifferenceTeam6); await sleep(sleepTimer)
 
@@ -321,7 +310,7 @@ function displayStatistics() {
 // Run `displayStatistics` after all iterations in `main`
 async function main() {
     let count = 0;
-    let iterations = 50;
+    let iterations = 1;
 
     while (count < iterations) {
         await initialize();

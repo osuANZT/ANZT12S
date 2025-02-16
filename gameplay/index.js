@@ -78,7 +78,8 @@ async function getBeatmaps() {
         allBeatmapsJson.push(responseJson[0])
     }
 }
-const findMapInMappool = beatmapId => allBeatmapsJson.find(beatmap => beatmap.beatmapId == beatmapId)
+const findMapInMappool = beatmapId => allBeatmaps.find(beatmap => beatmap.beatmapId == beatmapId)
+const findMapInMappoolJson = beatmapId => allBeatmapsJson.find(beatmap => beatmap.beatmap_id == beatmapId)
 
 // Generate points
 const leftPointsContainer = document.getElementById("left-points-container")
@@ -303,15 +304,17 @@ socket.onmessage = async event => {
         mapDifficulty.innerText = data.menu.bm.metadata.difficulty
         mapMapper.innerText = data.menu.bm.metadata.mapper
 
-        const map = findMapInMappool(mapId)
+        const map = findMapInMappoolJson(mapId)
+        const mapNonJson = findMapInMappool(mapId)
         if (map) {
             mapSr.innerText = `${Math.round(Number(map.difficultyrating) * 100) / 100}*`
             mapBpm.innerText = `${map.bpm}bpm`
             mapCs.innerText = `cs${map.diff_size}`
             mapAr.innerText = `ar${map.diff_approach}`
             mapOd.innerText = `od${map.diff_overall}`
-            modImage.setAttribute('src', `static/mod-backgrounds/${map.mod}.png`)
+            modImage.setAttribute('src', `static/mod-backgrounds/${mapNonJson.mod}.png`)
             mapMaxCombo = Number(map.max_combo)
+            console.log(mapMaxCombo)
             foundMapInMappool = true
         } else {
             modImage.setAttribute('src', `static/mod-backgrounds/NM.png`)
@@ -328,7 +331,7 @@ socket.onmessage = async event => {
         mapOd.innerText = `od${data.menu.bm.stats.memoryOD}`
         const response = await fetch("https://corsproxy.io/?" + encodeURIComponent(`https://osu.ppy.sh/api/get_beatmaps?k=${osuApi}&b=${mapId}`))
         const responseJson = await response.json()
-        mapMaxCombo = Number(responseJson.max_combo)
+        mapMaxCombo = Number(responseJson[0].max_combo)
         foundMapInMappool = true
     }
 
@@ -356,12 +359,11 @@ socket.onmessage = async event => {
 
         // If no amplifier or not using API
         if (!amplifierId || !ampsThatUseApi.includes(amplifierId)) {
-            updateScoreDisplay(
-                data.tourney.ipcClients[0].gameplay.score + data.tourney.ipcClients[1].gameplay.score,
-                data.tourney.ipcClients[2].gameplay.score + data.tourney.ipcClients[3].gameplay.score
-            );
+            leftScore = data.tourney.ipcClients[0].gameplay.score + data.tourney.ipcClients[1].gameplay.score
+            rightScore = data.tourney.ipcClients[2].gameplay.score + data.tourney.ipcClients[3].gameplay.score
+            updateScoreDisplay(leftScore, rightScore);
         } else {
-            fetchAmplifiedScore()
+            fetchAmplifiedScore(data)
         }
     }
 
@@ -419,24 +421,25 @@ socket.onmessage = async event => {
         if (ipcState === 4 && !chosenWinner) {
             let winner = ""
             if (leftScore > rightScore) {
-                updatePointCount('red', 'add')
+                updatePointCount('red', 'plus')
                 winner = "red"
-            } else if (rightScore < leftScore) {
-                updatePointCount('blue', 'add')
+            } else if (leftScore < rightScore) {
+                updatePointCount('blue', 'plus')
                 winner = "blue"
             }
-            else if (amplifierId === 4 || amplifierId === 24 || amplifierId === 37) {
+            else if (amplifierId === 7 || amplifierId === 24 || amplifierId === 37) {
                 if (otherRedScore > otherBlueScore) {
-                    updatePointCount('red', 'add')
+                    updatePointCount('red', 'plus')
                     winner = "red"
                 } else if (otherRedScore < otherBlueScore) {
-                    updatePointCount('blue', 'add')
+                    updatePointCount('blue', 'plus')
                     winner = "blue"
                 }
             }
             chosenWinner = true
 
             document.cookie = `currentWinner=${winner}; path=/`
+
         } else if (ipcState === 1 || ipcState === 3) {
             chosenWinner = false
         }
@@ -476,19 +479,40 @@ function updateScoreBar(leftScore, rightScore, barWidth) {
 
 // Set scorebar state
 function setScoreBarState(leftDisplay, rightDisplay, scoreDiff, leftBarWidth, rightBarWidth, isLeftLeading) {
-    leftScoreDifference.style.display = leftDisplay
-    rightScoreDifference.style.display = rightDisplay
-    animation.leftScoreDifference.update(scoreDiff)
-    animation.rightScoreDifference.update(scoreDiff)
+    const isSpecialAmplifier = [7, 24, 37].includes(amplifierId)
+    // Toggle Score Display Modes
+    let leftDifference = !isSpecialAmplifier? leftScoreDifference : (amplifierId === 7 || amplifierId === 37)? leftComboDifference : leftAccuracyDifference
+    let rightDifference = !isSpecialAmplifier? rightScoreDifference : (amplifierId === 7 || amplifierId === 37)? rightComboDifference : rightAccuracyDifference
+
+    leftDifference.style.display = leftDisplay
+    rightDifference.style.display = rightDisplay
+
+    // Update score difference number
+    if ([7, 37].includes(amplifierId)) {
+        animation.leftComboDifference.update(scoreDiff)
+        animation.rightComboDifference.update(scoreDiff)
+    } else if (amplifierId === 24) {
+        animation.leftAccuracyDifference.update(scoreDiff)
+        animation.rightAccuracyDifference.update(scoreDiff)
+    } else {
+        animation.leftScoreDifference.update(scoreDiff)
+        animation.rightScoreDifference.update(scoreDiff)
+    }
+
+    // Update score bar
     leftScoreBar.style.width = `${leftBarWidth}px`
     rightScoreBar.style.width = `${rightBarWidth}px`
     
-    leftScoreNumber.classList.toggle("lead-score-number", isLeftLeading === true)
-    rightScoreNumber.classList.toggle("lead-score-number", isLeftLeading === false)
+    // Set score number classes
+    let leftNumber = !isSpecialAmplifier? leftScoreNumber : (amplifierId === 7 || amplifierId === 37)? leftComboNumber : leftAccuracyNumber
+    let rightNumber = !isSpecialAmplifier? rightScoreNumber : (amplifierId === 7 || amplifierId === 37)? rightComboNumber : rightAccuracyNumber
+
+    leftNumber.classList.toggle("lead-score-number", isLeftLeading === true)
+    rightNumber.classList.toggle("lead-score-number", isLeftLeading === false)
 }
 
 // Get amplified scores
-function fetchAmplifiedScore() {
+function fetchAmplifiedScore(data) {
     const teamName = amplifierTeam === "red" ? leftTeamName : rightTeamName
     const ipcClients = data.tourney.ipcClients
     
@@ -529,17 +553,19 @@ function fetchAmplifiedScore() {
 
 // Process amplified scores
 function processAmplifiedScore(responseData) {
-    const leftScore = responseData.team1_score
-    const rightScore = responseData.team2_score
+    leftScore = responseData.team1_score
+    rightScore = responseData.team2_score
     const scoreDelta = Math.abs(leftScore - rightScore)
 
     let barWidth = Math.min(Math.pow(scoreDelta / 500000, 0.5) * 600, 600)
 
     if ([7, 37].includes(amplifierId)) {
+        console.log("7 or 37 included")
         animation.leftComboNumber.update(leftScore)
         animation.rightComboNumber.update(rightScore)
         barWidth = Math.min(Math.pow(scoreDelta / (mapMaxCombo / 2), 0.5) * 600, 600)
     } else if (amplifierId === 24) {
+        console.log("24 included")
         animation.leftAccuracyNumber.update(leftScore)
         animation.rightAccuracyNumber.update(rightScore)
         barWidth = Math.min(Math.pow(scoreDelta / mapMaxCombo, 0.5) * 600, 600)
@@ -548,6 +574,7 @@ function processAmplifiedScore(responseData) {
         animation.rightScoreNumber.update(rightScore)
     }
 
+    // console.log(leftScore, rightScore, barWidth)
     updateScoreBar(leftScore, rightScore, barWidth)
 }
 
@@ -613,7 +640,6 @@ const toggleStarsEl = document.getElementById("toggle-stars")
 let toggleStarsCurrent = true
 function toggleStar() {
     toggleStarsCurrent = !toggleStarsCurrent
-    console.log(toggleStarsCurrent)
     if (toggleStarsCurrent) {
         leftPointsContainer.style.display = "flex"
         rightPointsContainer.style.display = "flex"

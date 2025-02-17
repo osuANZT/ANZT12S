@@ -3,7 +3,7 @@ const amplifierSets = [
     [1,2,3],
     [4,5,6],
     [7],
-    [8,9],
+    [9],
     [10],
     [11,12,13],
     [14],
@@ -14,7 +14,7 @@ const amplifierSets = [
     [19,20,21],
     [22,23],
     [24],
-    [25,26],
+    [25,26,42],
     [27],
     [31],
     [32],
@@ -32,8 +32,7 @@ const amplifiers = {
     5: 'Poison II',
     6: 'Poison III',
     7: 'Limit Break',
-    8: 'The King I',
-    9: 'The King II',
+    9: 'The King',
     10: 'Dude That Fingerlock',
     11: 'Cold Clear Eyes I',
     12: 'Cold Clear Eyes II',
@@ -65,11 +64,12 @@ const amplifiers = {
     38: 'Desperation I',
     39: 'Desperation II',
     40: 'Soft Rock',
-    41: 'Roulette'
+    41: 'Roulette',
+    42: "Synchronised III"
 }
-const silverAmplifiers = [1, 4, 11, 19, 28, 14, 22, 24]
-const goldAmplifiers = [2, 5, 12, 20, 29, 27, 31, 40, 23]
-const prismaticAmplifiers = [3, 6, 13, 21, 30, 41]
+const silverAmplifiers = [1, 7, 11, 14, 19, 22, 24, 25, 28]
+const goldAmplifiers = [2, 12, 20, 23, 26, 27, 29, 31, 40]
+const prismaticAmplifiers = [3, 9, 13, 16, 18, 21, 42, 30, 41]
 
 // Get Google Sheets URL
 let googleSheetsUrl = ""
@@ -184,8 +184,6 @@ function rollAmplifiers() {
     .then(response => response.json())
     .then(data => console.log('Success:', data))
     .catch(error => console.error('Error:', error));
-
-    console.log("go check the sheet now")
 
     displayTeams()
 }

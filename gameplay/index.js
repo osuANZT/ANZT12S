@@ -616,6 +616,8 @@ function updateAmplifier(team, amplifierNumber) {
         rightAmplifierContainer.style.display = "none"
 
         amplifierTeamNameEl.innerText = leftTeamName
+        amplifierTeamNameEl.style.backgroundColor = "#FF2B2B"
+        amplifierTeamNameEl.style.boxShadow = "0 0 10px #FF2B2B"
     } else if (team === "blue") {
         rightAmplifierContainer.children[0].children[0].setAttribute("src", `static/amplifier-background/${(silverAmplifiers.includes(amplifierNumber))? "silver" : (goldAmplifiers.includes(amplifierNumber))? "gold" : "prismatic"}.png`)
         rightAmplifierContainer.children[0].children[1].setAttribute("src", `../_shared/assets/amplifier-icons/${amplifierNumber}.png`)
@@ -624,6 +626,8 @@ function updateAmplifier(team, amplifierNumber) {
         leftAmplifierContainer.style.display = "none"
 
         amplifierTeamNameEl.innerText = rightTeamName
+        amplifierTeamNameEl.style.backgroundColor = "#2B61FF"
+        amplifierTeamNameEl.style.boxShadow = "0 0 10px #2B61FF"
     }
 
     amplifierTileEl.setAttribute("src", `../_shared/assets/amplifier-tiles/${amplifierNumber}.png`)
@@ -659,7 +663,6 @@ function toggleAnimation() {
     toggleAnimationCurrent = !toggleAnimationCurrent
     if (toggleAnimationCurrent) {
         toggleAnimationEl.innerText = "Toggle Animation: ON"
-        amplifierAnimationEl.classList.add("amplifier-animation-keyframes")
     } else {
         toggleAnimationEl.innerText = "Toggle Animation: OFF"
         amplifierAnimationEl.classList.remove("amplifier-animation-keyframes")

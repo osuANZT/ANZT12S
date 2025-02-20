@@ -440,6 +440,9 @@ socket.onmessage = async event => {
 
             document.cookie = `currentWinner=${winner}; path=/`
 
+            console.log(chosenWinner, leftScore, rightScore)
+            console.log(getCookie("currentWinner"))
+
         } else if (ipcState === 1 || ipcState === 3) {
             chosenWinner = false
         }

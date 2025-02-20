@@ -360,45 +360,10 @@ socket.onmessage = event => {
     // IPC State
     if (currentIPCState !== data.tourney.manager.ipcState) {
         currentIPCState = data.tourney.manager.ipcState
-        if (currentIPCState !== 4) {
+        if (currentIPCState === 4) {
             checkedForWinner = false
-            delay(500)
-            
-        }
-    }
-    
-    // Check for winner
-    if (currentIPCState === 4 && !checkedForWinner) {
-        checkedForWinner = true
-
-        if (currentPickTile) {
-            const parent = currentPickTile.children[7]
-            const elementsToRemove = []
-            
-            if (parent.childElementCount > 0) {
-                Array.from(parent.children).forEach(element => {
-                    const src = element.getAttribute("src")
-                    if (src && src.includes("won")) elementsToRemove.push(element)
-                })
-                
-                // Remove elements after iteration to avoid modification issues
-                elementsToRemove.forEach(element => parent.removeChild(element))
-            }
-
-            const pickBanImage = document.createElement("img")
-            pickBanImage.setAttribute("src", `static/panel-assets/bottom-assets/${team} won.png`)
-            currentPickTile.children[7].append(pickBanImage)
-
-            // Set amplifier
-            if (amplifierTeam === "red") {
-                currentPickTile.children[6].classList.add("left-panel-picked-amp")
-                currentPickTile.children[6].classList.remove("right-panel-picked-amp")
-            } else if (amplifierTeam === "blue") {
-                currentPickTile.children[6].classList.remove("left-panel-picked-amp")
-                currentPickTile.children[6].classList.add("right-panel-picked-amp")
-            }
-            currentPickTile.children[6].children[0].children[0].style.display = "block"
-            currentPickTile.children[6].children[1].setAttribute("src", `../_shared/assets/amplifier-icons/${amplifierId}.png`)
+        } else {
+            checkedForWinner = true
         }
     }
 }
@@ -415,6 +380,41 @@ setInterval(() => {
     firstToPoints = Number(getCookie('currentFirstToPoints'))
     bestOfPoints = Number(getCookie('currentBestOfPoints'))
     generatePoints()
+
+    const team = getCookie("currentWinner")
+    if (!checkedForWinner && currentPickTile) {
+        const parent = currentPickTile.children[7]
+        const elementsToRemove = []
+        
+        if (parent.childElementCount > 0) {
+            Array.from(parent.children).forEach(element => {
+                const src = element.getAttribute("src")
+                if (src && src.includes("won")) elementsToRemove.push(element)
+            })
+            
+            // Remove elements after iteration to avoid modification issues
+            elementsToRemove.forEach(element => parent.removeChild(element))
+        }
+
+        const pickBanImage = document.createElement("img")
+        pickBanImage.setAttribute("src", `static/panel-assets/bottom-assets/${team} won.png`)
+        currentPickTile.children[7].append(pickBanImage)
+
+        // Set amplifier
+        if (amplifierTeam === "red") {
+            currentPickTile.children[6].children[0].style.display = "block"
+            currentPickTile.children[6].children[0].classList.add("left-panel-picked-amp")
+            currentPickTile.children[6].children[0].classList.remove("right-panel-picked-amp")
+        } else if (amplifierTeam === "blue") {
+            currentPickTile.children[6].children[0].style.display = "block"
+            currentPickTile.children[6].children[0].classList.remove("left-panel-picked-amp")
+            currentPickTile.children[6].children[0].classList.add("right-panel-picked-amp")
+        }
+        currentPickTile.children[6].children[0].children[0].style.display = "block"
+        currentPickTile.children[6].children[1].setAttribute("src", `../_shared/assets/amplifier-icons/${amplifierId}.png`)
+
+        checkedForWinner = true
+    }
 }, 200)
 
 // Points

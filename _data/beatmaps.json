@@ -1,20 +1,20 @@
 {
   "roundName": "RO32", 
   "beatmaps": [
-      { "beatmapId": 3415866, "mod": "NM", "order": 1 },
-      { "beatmapId": 3668377, "mod": "NM", "order": 2 },
-      { "beatmapId": 3764514, "mod": "NM", "order": 3 },
-      { "beatmapId": 4576238, "mod": "NM", "order": 4 },
-      { "beatmapId": 4509876, "mod": "NM", "order": 5 },
-      { "beatmapId": 4010279, "mod": "HD", "order": 1 },
-      { "beatmapId": 4205826, "mod": "HD", "order": 2 },
-      { "beatmapId": 4414541, "mod": "HD", "order": 3 },
-      { "beatmapId": 4113700, "mod": "HR", "order": 1 },
-      { "beatmapId": 991214, "mod": "HR", "order": 2 },
-      { "beatmapId": 4733828, "mod": "HR", "order": 3 },
-      { "beatmapId": 4579424, "mod": "DT", "order": 1 },
-      { "beatmapId": 3697551, "mod": "DT", "order": 2 },
-      { "beatmapId": 3094637, "mod": "DT", "order": 3 },
-      { "beatmapId": 3105129, "mod": "TB", "order": 1 }
+      { "beatmapId": 4625998, "mod": "NM", "order": 1 },
+      { "beatmapId": 4790187, "mod": "NM", "order": 2 },
+      { "beatmapId": 4321810, "mod": "NM", "order": 3 },
+      { "beatmapId": 4292677, "mod": "NM", "order": 4 },
+      { "beatmapId": 3579169, "mod": "NM", "order": 5 },
+      { "beatmapId": 3887280, "mod": "HD", "order": 1 },
+      { "beatmapId": 4390203, "mod": "HD", "order": 2 },
+      { "beatmapId": 4391464, "mod": "HD", "order": 3 },
+      { "beatmapId": 3774292, "mod": "HR", "order": 1 },
+      { "beatmapId": 4682422, "mod": "HR", "order": 2 },
+      { "beatmapId": 3292033, "mod": "HR", "order": 3 },
+      { "beatmapId": 2337838, "mod": "DT", "order": 1 },
+      { "beatmapId": 3170560, "mod": "DT", "order": 2 },
+      { "beatmapId": 2357612, "mod": "DT", "order": 3 },
+      { "beatmapId": 4478718, "mod": "TB", "order": 1 }
   ]
 }

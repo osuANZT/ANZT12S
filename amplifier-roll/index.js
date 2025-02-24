@@ -67,9 +67,9 @@ const amplifiers = {
     41: 'Roulette',
     42: "Synchronised III"
 }
-const silverAmplifiers = [1, 7, 11, 14, 19, 22, 24, 25, 28]
-const goldAmplifiers = [2, 12, 20, 23, 26, 27, 29, 31, 40]
-const prismaticAmplifiers = [3, 9, 13, 16, 18, 21, 42, 30, 41]
+const silverAmplifiers = [1, 7, 11, 14, 19, 22, 24, 25, 28, 33]
+const goldAmplifiers = [2, 12, 20, 23, 26, 27, 29, 31, 34, 37]
+const prismaticAmplifiers = [3, 6, 9, 13, 16, 18, 21, 42, 30, 32, 35, 39, 40, 41]
 
 // Get Google Sheets URL
 let googleSheetsUrl = ""
@@ -136,36 +136,37 @@ function displayTeams() {
 // Roll Amplifiers
 function rollAmplifiers() {
     if (allTeams[currentTeamIndex].silverAmplifier && allTeams[currentTeamIndex].goldAmplifier && allTeams[currentTeamIndex].prismaticAmplifier) return
+
     // Precompute a map of amplifiers to their respective sets for efficient lookup
     const amplifierToSetMap = new Map();
     amplifierSets.forEach((set, index) => {
-        set.forEach(amplifier => amplifierToSetMap.set(amplifier, index))
-    })
+        set.forEach(amplifier => amplifierToSetMap.set(amplifier, index));
+    });
 
-    // Select a random silver amplifier
-    const silverAmplifier = silverAmplifiers[Math.floor(Math.random() * silverAmplifiers.length)]
-    const silverSetIndex = amplifierToSetMap.get(silverAmplifier)
+    let validCombination = false;
+    let silverAmplifier, goldAmplifier, prismaticAmplifier;
 
-    let goldAmplifier, prismaticAmplifier
-    let goldSetIndex, prismaticSetIndex
-
-    // Find a gold amplifier that is not in the same set as the silver amplifier
-    do {
-        goldAmplifier = goldAmplifiers[Math.floor(Math.random() * goldAmplifiers.length)]
-        goldSetIndex = amplifierToSetMap.get(goldAmplifier)
-    } while (goldSetIndex === silverSetIndex)
-
-    // Find a prismatic amplifier that is not in the same set as the silver or gold amplifiers
-    do {
+    while (!validCombination) {
+        // Roll all three amplifiers
+        silverAmplifier = silverAmplifiers[Math.floor(Math.random() * silverAmplifiers.length)];
+        goldAmplifier = goldAmplifiers[Math.floor(Math.random() * goldAmplifiers.length)];
         prismaticAmplifier = prismaticAmplifiers[Math.floor(Math.random() * prismaticAmplifiers.length)];
-        prismaticSetIndex = amplifierToSetMap.get(prismaticAmplifier)
-        console.log(prismaticSetIndex)
-        console.log(prismaticAmplifier)
-    } while (prismaticSetIndex === silverSetIndex || prismaticSetIndex === goldSetIndex)
-    
-    allTeams[currentTeamIndex].silverAmplifier = silverAmplifier
-    allTeams[currentTeamIndex].goldAmplifier = goldAmplifier
-    allTeams[currentTeamIndex].prismaticAmplifier = prismaticAmplifier
+
+        // Get their set indices
+        const silverSetIndex = amplifierToSetMap.get(silverAmplifier);
+        const goldSetIndex = amplifierToSetMap.get(goldAmplifier);
+        const prismaticSetIndex = amplifierToSetMap.get(prismaticAmplifier);
+
+        // Check if they're all from different sets
+        validCombination = (silverSetIndex !== goldSetIndex && 
+                          silverSetIndex !== prismaticSetIndex && 
+                          goldSetIndex !== prismaticSetIndex);
+    }
+
+    // Assign the valid combination to the current team
+    allTeams[currentTeamIndex].silverAmplifier = silverAmplifier;
+    allTeams[currentTeamIndex].goldAmplifier = goldAmplifier;
+    allTeams[currentTeamIndex].prismaticAmplifier = prismaticAmplifier;
 
     fetch(googleSheetsUrl, {
         method: 'POST',

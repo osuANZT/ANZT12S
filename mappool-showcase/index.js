@@ -39,7 +39,7 @@ async function getBeatmaps() {
     }
 }
 getBeatmaps()
-const findMapInMappool = beatmapId => allBeatmaps.find(beatmap => beatmap.beatmapId === beatmapId)
+const findMapInMappool = beatmapTitle => allBeatmaps.find(beatmap => beatmap.beatmapTitle === beatmapTitle)
 
 const socket = createTosuWsSocket()
 
@@ -131,7 +131,8 @@ socket.onmessage = event => {
         artist.innerText = songMetadata.artist
         difficulty.innerText = `[${songMetadata.difficulty}]`
 
-        const foundBeatmap = findMapInMappool(mapId)
+        console.log(`${artist.innerText} - ${songName.innerText} ${difficulty.innerText}`)
+        const foundBeatmap = findMapInMappool(`${artist.innerText} - ${songName.innerText} ${difficulty.innerText}`)
         if (foundBeatmap) {
             modManager.updateModState(foundBeatmap.mod, foundBeatmap.order)
         }

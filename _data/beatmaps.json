@@ -1,5 +1,5 @@
 {
-  "roundName": "RO32", 
+  "roundName": "RO16", 
   "beatmaps": [
       { "beatmapId": 4625998, "mod": "NM", "order": 1 },
       { "beatmapId": 4790187, "mod": "NM", "order": 2 },

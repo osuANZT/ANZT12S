@@ -1,4 +1,4 @@
-// Amplifeirs
+// Amplifiers
 const amplifierSets = [
     [1,2,3],
     [4,5,6],
@@ -71,6 +71,13 @@ const silverAmplifiers = [1, 7, 11, 14, 19, 22, 24, 25, 28, 33]
 const goldAmplifiers = [2, 12, 20, 23, 26, 27, 29, 31, 34, 37]
 const prismaticAmplifiers = [3, 6, 9, 13, 16, 18, 21, 42, 30, 32, 35, 39, 40, 41]
 
+// Add tracking for amplifier distribution
+let amplifierDistribution = {};
+// Initialize counts for all amplifiers
+Object.keys(amplifiers).forEach(id => {
+    amplifierDistribution[id] = 0;
+});
+
 // Get Google Sheets URL
 let googleSheetsUrl = ""
 async function getGoogleSheetsUrl() {
@@ -83,12 +90,37 @@ getGoogleSheetsUrl()
 // Load Teams
 let allTeams = []
 async function loadAmplifierRollData() {
-    const response = await fetch("../_data/amplifier-rolls-teams.json")
-    allTeams = await response.json()
-    allTeams = allTeams.reverse()
-    displayTeams()
+    try {
+        const response = await fetch("../_data/amplifier-rolls-teams.json")
+        allTeams = await response.json()
+        allTeams = allTeams.reverse()
+        
+        // Initialize distribution counts from existing team data
+        initializeDistributionFromTeams()
+        
+        displayTeams()
+    } catch (error) {
+        console.error("Error loading team data:", error)
+    }
 }
 loadAmplifierRollData()
+
+// Initialize distribution from existing team data
+function initializeDistributionFromTeams() {
+    // Reset all counters first
+    Object.keys(amplifiers).forEach(id => {
+        amplifierDistribution[id] = 0;
+    });
+    
+    // Count existing amplifiers
+    allTeams.forEach(team => {
+        if (team.silverAmplifier) amplifierDistribution[team.silverAmplifier]++;
+        if (team.goldAmplifier) amplifierDistribution[team.goldAmplifier]++;
+        if (team.prismaticAmplifier) amplifierDistribution[team.prismaticAmplifier]++;
+    });
+    
+    console.log("Distribution initialized:", amplifierDistribution);
+}
 
 // Display Teams
 const revealTileContainer = document.getElementById("reveal-tile-container")
@@ -133,9 +165,36 @@ function displayTeams() {
     }   
 }
 
-// Roll Amplifiers
+// Function to get a random amplifier with weighting based on past distribution
+function getWeightedRandomAmplifier(amplifierArray) {
+    // Create weights that are inverse to the current distribution
+    const weights = amplifierArray.map(id => {
+        // Add 1 to avoid division by zero for new amplifiers
+        const count = amplifierDistribution[id] + 1;
+        // Weight is inverse to count - less frequent amplifiers get higher weight
+        return 1 / count;
+    });
+    
+    const totalWeight = weights.reduce((sum, weight) => sum + weight, 0);
+    let random = Math.random() * totalWeight;
+    
+    // Select amplifier based on weighted probability
+    for (let i = 0; i < amplifierArray.length; i++) {
+        random -= weights[i];
+        if (random <= 0) {
+            return amplifierArray[i];
+        }
+    }
+    
+    // Fallback to simple random if something goes wrong
+    return amplifierArray[Math.floor(Math.random() * amplifierArray.length)];
+}
+
+// Roll Amplifiers with improved distribution
 function rollAmplifiers() {
-    if (allTeams[currentTeamIndex].silverAmplifier && allTeams[currentTeamIndex].goldAmplifier && allTeams[currentTeamIndex].prismaticAmplifier) return
+    if (allTeams[currentTeamIndex].silverAmplifier && 
+        allTeams[currentTeamIndex].goldAmplifier && 
+        allTeams[currentTeamIndex].prismaticAmplifier) return;
 
     // Precompute a map of amplifiers to their respective sets for efficient lookup
     const amplifierToSetMap = new Map();
@@ -147,10 +206,10 @@ function rollAmplifiers() {
     let silverAmplifier, goldAmplifier, prismaticAmplifier;
 
     while (!validCombination) {
-        // Roll all three amplifiers
-        silverAmplifier = silverAmplifiers[Math.floor(Math.random() * silverAmplifiers.length)];
-        goldAmplifier = goldAmplifiers[Math.floor(Math.random() * goldAmplifiers.length)];
-        prismaticAmplifier = prismaticAmplifiers[Math.floor(Math.random() * prismaticAmplifiers.length)];
+        // Roll all three amplifiers with weighted randomization
+        silverAmplifier = getWeightedRandomAmplifier(silverAmplifiers);
+        goldAmplifier = getWeightedRandomAmplifier(goldAmplifiers);
+        prismaticAmplifier = getWeightedRandomAmplifier(prismaticAmplifiers);
 
         // Get their set indices
         const silverSetIndex = amplifierToSetMap.get(silverAmplifier);
@@ -168,37 +227,66 @@ function rollAmplifiers() {
     allTeams[currentTeamIndex].goldAmplifier = goldAmplifier;
     allTeams[currentTeamIndex].prismaticAmplifier = prismaticAmplifier;
 
-    fetch(googleSheetsUrl, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-        },
-        body: JSON.stringify({
-            teamName: allTeams[currentTeamIndex].teamName,
-            silverAmp: allTeams[currentTeamIndex].silverAmplifier,
-            goldAmp: allTeams[currentTeamIndex].goldAmplifier,
-            prismaticAmp: allTeams[currentTeamIndex].prismaticAmplifier
-        }),
-    })
-    .then(response => response.json())
-    .then(data => console.log('Success:', data))
-    .catch(error => console.error('Error:', error));
+    // Update distribution counts
+    amplifierDistribution[silverAmplifier]++;
+    amplifierDistribution[goldAmplifier]++;
+    amplifierDistribution[prismaticAmplifier]++;
 
-    displayTeams()
+    // Log the selection and current distribution
+    console.log(`Team ${allTeams[currentTeamIndex].teamName} received amplifiers: Silver=${silverAmplifier}, Gold=${goldAmplifier}, Prismatic=${prismaticAmplifier}`);
+    console.log("Updated distribution:", getDistributionStats());
+
+    // Send data to Google Sheets
+    // fetch(googleSheetsUrl, {
+    //     method: 'POST',
+    //     mode: 'no-cors',
+    //     headers: {
+    //         'Content-Type': 'application/json',
+    //         'Accept': 'application/json'
+    //     },
+    //     body: JSON.stringify({
+    //         teamName: allTeams[currentTeamIndex].teamName,
+    //         silverAmp: allTeams[currentTeamIndex].silverAmplifier,
+    //         goldAmp: allTeams[currentTeamIndex].goldAmplifier,
+    //         prismaticAmp: allTeams[currentTeamIndex].prismaticAmplifier
+    //     }),
+    // })
+    // .catch(error => console.error('Error:', error));
+
+    displayTeams();
+}
+
+// Function to get current distribution statistics
+function getDistributionStats() {
+    const stats = {};
+    
+    // Get total count of assigned amplifiers
+    const totalAssigned = Object.values(amplifierDistribution).reduce((sum, count) => sum + count, 0);
+    
+    // Calculate percentages for each type
+    for (const [id, count] of Object.entries(amplifierDistribution)) {
+        if (count > 0) {  // Only include those that have been used
+            const ampName = amplifiers[id];
+            stats[ampName] = {
+                count: count,
+                percentage: totalAssigned > 0 ? (count / totalAssigned * 100).toFixed(2) + '%' : '0%'
+            };
+        }
+    }
+    
+    return stats;
 }
 
 // Show next team
 function showNextTeam() {
-    currentTeamIndex++
-    if (currentTeamIndex === allTeams.length) currentTeamIndex = allTeams.length - 1
-    displayTeams()
+    currentTeamIndex++;
+    if (currentTeamIndex === allTeams.length) currentTeamIndex = allTeams.length - 1;
+    displayTeams();
 }
 
 // Show previous team
 function showPreviousTeam() {
-    currentTeamIndex--
-    if (currentTeamIndex < 0) currentTeamIndex = 0
-    displayTeams()
+    currentTeamIndex--;
+    if (currentTeamIndex < 0) currentTeamIndex = 0;
+    displayTeams();
 }

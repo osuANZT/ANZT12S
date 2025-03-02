@@ -18,6 +18,6 @@ function submit() {
     const blob = new Blob([jsonString], { type: "application/json" });
     const link = document.createElement("a");
     link.href = URL.createObjectURL(blob);
-    link.download = "teams.json";
+    link.download = "amplifier-rolls-teams.json";
     link.click();
 }

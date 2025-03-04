@@ -67,9 +67,9 @@ const amplifiers = {
     41: 'Roulette',
     42: "Synchronised III"
 }
-const silverAmplifiers = [1, 7, 11, 14, 19, 22, 24, 25, 28, 33]
-const goldAmplifiers = [2, 12, 20, 23, 26, 27, 29, 31, 34, 37]
-const prismaticAmplifiers = [3, 6, 9, 13, 16, 18, 21, 42, 30, 32, 35, 39, 40, 41]
+const silverAmplifiers = [1, 11, 14, 19, 22, 24, 25, 28, 33]
+const goldAmplifiers = [2, 12, 15, 20, 23, 26, 27, 29, 31, 34, 37]
+const prismaticAmplifiers = [3, 6, 9, 13, 16, 18, 21, 42, 30, 35, 39, 40, 41]
 
 // Add tracking for amplifier distribution
 let amplifierDistribution = {};
@@ -95,7 +95,6 @@ async function loadAmplifierRollData() {
         allTeams = await response.json()
         allTeams = allTeams.reverse()
         
-        // Initialize distribution counts from existing team data
         initializeDistributionFromTeams()
         
         displayTeams()
@@ -237,21 +236,21 @@ function rollAmplifiers() {
     console.log("Updated distribution:", getDistributionStats());
 
     // Send data to Google Sheets
-    // fetch(googleSheetsUrl, {
-    //     method: 'POST',
-    //     mode: 'no-cors',
-    //     headers: {
-    //         'Content-Type': 'application/json',
-    //         'Accept': 'application/json'
-    //     },
-    //     body: JSON.stringify({
-    //         teamName: allTeams[currentTeamIndex].teamName,
-    //         silverAmp: allTeams[currentTeamIndex].silverAmplifier,
-    //         goldAmp: allTeams[currentTeamIndex].goldAmplifier,
-    //         prismaticAmp: allTeams[currentTeamIndex].prismaticAmplifier
-    //     }),
-    // })
-    // .catch(error => console.error('Error:', error));
+    fetch(googleSheetsUrl, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+            teamName: allTeams[currentTeamIndex].teamName,
+            silverAmp: allTeams[currentTeamIndex].silverAmplifier,
+            goldAmp: allTeams[currentTeamIndex].goldAmplifier,
+            prismaticAmp: allTeams[currentTeamIndex].prismaticAmplifier
+        }),
+    })
+    .catch(error => console.error('Error:', error));
 
     displayTeams();
 }

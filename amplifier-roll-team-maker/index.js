@@ -13,7 +13,6 @@ function submit() {
         teams.push(team)
     }
 
-    console.log(teams)
     const jsonString = JSON.stringify(teams, null, 2);
     const blob = new Blob([jsonString], { type: "application/json" });
     const link = document.createElement("a");

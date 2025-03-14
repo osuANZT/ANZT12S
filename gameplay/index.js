@@ -329,7 +329,7 @@ socket.onmessage = async event => {
         mapCs.innerText = `cs${data.menu.bm.stats.memoryCS}`
         mapAr.innerText = `ar${data.menu.bm.stats.memoryAR}`
         mapOd.innerText = `od${data.menu.bm.stats.memoryOD}`
-        const response = await fetch("https://corsproxy.io/?" + encodeURIComponent(`https://osu.ppy.sh/api/get_beatmaps?k=${osuApi}&b=${mapId}`))
+        const response = await fetch("https://api.codetabs.com/v1/proxy?quest=" + encodeURIComponent(`https://osu.ppy.sh/api/get_beatmaps?k=${osuApi}&b=${mapId}`))
         const responseJson = await response.json()
         mapMaxCombo = Number(responseJson[0].max_combo)
         foundMapInMappool = true

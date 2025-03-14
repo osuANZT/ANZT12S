@@ -67,9 +67,9 @@ const amplifiers = {
     41: 'Roulette',
     42: "Synchronised III"
 }
-const silverAmplifiers = [1, 11, 14, 19, 22, 24, 25, 28, 33]
-const goldAmplifiers = [2, 12, 15, 20, 23, 26, 27, 29, 31, 34, 37]
-const prismaticAmplifiers = [3, 6, 9, 13, 16, 18, 21, 42, 30, 35, 39, 40, 41]
+const silverAmplifiers = [1, 11, 14, 22, 25, 28, 33]
+const goldAmplifiers = [2, 12, 15, 23, 26, 27, 29, 31, 34, 37]
+const prismaticAmplifiers = [3, 6, 9, 13, 16, 18, 42, 30, 35, 39, 40, 41]
 
 // Add tracking for amplifier distribution
 let amplifierDistribution = {};

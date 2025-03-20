@@ -30,6 +30,8 @@ setInterval(() => {
     const leftTeam = findTeam(leftTeamName)
     const rightTeam = findTeam(rightTeamName)
 
+    console.log(leftTeam, rightTeam)
+
     if (!leftTeam || !rightTeam) return
 
     leftTeamEl.children[1].children[0].innerText = leftTeam.player1Name
@@ -37,6 +39,8 @@ setInterval(() => {
 
     rightTeamEl.children[1].children[0].innerText = rightTeam.player1Name
     rightTeamEl.children[1].children[1].innerText = rightTeam.player2Name
+
+    console.log(leftTeam, rightTeam)
 
     if (winnerTeamName === leftTeamName) {
         leftTeamEl.classList.add("winning-team")

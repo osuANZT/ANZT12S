@@ -68,8 +68,8 @@ const amplifiers = {
     42: "Synchronised III"
 }
 const silverAmplifiers = [1, 11, 14, 22, 25, 28, 33]
-const goldAmplifiers = [2, 12, 15, 23, 26, 27, 29, 31, 34, 37]
-const prismaticAmplifiers = [3, 6, 9, 13, 16, 18, 42, 30, 35, 39, 40, 41]
+const goldAmplifiers = [2, 12, 15, 23, 26, 27, 29, 31, 34]
+const prismaticAmplifiers = [3, 6, 9, 13, 18, 42, 30, 35, 40, 41]
 
 // Add tracking for amplifier distribution
 let amplifierDistribution = {};
@@ -127,8 +127,8 @@ const teamrollTeamContainer = document.getElementById("teamroll-team-container")
 const title = document.getElementById("title")
 let currentTeamIndex = 0
 function displayTeams() {
-    for (let i = -4; i <= 4; i++) {
-        const currentContainer = teamrollTeamContainer.children[i + 4]
+    for (let i = -2; i <= 2; i++) {
+        const currentContainer = teamrollTeamContainer.children[i + 2]
         // For previous teams
         if ((currentTeamIndex + i < 0 && i < 0) || (currentTeamIndex + i >= allTeams.length && i > 0)) {
             currentContainer.children[0].innerText = ""

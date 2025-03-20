@@ -244,7 +244,6 @@ const rightAmplifierSelectionButtonContainer = document.getElementById("right-am
 
 socket.onmessage = async event => {
     const data = JSON.parse(event.data)
-    console.log(data)
     
     // Team names
     if (leftTeamName !== data.tourney.manager.teamName.left && teams) {
@@ -314,7 +313,6 @@ socket.onmessage = async event => {
             mapOd.innerText = `od${map.diff_overall}`
             modImage.setAttribute('src', `static/mod-backgrounds/${mapNonJson.mod}.png`)
             mapMaxCombo = Number(map.max_combo)
-            console.log(mapMaxCombo)
             foundMapInMappool = true
         } else {
             modImage.setAttribute('src', `static/mod-backgrounds/NM.png`)
@@ -439,10 +437,6 @@ socket.onmessage = async event => {
             chosenWinner = true
 
             document.cookie = `currentWinner=${winner}; path=/`
-
-            console.log(chosenWinner, leftScore, rightScore)
-            console.log(getCookie("currentWinner"))
-
         } else if (ipcState === 1 || ipcState === 3) {
             chosenWinner = false
         }
@@ -563,12 +557,10 @@ function processAmplifiedScore(responseData) {
     let barWidth = Math.min(Math.pow(scoreDelta / 500000, 0.5) * 600, 600)
 
     if ([7, 37].includes(amplifierId)) {
-        console.log("7 or 37 included")
         animation.leftComboNumber.update(leftScore)
         animation.rightComboNumber.update(rightScore)
         barWidth = Math.min(Math.pow(scoreDelta / (mapMaxCombo / 2), 0.5) * 600, 600)
     } else if (amplifierId === 24) {
-        console.log("24 included")
         animation.leftAccuracyNumber.update(leftScore)
         animation.rightAccuracyNumber.update(rightScore)
         barWidth = Math.min(Math.pow(scoreDelta / mapMaxCombo, 0.5) * 600, 600)
@@ -577,7 +569,6 @@ function processAmplifiedScore(responseData) {
         animation.rightScoreNumber.update(rightScore)
     }
 
-    // console.log(leftScore, rightScore, barWidth)
     updateScoreBar(leftScore, rightScore, barWidth)
 }
 
